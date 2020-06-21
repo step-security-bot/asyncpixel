@@ -10,6 +10,7 @@ from .models.friends import Friend
 from .models.key import Key
 from .models.status import Status
 from .models.watchdog import WatchDog
+from .models.games import Game
 
 
 class Client:
@@ -192,12 +193,51 @@ class Client:
 
         friend_list = []
         for friend in data["records"]:
-            friend_list = Friend(
-                _id=friend["id"],
-                uuidSender=data["uuidSender"],
-                uuidReceiver=data["uuidReceiver"],
-                started=dt.datetime(data["started"]),
+            friend_list.append(
+                Friend(
+                    _id=friend["id"],
+                    uuidSender=data["uuidSender"],
+                    uuidReceiver=data["uuidReceiver"],
+                    started=dt.datetime(data["started"]),
+                )
             )
 
         return friend_list
+
+    async def RecentGames(self, uuid: str) -> [Game]:
+        """Gets a list of the most recent games over the last 3 days
+
+        Args:
+            uuid (str): uuid of player
+
+        Returns:
+            [Game]: a list of game objects
+        """
+
+        params = {"uuid": uuid}
+        data = await self.get("recentGames", params=params)
+
+        games_list = []
+        for game in data["games"]:
+            if "ended" in game:
+                games_list.append(
+                    Game(
+                        data=dt.datetime(game["date"]),
+                        gameType=game["gameType"],
+                        mode=game["Mode"],
+                        _map=game["map"],
+                        ended=dt.datetime(game["ended"]),
+                    )
+                )
+            else:
+                games_list.append(
+                    Game(
+                        data=dt.datetime(game["date"]),
+                        gameType=game["gameType"],
+                        mode=game["Mode"],
+                        _map=game["map"],
+                    )
+                )
+
+        return games_list
 
