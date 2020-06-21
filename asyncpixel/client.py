@@ -118,3 +118,13 @@ class Client:
                 map=data["session"],
             )
         return Status(online=False)
+
+    async def PlayerCount(self) -> int:
+        """Get the current amount of players online.
+
+        Returns:
+            int: number of online players
+        """
+        data = await self.get("playerCount")
+
+        return data["playerCount"]
