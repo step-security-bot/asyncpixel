@@ -1,5 +1,6 @@
 from random import choice
 from typing import Union
+import datetime as dt
 
 import aiohttp
 
@@ -9,6 +10,7 @@ from .exceptions.exceptions import RateLimitError
 from .models.key import Key
 from .models.status import Status
 from .models.watchdog import WatchDog
+from .models.booster import Booster, Boosters
 
 
 class Client:
@@ -128,3 +130,45 @@ class Client:
         data = await self.get("playerCount")
 
         return data["playerCount"]
+
+    async def GetBoosters(self) -> Boosters:
+        """Get the current online boosters.
+
+        Returns:
+            Boosters: object containing boosters
+        """
+        data = await self.get("boosters")
+        boosterlist = []
+
+        for boost in data["boosters"]:
+            boosterlist.append(
+                Booster(
+                    _id=boost["_id"],
+                    purchaserUuid=boost["purchaserUuid"],
+                    amount=boost["amount"],
+                    originalLength=boost["originalLength"],
+                    length=boost["length"],
+                    gameType=boost["gameType"],
+                    dateActivated=dt.datetime(boost["dateActivated"]),
+                    stacked=boost["stacked"],
+                )
+            )
+        return Boosters(
+            boosterStatedecrementing=data["boosterState"]["decrementing"],
+            boosters=boosterlist,
+        )
+
+    async def FindGuild(self, guildname: str) -> str:
+        """Get guild uuid from name.
+
+        Args:
+            guildname (str): name fo guild
+
+        Returns:
+            str: uuid of guild
+        """
+
+        data = await self.get("findGuild")
+
+        return data["guild"]
+
