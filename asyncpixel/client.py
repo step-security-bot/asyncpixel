@@ -1,16 +1,15 @@
+import datetime as dt
 from random import choice
 from typing import Union
-import datetime as dt
 
 import aiohttp
 
 from .exceptions.exceptions import RateLimitError
-
-# models
+from .models.booster import Booster, Boosters
+from .models.friends import Friend
 from .models.key import Key
 from .models.status import Status
 from .models.watchdog import WatchDog
-from .models.booster import Booster, Boosters
 
 
 class Client:
@@ -42,7 +41,8 @@ class Client:
 
         Args:
             path (str): path that you wish to request from
-            params (dict, optional): parameters to pass into request. Defaults to {}.
+            params (dict, optional): parameters to pass into request. 
+            Defaults to empty dictionary.
 
         Raises:
             RateLimitError: error if ratelimit has been reached
@@ -173,7 +173,31 @@ class Client:
             data = await self.get("findGuild", params={"byUuid": guildname})
         else:
             data = await self.get("findGuild", params={"byName": guildname})
-        if data["success"]
+        if data["success"]:
             return data["guild"]
         return False
+
+    async def PlayerFriends(self, uuid: str) -> list[Friend]:
+        """Get a list of a players friends
+
+        Args:
+            uuid (str): the uuid of the player you wish to get friends from
+
+        Returns:
+            list[Friend]: returns a list of friend elements
+        """
+
+        params = {"uuid": uuid}
+        data = await self.get("friends", params=params)
+
+        friend_list = []
+        for friend in data["records"]:
+            friend_list = Friend(
+                _id=friend["id"],
+                uuidSender=data["uuidSender"],
+                uuidReceiver=data["uuidReceiver"],
+                started=dt.datetime(data["started"]),
+            )
+
+        return friend_list
 
