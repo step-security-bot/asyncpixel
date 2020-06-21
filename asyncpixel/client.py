@@ -158,17 +158,22 @@ class Client:
             boosters=boosterlist,
         )
 
-    async def FindGuild(self, guildname: str) -> str:
+    async def FindGuild(self, guildname: str, isuuid: bool = False) -> str:
         """Get guild uuid from name.
 
         Args:
             guildname (str): name fo guild
+            isuuid (bool): if a uuid is provided
 
         Returns:
             str: uuid of guild
         """
 
-        data = await self.get("findGuild")
-
-        return data["guild"]
+        if isuuid:
+            data = await self.get("findGuild", params={"byUuid": guildname})
+        else:
+            data = await self.get("findGuild", params={"byName": guildname})
+        if data["success"]
+            return data["guild"]
+        return False
 
