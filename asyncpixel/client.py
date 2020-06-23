@@ -311,11 +311,23 @@ class Client:
         """Get the current game count
 
         Returns:
-            dict: raw json response 
+            dict: raw json response
         """
 
         data = await self.get("gameCounts")
         if not data["success"]:
             return False
         return data["games"]
+
+    async def Leaderboard(self) -> dict:
+        """Get the current leaderboards
+
+        Returns:
+            dict: raw json response
+        """
+
+        data = await self.get("leaderboards")
+        if not data["success"]:
+            return False
+        return data["leaderboards"]
 
