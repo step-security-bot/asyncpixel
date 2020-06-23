@@ -307,3 +307,15 @@ class Client:
         """
         return int(1 + (-8750.0 + (8750 ** 2 + 5000 * xp) ** 0.5) / 2500)
 
+    async def GameCount(self) -> dict:
+        """Get the current game count
+
+        Returns:
+            dict: raw json response 
+        """
+
+        data = await self.get("gameCounts")
+        if not data["success"]:
+            return False
+        return data["games"]
+
