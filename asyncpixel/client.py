@@ -331,3 +331,14 @@ class Client:
             return False
         return data["leaderboards"]
 
+    async def Resources(self) -> dict:
+        """Get the current resources. Does not require api key
+
+        Returns:
+            dict: raw json response
+        """
+        data = await self.get("resources")
+        if not data["success"]:
+            return False
+        return data
+
