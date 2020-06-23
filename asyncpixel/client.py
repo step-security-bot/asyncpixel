@@ -11,6 +11,7 @@ from .models.key import Key
 from .models.status import Status
 from .models.watchdog import WatchDog
 from .models.games import Game
+from .models.player import Player
 
 
 class Client:
@@ -191,6 +192,9 @@ class Client:
         params = {"uuid": uuid}
         data = await self.get("friends", params=params)
 
+        if not data["success"]:
+            return None
+
         friend_list = []
         for friend in data["records"]:
             friend_list.append(
@@ -217,6 +221,9 @@ class Client:
         params = {"uuid": uuid}
         data = await self.get("recentGames", params=params)
 
+        if not data["success"]:
+            return None
+
         games_list = []
         for game in data["games"]:
             if "ended" in game:
@@ -240,4 +247,63 @@ class Client:
                 )
 
         return games_list
+
+    async def Player(self, uuid: str):
+        """Get information about a player from their uuid
+
+        Args:
+            uuid (str): uuid of player
+
+        Returns:
+            Player: player object
+        """
+        params = {"uuid": uuid}
+        data = await self.get("player", params=params)
+
+        if not data["success"]:
+            return None
+
+        return Player(
+            _id=data["player"]["_id"],
+            uuid=data["player"]["uuid"],
+            firstLogin=dt.datetime(data["player"]["firstLogin"]),
+            playername=data["player"]["playername"],
+            lastLogin=dt.datetime(data["player"]["lastLogin"]),
+            displayname=data["player"]["displayname"],
+            knownAliases=data["player"]["knownAliases"],
+            knownAliasesLower=data["player"]["knownAliasesLower"],
+            achievementsOneTime=data["player"]["achievementsOneTime"],
+            mcVersionRp=data["player"]["mcVersionRp"],
+            networkExp=data["player"]["networkExp"],
+            karma=data["player"]["karma"],
+            spec_always_flying=data["player"]["spec_always_flying"],
+            lastAdsenseGenerateTime=data["player"]["lastAdsenseGenerateTime"],
+            lastClaimedReward=data["player"]["lastClaimedReward"],
+            totalRewards=data["player"]["totalRewards"],
+            totalDailyRewards=data["player"]["totalDailyRewards"],
+            rewardStreak=data["player"]["rewardStreak"],
+            rewardScore=data["player"]["rewardScore"],
+            rewardHighScore=data["player"]["rewardHighScore"],
+            lastLogout=dt.datetime(data["player"]["lastLogout"]),
+            friendRequestsUuid=data["player"]["friendRequestsUuid"],
+            network_update_book=data["player"]["network_update_book"],
+            achievementTracking=data["player"]["achievementTracking"],
+            achievementPoints=data["player"]["achievementPoints"],
+            currentGadget=data["player"]["currentGadget"],
+            channel=data["player"]["channel"],
+            mostRecentGameType=data["player"]["mostRecentGameType"],
+            level=self.calcPlayerLevel(data["player"]["networkExp"]),
+        )
+
+    @staticmethod
+    async def calcPlayerLevel(xp: int) -> int:
+        """Calculate player level from xp.
+
+        Args:
+            xp (int): amount of xp a player has
+
+        Returns:
+            int: currentl level of player
+        """
+        return int(1 + (-8750.0 + (8750 ** 2 + 5000 * xp) ** 0.5) / 2500)
 
