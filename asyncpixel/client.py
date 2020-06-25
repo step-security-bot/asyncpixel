@@ -342,3 +342,29 @@ class Client:
             return False
         return data
 
+    async def auction(self):
+
+        data = await self.get("auction")
+        return data
+
+    async def auctions(self):
+        data = await self.get("auctions")
+        return data
+
+    async def news(self):
+        data = await self.get("news")
+        return data
+
+    async def profile(self):
+        data = await self.get("profile")
+        return data
+
+    async def profiles(self):
+        data = await self.get("profiles")
+        return data
+
+    async def bazaar(self):
+
+        data = await self.get("bazaar")
+        return data
+
