@@ -419,7 +419,7 @@ class Client:
                     product_id=elements["product_id"],
                     sell_summary=sell_summary,
                     buy_summary=buy_summary,
-                    quick_status=Bazaar_quick_status,
+                    quick_status=bazaar_quick_status,
                 )
             )
 
