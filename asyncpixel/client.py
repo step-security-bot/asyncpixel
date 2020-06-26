@@ -354,7 +354,7 @@ class Client:
     async def auction(
         self, player: str = None, profile: str = None, uuid: str = None
     ) -> List[Auction_item]:
-        """Get the auctions from a [layer.]
+        """Get the auctions from a player.
 
         Args:
             player (str, optional): player id. Defaults to None.
