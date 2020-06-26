@@ -352,13 +352,13 @@ class Client:
         return data
 
     async def auction(
-        self, player: str = None, profile: str = None, uuid: str = None
+        self, player: str = None, _profile: str = None, uuid: str = None
     ) -> List[Auction_item]:
         """Get the auctions from a player.
 
         Args:
             player (str, optional): player id. Defaults to None.
-            profile (str, optional): profile id. Defaults to None.
+            _profile (str, optional): profile id. Defaults to None.
             uuid (str, optional): player uuid. Defaults to None.
 
         Raises:
@@ -367,13 +367,13 @@ class Client:
         Returns:
             List[Auction_item]: list of auction items.
         """
-        if all([player, profile, uuid]) is None:
+        if all([player, _profile, uuid]) is None:
             raise AttributeError("A player, profile or uuid must be provided")
 
         if player:
             params = {"player": player}
-        elif profile:
-            params = {"profile": profile}
+        elif _profile:
+            params = {"profile": _profile}
         elif uuid:
             params = {"uuid": uuid}
         data = await self.get("skyblock/auction", params=params)
