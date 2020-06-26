@@ -12,6 +12,13 @@ from .models.status import Status
 from .models.watchdog import WatchDog
 from .models.games import Game
 from .models.player import Player
+from .models.bazaar import (
+    Bazaar,
+    Bazaar_item,
+    Bazaar_buy_summary,
+    Bazaar_sell_summary,
+    Bazaar_quick_status,
+)
 
 
 class Client:
@@ -363,8 +370,60 @@ class Client:
         data = await self.get("profiles")
         return data
 
-    async def bazaar(self):
+    async def bazaar(self) -> Bazaar:
+        """Get info of the items in the bazaar.
+
+        Returns:
+            Bazaar: object for bazzar
+        """
 
         data = await self.get("bazaar")
-        return data
+
+        bazaar_items = []
+
+        for item in data["products"]:
+            name = item.keys()[0]
+            elements = item[name]
+            sell_summary = []
+            buy_summary = []
+            for sell in elements["sell_summary"]:
+                sell_summary.append(
+                    Bazaar_sell_summary(
+                        amount=sell["amount"],
+                        pricePerUnit=sell["pricePerUnit"],
+                        orders=sell["orders"],
+                    )
+                )
+            for buy in elements["buy_summary"]:
+                buy_summary.append(
+                    Bazaar_buy_summary(
+                        amount=sell["amount"],
+                        pricePerUnit=sell["pricePerUnit"],
+                        orders=sell["orders"],
+                    )
+                )
+            bazaar_quick_status = Bazaar_quick_status(
+                productId=elements["productId"],
+                sellPrice=elements["sellPrice"],
+                sellVolume=elements["sellVolume"],
+                sellMovingWeek=elements["sellMovingWeek"],
+                sellOrders=elements["sellOrders"],
+                buyPrice=elements["buyPrice"],
+                buyVolume=elements["buyVolume"],
+                buyMovingWeek=elements["buyMovingWeek"],
+                buyOrders=elements["buyOrders"],
+            )
+            bazaar_items.append(
+                Bazaar_item(
+                    name=name,
+                    product_id=elements["product_id"],
+                    sell_summary=sell_summary,
+                    buy_summary=buy_summary,
+                    quick_status=Bazaar_quick_status,
+                )
+            )
+
+        return Bazaar(
+            lastUpdated=dt.datetime(1590854517479), bazaar_items=bazaar_items
+        )
 
