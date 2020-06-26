@@ -1,6 +1,6 @@
 import datetime as dt
 from random import choice
-from typing import List, Union
+from typing import List, Union, Dict
 
 import aiohttp
 
@@ -466,8 +466,18 @@ class Client:
 
         return news_list
 
-    async def profile(self):
-        data = await self.get("skyblock/profile")
+    async def profile(self, _profile: str) -> Dict:
+        """Get profile info of a skyblock player
+
+        Args:
+            _profile (str): [description]
+
+        Returns:
+            Dict: [description]
+        """
+
+        params = {"profile": _profile}
+        data = await self.get("skyblock/profile", params=params)
         return data
 
     async def profiles(self):
