@@ -351,23 +351,27 @@ class Client:
 
     async def auction(self):
 
-        data = await self.get("auction")
+        data = await self.get("skyblock/auction")
         return data
 
     async def auctions(self):
-        data = await self.get("auctions")
+        data = await self.get("skyblock/auctions")
         return data
 
     async def news(self):
-        data = await self.get("news")
+        data = await self.get("skyblock/news")
+
+        for item in data["items"]:
+
+
         return data
 
     async def profile(self):
-        data = await self.get("profile")
+        data = await self.get("skyblock/profile")
         return data
 
     async def profiles(self):
-        data = await self.get("profiles")
+        data = await self.get("skyblock/profiles")
         return data
 
     async def bazaar(self) -> Bazaar:
@@ -377,7 +381,7 @@ class Client:
             Bazaar: object for bazzar
         """
 
-        data = await self.get("bazaar")
+        data = await self.get("skyblock/bazaar")
 
         bazaar_items = []
 
