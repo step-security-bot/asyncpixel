@@ -5,8 +5,13 @@ from typing import List, Union
 import aiohttp
 
 from .exceptions.exceptions import RateLimitError
-from .models.bazaar import (Bazaar, Bazaar_buy_summary, Bazaar_item,
-                            Bazaar_quick_status, Bazaar_sell_summary)
+from .models.bazaar import (
+    Bazaar,
+    Bazaar_buy_summary,
+    Bazaar_item,
+    Bazaar_quick_status,
+    Bazaar_sell_summary,
+)
 from .models.booster import Booster, Boosters
 from .models.friends import Friend
 from .models.games import Game
@@ -15,6 +20,7 @@ from .models.news import News
 from .models.player import Player
 from .models.status import Status
 from .models.watchdog import WatchDog
+from .models.auctions import Auction, Auction_item
 
 
 class Client:
@@ -350,21 +356,66 @@ class Client:
         data = await self.get("skyblock/auction")
         return data
 
-    async def auctions(self):
-        data = await self.get("skyblock/auctions")
-        return data
+    async def auctions(self, page: int = 0) -> Auction:
+        """Get the auctions available.
+
+        Args:
+            page (int, optional): Page of auction list you want. Defaults to 0.
+
+        Returns:
+            Auction: Auction object.
+        """
+
+        params = {"page": page}
+        data = await self.get("skyblock/auctions", params=params)
+        auction_list = []
+        for auc in data["auctions"]:
+            auction_list.append(
+                Auction_item(
+                    uuid=auc["uuid"],
+                    auctioneer=auc["auctioneer"],
+                    profile_id=auc["profile_id"],
+                    coop=auc["coop"],
+                    start=dt.datetime(auc["start"]),
+                    end=dt.datetime(auc["end"]),
+                    item_name=auc["item_name"],
+                    item_lore=auc["item_lore"],
+                    extra=auc["extra"],
+                    category=auc["category"],
+                    tier=auc["tier"],
+                    starting_bid=auc["starting_bid"],
+                    item_bytes=auc["item_bytes"],
+                    claimed=auc["claimed"],
+                    claimed_bidders=auc["claimed_bidders"],
+                    highest_bid_amount=auc["highest_bid_amount"],
+                    bids=auc["bids"],
+                )
+            )
+        return Auction(
+            page=data["page"],
+            totalPages=data["totalPages"],
+            totalAuctions=data["totalAuctions"],
+            lastUpdated=dt.datetime(data["lastUpdated"]),
+            auctions=auction_list,
+        )
 
     async def news(self) -> List[News]:
         """Get current skyblock news.
 
         Returns:
             List[News]: List of news objects
-        """            
+        """
         data = await self.get("skyblock/news")
         news_list = []
         for item in data["items"]:
-            news_list.append(News(material=item["item"]["material"], link=item["link"], text=item["text"], title=item["title"])
-
+            news_list.append(
+                News(
+                    material=item["item"]["material"],
+                    link=item["link"],
+                    text=item["text"],
+                    title=item["title"],
+                )
+            )
 
         return news_list
 
