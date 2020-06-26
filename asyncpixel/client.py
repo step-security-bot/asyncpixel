@@ -1,25 +1,20 @@
 import datetime as dt
 from random import choice
-from typing import Union, List
+from typing import List, Union
 
 import aiohttp
 
 from .exceptions.exceptions import RateLimitError
+from .models.bazaar import (Bazaar, Bazaar_buy_summary, Bazaar_item,
+                            Bazaar_quick_status, Bazaar_sell_summary)
 from .models.booster import Booster, Boosters
 from .models.friends import Friend
+from .models.games import Game
 from .models.key import Key
+from .models.news import News
+from .models.player import Player
 from .models.status import Status
 from .models.watchdog import WatchDog
-from .models.games import Game
-from .models.player import Player
-from .models.bazaar import (
-    Bazaar,
-    Bazaar_item,
-    Bazaar_buy_summary,
-    Bazaar_sell_summary,
-    Bazaar_quick_status,
-)
-from .models.news import News
 
 
 class Client:
@@ -437,4 +432,3 @@ class Client:
         return Bazaar(
             lastUpdated=dt.datetime(1590854517479), bazaar_items=bazaar_items
         )
-
