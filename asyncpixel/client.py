@@ -480,8 +480,18 @@ class Client:
         data = await self.get("skyblock/profile", params=params)
         return data
 
-    async def profiles(self):
-        data = await self.get("skyblock/profiles")
+    async def profiles(self, uuid: str) -> Dict:
+        """Get info on a profile
+
+        Args:
+            uuid (str): uuid of player
+
+        Returns:
+            Dict: json response
+        """
+
+        params = {"uuid": uuid}
+        data = await self.get("skyblock/profiles", params=params)
         return data
 
     async def bazaar(self) -> Bazaar:
