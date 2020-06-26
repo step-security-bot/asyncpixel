@@ -1,6 +1,6 @@
 import datetime as dt
 from random import choice
-from typing import Union
+from typing import Union, List
 
 import aiohttp
 
@@ -19,6 +19,7 @@ from .models.bazaar import (
     Bazaar_sell_summary,
     Bazaar_quick_status,
 )
+from .models.news import News
 
 
 class Client:
@@ -358,13 +359,19 @@ class Client:
         data = await self.get("skyblock/auctions")
         return data
 
-    async def news(self):
+    async def news(self) -> List[News]:
+        """Get current skyblock news.
+
+        Returns:
+            List[News]: List of news objects
+        """            
         data = await self.get("skyblock/news")
-
+        news_list = []
         for item in data["items"]:
+            news_list.append(News(material=item["item"]["material"], link=item["link"], text=item["text"], title=item["title"])
 
 
-        return data
+        return news_list
 
     async def profile(self):
         data = await self.get("skyblock/profile")
