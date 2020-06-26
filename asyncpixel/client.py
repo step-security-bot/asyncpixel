@@ -351,10 +351,57 @@ class Client:
             return False
         return data
 
-    async def auction(self):
+    async def auction(
+        self, player: str = None, profile: str = None, uuid: str = None
+    ) -> List[Auction_item]:
+        """Get the auctions from a [layer.]
 
-        data = await self.get("skyblock/auction")
-        return data
+        Args:
+            player (str, optional): player id. Defaults to None.
+            profile (str, optional): profile id. Defaults to None.
+            uuid (str, optional): player uuid. Defaults to None.
+
+        Raises:
+            AttributeError: error if no parameters passed
+
+        Returns:
+            List[Auction_item]: list of auction items.
+        """
+        if all([player, profile, uuid]) is None:
+            raise AttributeError("A player, profile or uuid must be provided")
+
+        if player:
+            params = {"player": player}
+        elif profile:
+            params = {"profile": profile}
+        elif uuid:
+            params = {"uuid": uuid}
+        data = await self.get("skyblock/auction", params=params)
+        auction_list = []
+        for auc in data["auctions"]:
+            auction_list.append(
+                Auction_item(
+                    _id=auc["_id"],
+                    uuid=auc["uuid"],
+                    auctioneer=auc["auctioneer"],
+                    profile_id=auc["profile_id"],
+                    coop=auc["coop"],
+                    start=dt.datetime(auc["start"]),
+                    end=dt.datetime(auc["end"]),
+                    item_name=auc["item_name"],
+                    item_lore=auc["item_lore"],
+                    extra=auc["extra"],
+                    category=auc["category"],
+                    tier=auc["tier"],
+                    starting_bid=auc["starting_bid"],
+                    item_bytes=auc["item_bytes"],
+                    claimed=auc["claimed"],
+                    claimed_bidders=auc["claimed_bidders"],
+                    highest_bid_amount=auc["highest_bid_amount"],
+                    bids=auc["bids"],
+                )
+            )
+        return auction_list
 
     async def auctions(self, page: int = 0) -> Auction:
         """Get the auctions available.

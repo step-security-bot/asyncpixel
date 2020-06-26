@@ -38,7 +38,9 @@ class Auction_item:
         claimed_bidders: List,
         highest_bid_amount: int,
         bids: List,
+        _id: str = None,
     ):
+        self.id = _id
         self.uuid = uuid
         self.auctionee = auctionee
         self.profile_id = profile_id
