@@ -1,4 +1,5 @@
 import datetime
+from typing import List
 
 
 class Player:
@@ -10,9 +11,9 @@ class Player:
         playername: str,
         lastLogin: datetime.datetime,
         displayname: str,
-        knownAliases: list[str],
-        knownAliasesLower: list[str],
-        achievementsOneTime: list[str],
+        knownAliases: List[str],
+        knownAliasesLower: List[str],
+        achievementsOneTime: List[str],
         mcVersionRp: str,
         networkExp: int,
         karma: int,
@@ -25,9 +26,9 @@ class Player:
         rewardScore: int,
         rewardHighScore: int,
         lastLogout: datetime.datetime,
-        friendRequestsUuid: list[str],
+        friendRequestsUuid: List[str],
         network_update_book: str,
-        achievementTracking: list[str],
+        achievementTracking: List[str],
         achievementPoints: int,
         currentGadget: str,
         channel: str,

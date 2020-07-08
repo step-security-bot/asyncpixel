@@ -1,4 +1,5 @@
 import datetime
+from typing import List
 
 
 class Booster:
@@ -11,7 +12,7 @@ class Booster:
         length: int,
         gameType: int,
         dateActivated: datetime.datetime,
-        stacked: bool,
+        stacked: bool = False,
     ):
 
         self._id = _id
@@ -26,7 +27,7 @@ class Booster:
 
 class Boosters:
     def __init__(
-        self, boosterStatedecrementing: bool, boosters: list[Booster]
+        self, boosterStatedecrementing: bool, boosters: List[Booster]
     ):
         self.boosterStatedecrementing = boosterStatedecrementing
         self.boosters = boosters

@@ -1,10 +1,14 @@
+"""
+A Python HypixelAPI wrapper.
+"""
+
 import datetime as dt
-from random import choice
-from typing import List, Union, Dict
+from typing import Dict, List
 
 import aiohttp
 
-from .exceptions.exceptions import RateLimitError
+from .exceptions.exceptions import ApiNoSuccess, RateLimitError
+from .models.auctions import Auction, Auction_item
 from .models.bazaar import (
     Bazaar,
     Bazaar_buy_summary,
@@ -14,32 +18,32 @@ from .models.bazaar import (
 )
 from .models.booster import Booster, Boosters
 from .models.friends import Friend
+from .models.guild import Guild
+
 from .models.games import Game
 from .models.key import Key
 from .models.news import News
+
 from .models.player import Player
 from .models.status import Status
 from .models.watchdog import WatchDog
-from .models.auctions import Auction, Auction_item
+
+BASE_URL = "https://api.hypixel.net/"
 
 
 class Client:
     """client class for hypixel wrapper"""
 
-    def __init__(self, api_keys: Union[list, str]):
+    def __init__(self, api_key: str):
         """Initialise base class by storing keys and creating session
 
         Args:
-            api_keys (Union[list, str]): list or signle api key to use
+            api_key (str): hypixel api key
         """
 
         # Handles the instance of a singular key
-        if not isinstance(api_keys, list):
-            api_keys = [api_keys]
 
-        self.api_keys = api_keys
-
-        self.base_url = "https://api.hypixel.net/"
+        self.api_key = api_key
 
         self.session = aiohttp.ClientSession()
 
@@ -47,12 +51,12 @@ class Client:
         """used for safe client cleanup and stuff"""
         await self.session.close()
 
-    async def get(self, path: str, params: dict = {}) -> dict:
+    async def get(self, path: str, params: Dict = {}) -> dict:
         """Base function to get raw data from hypixel
 
         Args:
             path (str): path that you wish to request from
-            params (dict, optional): parameters to pass into request. 
+            params (Dict, optional): parameters to pass into request. 
             Defaults to empty dictionary.
 
         Raises:
@@ -61,42 +65,21 @@ class Client:
         Returns:
             dict: returns a dictionary of the json response
         """
-        params["key"] = choice(self.api_keys)
+        params["key"] = self.api_key
 
-        response = await self.session.get(
-            f"{self.base_url}{path}", params=params,
-        )
+        response = await self.session.get(f"{BASE_URL}{path}", params=params)
 
         if response.status == 429:
             raise RateLimitError("Hypixel")
 
-        return await response.json()
+        response = await response.json()
 
-    async def KeyData(self, key: str = None) -> Key:
-        """Get information about an api key.
+        if not response["success"]:
+            raise ApiNoSuccess()
 
-        Args:
-            key (str, optional): api key. Defaults tokey provided in class.
+        return response
 
-        Returns:
-            Key: Key object
-        """
-
-        if key is None:
-            key = choice(self.api_keys)
-
-        data = await self.get("key")
-
-        return Key(
-            success=data["success"],
-            key=data["record"]["key"],
-            owner=data["record"]["owner"],
-            limit=data["record"]["limit"],
-            queriesInPastMin=data["record"]["queriesInPastMin"],
-            totalQueries=data["record"]["totalQueries"],
-        )
-
-    async def WatchdogStats(self) -> WatchDog:
+    async def get_watchdog_stats(self) -> WatchDog:
         """Get current watchdog stats.
 
         Returns:
@@ -112,7 +95,89 @@ class Client:
             staff_total=data["staff_total"],
         )
 
-    async def PlayerStatus(self, uuid: str) -> Status:
+    async def get_key_data(self, key: str = None) -> Key:
+        """Get information about an api key.
+
+        Args:
+            key (str, optional): api key. Defaults tokey provided in class.
+
+        Returns:
+            Key: Key object
+        """
+
+        if key is None:
+            key = self.api_key
+
+        data = await self.get("key")
+
+        return Key(
+            key=data["record"]["key"],
+            owner=data["record"]["owner"],
+            limit=data["record"]["limit"],
+            queriesInPastMin=data["record"]["queriesInPastMin"],
+            totalQueries=data["record"]["totalQueries"],
+        )
+
+    async def get_boosters(self) -> Boosters:
+        """Get the current online boosters.
+
+        Returns:
+            Boosters: object containing boosters
+        """
+        data = await self.get("boosters")
+        boosterlist = []
+
+        for boost in data["boosters"]:
+            boosterlist.append(
+                Booster(
+                    _id=boost["_id"],
+                    purchaserUuid=boost["purchaserUuid"],
+                    amount=boost["amount"],
+                    originalLength=boost["originalLength"],
+                    length=boost["length"],
+                    gameType=boost["gameType"],
+                    dateActivated=dt.datetime.fromtimestamp(
+                        boost["dateActivated"] / 1000
+                    ),
+                    stacked=boost["stacked"] if "stacked" in boost else False,
+                )
+            )
+        return Boosters(
+            boosterStatedecrementing=data["boosterState"]["decrementing"],
+            boosters=boosterlist,
+        )
+
+    async def get_player_count(self) -> int:
+        """Get the current amount of players online.
+
+        Returns:
+            int: number of online players
+        """
+        data = await self.get("playerCount")
+
+        return data["playerCount"]
+
+    async def get_news(self) -> List[News]:
+        """Get current skyblock news.
+
+        Returns:
+            List[News]: List of news objects
+        """
+        data = await self.get("skyblock/news")
+        news_list = []
+        for item in data["items"]:
+            news_list.append(
+                News(
+                    material=item["item"]["material"],
+                    link=item["link"],
+                    text=item["text"],
+                    title=item["title"],
+                )
+            )
+
+        return news_list
+
+    async def get_player_status(self, uuid: str) -> Status:
         """Get current online status about a player.
 
         Args:
@@ -132,70 +197,14 @@ class Client:
             )
         return Status(online=False)
 
-    async def PlayerCount(self) -> int:
-        """Get the current amount of players online.
-
-        Returns:
-            int: number of online players
-        """
-        data = await self.get("playerCount")
-
-        return data["playerCount"]
-
-    async def GetBoosters(self) -> Boosters:
-        """Get the current online boosters.
-
-        Returns:
-            Boosters: object containing boosters
-        """
-        data = await self.get("boosters")
-        boosterlist = []
-
-        for boost in data["boosters"]:
-            boosterlist.append(
-                Booster(
-                    _id=boost["_id"],
-                    purchaserUuid=boost["purchaserUuid"],
-                    amount=boost["amount"],
-                    originalLength=boost["originalLength"],
-                    length=boost["length"],
-                    gameType=boost["gameType"],
-                    dateActivated=dt.datetime(boost["dateActivated"]),
-                    stacked=boost["stacked"],
-                )
-            )
-        return Boosters(
-            boosterStatedecrementing=data["boosterState"]["decrementing"],
-            boosters=boosterlist,
-        )
-
-    async def FindGuild(self, guildname: str, isuuid: bool = False) -> str:
-        """Get guild uuid from name.
-
-        Args:
-            guildname (str): name fo guild
-            isuuid (bool): if a uuid is provided
-
-        Returns:
-            str: uuid of guild
-        """
-
-        if isuuid:
-            data = await self.get("findGuild", params={"byUuid": guildname})
-        else:
-            data = await self.get("findGuild", params={"byName": guildname})
-        if data["success"]:
-            return data["guild"]
-        return False
-
-    async def PlayerFriends(self, uuid: str) -> list[Friend]:
+    async def get_player_friends(self, uuid: str) -> List[Friend]:
         """Get a list of a players friends
 
         Args:
             uuid (str): the uuid of the player you wish to get friends from
 
         Returns:
-            list[Friend]: returns a list of friend elements
+            List[Friend]: returns a list of friend elements
         """
 
         params = {"uuid": uuid}
@@ -208,23 +217,126 @@ class Client:
         for friend in data["records"]:
             friend_list.append(
                 Friend(
-                    _id=friend["id"],
-                    uuidSender=data["uuidSender"],
-                    uuidReceiver=data["uuidReceiver"],
-                    started=dt.datetime(data["started"]),
+                    _id=friend["_id"],
+                    uuidSender=friend["uuidSender"],
+                    uuidReceiver=friend["uuidReceiver"],
+                    started=dt.datetime.fromtimestamp(
+                        friend["started"] / 1000
+                    ),
                 )
             )
 
         return friend_list
 
-    async def RecentGames(self, uuid: str) -> [Game]:
-        """Gets a list of the most recent games over the last 3 days
+    async def get_bazaar(self) -> Bazaar:
+        """Get info of the items in the bazaar.
+
+        Returns:
+            Bazaar: object for bazzar
+        """
+
+        data = await self.get("skyblock/bazaar")
+
+        bazaar_items = []
+
+        for name in data["products"]:
+            elements = data["products"][name]
+            sell_summary = []
+            buy_summary = []
+            for sell in elements["sell_summary"]:
+                sell_summary.append(
+                    Bazaar_sell_summary(
+                        amount=sell["amount"],
+                        pricePerUnit=sell["pricePerUnit"],
+                        orders=sell["orders"],
+                    )
+                )
+            for buy in elements["buy_summary"]:
+                buy_summary.append(
+                    Bazaar_buy_summary(
+                        amount=sell["amount"],
+                        pricePerUnit=sell["pricePerUnit"],
+                        orders=sell["orders"],
+                    )
+                )
+            quick = elements["quick_status"]
+            bazaar_quick_status = Bazaar_quick_status(
+                productId=quick["productId"],
+                sellPrice=quick["sellPrice"],
+                sellVolume=quick["sellVolume"],
+                sellMovingWeek=quick["sellMovingWeek"],
+                sellOrders=quick["sellOrders"],
+                buyPrice=quick["buyPrice"],
+                buyVolume=quick["buyVolume"],
+                buyMovingWeek=quick["buyMovingWeek"],
+                buyOrders=quick["buyOrders"],
+            )
+            bazaar_items.append(
+                Bazaar_item(
+                    name=name,
+                    product_id=elements["product_id"],
+                    sell_summary=sell_summary,
+                    buy_summary=buy_summary,
+                    quick_status=bazaar_quick_status,
+                )
+            )
+
+        return Bazaar(
+            lastUpdated=dt.datetime.fromtimestamp(1590854517479 / 1000),
+            bazaar_items=bazaar_items,
+        )
+
+    async def auctions(self, page: int = 0) -> Auction:
+        """Get the auctions available.
+
+        Args:
+            page (int, optional): Page of auction list you want. Defaults to 0.
+
+        Returns:
+            Auction: Auction object.
+        """
+
+        params = {"page": page}
+        data = await self.get("skyblock/auctions", params=params)
+        auction_list = []
+        for auc in data["auctions"]:
+            auction_list.append(
+                Auction_item(
+                    uuid=auc["uuid"],
+                    auctioneer=auc["auctioneer"],
+                    profile_id=auc["profile_id"],
+                    coop=auc["coop"],
+                    start=dt.datetime.fromtimestamp(auc["start"] / 1000),
+                    end=dt.datetime.fromtimestamp(auc["end"] / 1000),
+                    item_name=auc["item_name"],
+                    item_lore=auc["item_lore"],
+                    extra=auc["extra"],
+                    category=auc["category"],
+                    tier=auc["tier"],
+                    starting_bid=auc["starting_bid"],
+                    item_bytes=auc["item_bytes"],
+                    claimed=auc["claimed"],
+                    claimed_bidders=auc["claimed_bidders"],
+                    highest_bid_amount=auc["highest_bid_amount"],
+                    bids=auc["bids"],
+                )
+            )
+        return Auction(
+            page=data["page"],
+            totalPages=data["totalPages"],
+            totalAuctions=data["totalAuctions"],
+            lastUpdated=dt.datetime.fromtimestamp(data["lastUpdated"] / 1000),
+            auctions=auction_list,
+        )
+
+    async def get_recent_games(self, uuid: str) -> List[Game]:
+        """Get recent games of a player
 
         Args:
             uuid (str): uuid of player
 
         Returns:
-            [Game]: a list of game objects
+            List[Game]: list of recent games
         """
 
         params = {"uuid": uuid}
@@ -257,7 +369,7 @@ class Client:
 
         return games_list
 
-    async def Player(self, uuid: str):
+    async def get_player(self, uuid: str) -> Player:
         """Get information about a player from their uuid
 
         Args:
@@ -269,15 +381,16 @@ class Client:
         params = {"uuid": uuid}
         data = await self.get("player", params=params)
 
-        if not data["success"]:
-            return None
-
         return Player(
             _id=data["player"]["_id"],
             uuid=data["player"]["uuid"],
-            firstLogin=dt.datetime(data["player"]["firstLogin"]),
+            firstLogin=dt.datetime.fromtimestamp(
+                data["player"]["firstLogin"] / 1000
+            ),
             playername=data["player"]["playername"],
-            lastLogin=dt.datetime(data["player"]["lastLogin"]),
+            lastLogin=dt.datetime.fromtimestamp(
+                data["player"]["lastLogin"] / 1000
+            ),
             displayname=data["player"]["displayname"],
             knownAliases=data["player"]["knownAliases"],
             knownAliasesLower=data["player"]["knownAliasesLower"],
@@ -293,7 +406,9 @@ class Client:
             rewardStreak=data["player"]["rewardStreak"],
             rewardScore=data["player"]["rewardScore"],
             rewardHighScore=data["player"]["rewardHighScore"],
-            lastLogout=dt.datetime(data["player"]["lastLogout"]),
+            lastLogout=dt.datetime.fromtimestamp(
+                data["player"]["lastLogout"] / 1000
+            ),
             friendRequestsUuid=data["player"]["friendRequestsUuid"],
             network_update_book=data["player"]["network_update_book"],
             achievementTracking=data["player"]["achievementTracking"],
@@ -305,7 +420,7 @@ class Client:
         )
 
     @staticmethod
-    async def calcPlayerLevel(xp: int) -> int:
+    def calcPlayerLevel(xp: int) -> int:
         """Calculate player level from xp.
 
         Args:
@@ -316,67 +431,150 @@ class Client:
         """
         return int(1 + (-8750.0 + (8750 ** 2 + 5000 * xp) ** 0.5) / 2500)
 
-    async def GameCount(self) -> dict:
-        """Get the current game count
-
-        Returns:
-            dict: raw json response
-        """
-
-        data = await self.get("gameCounts")
-        if not data["success"]:
-            return False
-        return data["games"]
-
-    async def Leaderboard(self) -> dict:
-        """Get the current leaderboards
-
-        Returns:
-            dict: raw json response
-        """
-
-        data = await self.get("leaderboards")
-        if not data["success"]:
-            return False
-        return data["leaderboards"]
-
-    async def Resources(self) -> dict:
-        """Get the current resources. Does not require api key
-
-        Returns:
-            dict: raw json response
-        """
-        data = await self.get("resources")
-        if not data["success"]:
-            return False
-        return data
-
-    async def auction(
-        self, player: str = None, _profile: str = None, uuid: str = None
-    ) -> List[Auction_item]:
-        """Get the auctions from a player.
+    async def find_guild_by_name(self, name: str) -> str:
+        """Find guild id by name.
 
         Args:
-            player (str, optional): player id. Defaults to None.
-            _profile (str, optional): profile id. Defaults to None.
-            uuid (str, optional): player uuid. Defaults to None.
-
-        Raises:
-            AttributeError: error if no parameters passed
+            name (str): name of guild
 
         Returns:
-            List[Auction_item]: list of auction items.
+            str: id of guild
         """
-        if all([player, _profile, uuid]) is None:
-            raise AttributeError("A player, profile or uuid must be provided")
+        params = {"byName": name}
+        data = await self.get("findGuild", params=params)
+        return data["guild"]
 
-        if player:
-            params = {"player": player}
-        elif _profile:
-            params = {"profile": _profile}
-        elif uuid:
-            params = {"uuid": uuid}
+    async def find_guild_by_uuid(self, uuid: str) -> str:
+        """Find guild by uuid
+
+        Args:
+            uuid (str): uuid of guild
+
+        Returns:
+            str: id of guild
+        """
+        params = {"byUuid": uuid}
+        data = await self.get("findGuild", params=params)
+        return data["guild"]
+
+    async def get_guild_by_name(self, guild_name: str) -> Guild:
+        """Get guild by name
+
+        Args:
+            guild_name (str): name of guild
+
+        Returns:
+            Guild: guild object
+        """
+
+        params = {"name": guild_name}
+        data = await self.get("guild", params=params)
+        guild_object = await self.create_guild_object(data)
+        return guild_object
+
+    async def get_guild_by_id(self, guild_id: int) -> Guild:
+        """Get guild by id
+
+        Args:
+            guild_id (str): id of guild
+
+        Returns:
+            Guild: guild object
+        """
+        params = {"id": guild_id}
+        data = await self.get("guild", params=params)
+        guild_object = await self.create_guild_object(data)
+        return guild_object
+
+    async def get_guild_by_player(self, player_uuid: str) -> Guild:
+        """Get guild by player
+
+        Args:
+            player_uuid (str): uuid of a player in the guild
+
+        Returns:
+            Guild: guild object
+        """
+        params = {"player": player_uuid}
+        data = await self.get("guild", params=params)
+        guild_object = await self.create_guild_object(data)
+        return guild_object
+
+    @staticmethod
+    def create_guild_object(data) -> Guild:
+        guild = data["guild"]
+        return Guild(
+            _id=guild["_id"],
+            created=dt.datetime.fromtimestamp(guild["created"] / 1000),
+            name=guild["name"],
+            name_lower=guild["name_lower"],
+            description=guild["description"],
+            tag=guild["tag"],
+            tagColor=guild["tagColor"],
+            exp=guild["exp"],
+            members=guild["members"],
+            achievements=guild["achievements"],
+            ranks=guild["ranks"],
+            joinable=guild["joinable"],
+            legacyRanking=guild["legacyRanking"],
+            publiclyListed=guild["publiclyListed"],
+            hideGmTag=guild["hideGmTag"],
+            preferredGames=guild["preferredGames"],
+            chatMute=guild["chatMute"],
+            guildExpByGameType=guild["guildExpByGameType"],
+        )
+
+    async def get_profile(self, profile: str) -> Dict:
+        """Get profile info of a skyblock player.
+
+        Args:
+            _profile (str): profile id of player ca be gotten from
+                            running get_profiles
+
+        Returns:
+            Dict: json reponse
+        """
+
+        params = {"profile": profile}
+        data = await self.get("skyblock/profile", params=params)
+        return data["profile"]
+
+    async def get_profiles(self, uuid: str) -> Dict:
+        """Get info on a profile.
+
+        Args:
+            uuid (str): uuid of player
+
+        Returns:
+            Dict: json response
+        """
+
+        params = {"uuid": uuid}
+        data = await self.get("skyblock/profiles", params=params)
+        return data["profiles"]
+
+    async def get_auction_from_uuid(self, uuid: str) -> List[Auction_item]:
+        params = {"uuid": uuid}
         data = await self.get("skyblock/auction", params=params)
+        auction_items = self.create_auction_object(data)
+        return auction_items
+
+    async def get_auction_from_player(self, player: str) -> List[Auction_item]:
+        params = {"player": player}
+        data = await self.get("skyblock/auction", params=params)
+        auction_items = self.create_auction_object(data)
+        return auction_items
+
+    async def get_auction_from_profile(
+        self, profile_id: str
+    ) -> List[Auction_item]:
+        params = {"profile": profile_id}
+        data = await self.get("skyblock/auction", params=params)
+        auction_items = self.create_auction_object(data)
+        return auction_items
+
+    @staticmethod
+    def create_auction_object(data) -> List[Auction_item]:
         auction_list = []
         for auc in data["auctions"]:
             auction_list.append(
@@ -403,150 +601,87 @@ class Client:
             )
         return auction_list
 
-    async def auctions(self, page: int = 0) -> Auction:
-        """Get the auctions available.
+    # NOT FULLY IMPLEMENTED
 
-        Args:
-            page (int, optional): Page of auction list you want. Defaults to 0.
-
-        Returns:
-            Auction: Auction object.
-        """
-
-        params = {"page": page}
-        data = await self.get("skyblock/auctions", params=params)
-        auction_list = []
-        for auc in data["auctions"]:
-            auction_list.append(
-                Auction_item(
-                    uuid=auc["uuid"],
-                    auctioneer=auc["auctioneer"],
-                    profile_id=auc["profile_id"],
-                    coop=auc["coop"],
-                    start=dt.datetime(auc["start"]),
-                    end=dt.datetime(auc["end"]),
-                    item_name=auc["item_name"],
-                    item_lore=auc["item_lore"],
-                    extra=auc["extra"],
-                    category=auc["category"],
-                    tier=auc["tier"],
-                    starting_bid=auc["starting_bid"],
-                    item_bytes=auc["item_bytes"],
-                    claimed=auc["claimed"],
-                    claimed_bidders=auc["claimed_bidders"],
-                    highest_bid_amount=auc["highest_bid_amount"],
-                    bids=auc["bids"],
-                )
-            )
-        return Auction(
-            page=data["page"],
-            totalPages=data["totalPages"],
-            totalAuctions=data["totalAuctions"],
-            lastUpdated=dt.datetime(data["lastUpdated"]),
-            auctions=auction_list,
-        )
-
-    async def news(self) -> List[News]:
-        """Get current skyblock news.
+    async def get_game_count(self) -> dict:
+        """Get the current game count
 
         Returns:
-            List[News]: List of news objects
+            dict: raw json response
         """
-        data = await self.get("skyblock/news")
-        news_list = []
-        for item in data["items"]:
-            news_list.append(
-                News(
-                    material=item["item"]["material"],
-                    link=item["link"],
-                    text=item["text"],
-                    title=item["title"],
-                )
-            )
 
-        return news_list
+        data = await self.get("gameCounts")
+        return data["games"]
 
-    async def profile(self, _profile: str) -> Dict:
-        """Get profile info of a skyblock player
-
-        Args:
-            _profile (str): [description]
+    async def get_leaderboard(self) -> dict:
+        """Get the current leaderboards
 
         Returns:
-            Dict: [description]
+            dict: raw json response
         """
 
-        params = {"profile": _profile}
-        data = await self.get("skyblock/profile", params=params)
-        return data
+        data = await self.get("leaderboards")
+        return data["leaderboards"]
 
-    async def profiles(self, uuid: str) -> Dict:
-        """Get info on a profile
-
-        Args:
-            uuid (str): uuid of player
+    async def get_resources_achievements(self) -> dict:
+        """Get the current resources. Does not require api key
 
         Returns:
-            Dict: json response
+            dict: raw json response
         """
+        data = await self.get("resources/achievements")
+        return data["achievements"]
 
-        params = {"uuid": uuid}
-        data = await self.get("skyblock/profiles", params=params)
-        return data
-
-    async def bazaar(self) -> Bazaar:
-        """Get info of the items in the bazaar.
+    async def get_resources_challenges(self) -> dict:
+        """Get the current resources. Does not require api key
 
         Returns:
-            Bazaar: object for bazzar
+            dict: raw json response
         """
+        data = await self.get("resources/challenges")
+        return data["challenges"]
 
-        data = await self.get("skyblock/bazaar")
+    async def get_resources_quests(self) -> dict:
+        """Get the current resources. Does not require api key
 
-        bazaar_items = []
+        Returns:
+            dict: raw json response
+        """
+        data = await self.get("resources/quests")
+        return data["quests"]
 
-        for item in data["products"]:
-            name = item.keys()[0]
-            elements = item[name]
-            sell_summary = []
-            buy_summary = []
-            for sell in elements["sell_summary"]:
-                sell_summary.append(
-                    Bazaar_sell_summary(
-                        amount=sell["amount"],
-                        pricePerUnit=sell["pricePerUnit"],
-                        orders=sell["orders"],
-                    )
-                )
-            for buy in elements["buy_summary"]:
-                buy_summary.append(
-                    Bazaar_buy_summary(
-                        amount=sell["amount"],
-                        pricePerUnit=sell["pricePerUnit"],
-                        orders=sell["orders"],
-                    )
-                )
-            bazaar_quick_status = Bazaar_quick_status(
-                productId=elements["productId"],
-                sellPrice=elements["sellPrice"],
-                sellVolume=elements["sellVolume"],
-                sellMovingWeek=elements["sellMovingWeek"],
-                sellOrders=elements["sellOrders"],
-                buyPrice=elements["buyPrice"],
-                buyVolume=elements["buyVolume"],
-                buyMovingWeek=elements["buyMovingWeek"],
-                buyOrders=elements["buyOrders"],
-            )
-            bazaar_items.append(
-                Bazaar_item(
-                    name=name,
-                    product_id=elements["product_id"],
-                    sell_summary=sell_summary,
-                    buy_summary=buy_summary,
-                    quick_status=bazaar_quick_status,
-                )
-            )
+    async def get_resources_guilds_achievements(self) -> dict:
+        """Get the current resources. Does not require api key
 
-        return Bazaar(
-            lastUpdated=dt.datetime(1590854517479), bazaar_items=bazaar_items
-        )
+        Returns:
+            dict: raw json response
+        """
+        data = await self.get("resources/guilds/achievements")
+        return data["guilds/achievements"]
+
+    async def get_resources_guilds_permissions(self) -> dict:
+        """Get the current resources. Does not require api key
+
+        Returns:
+            dict: raw json response
+        """
+        data = await self.get("resources/guilds/permissions")
+        return data["guilds/permissions"]
+
+    async def get_resources_skyblock_collections(self) -> dict:
+        """Get the current resources. Does not require api key
+
+        Returns:
+            dict: raw json response
+        """
+        data = await self.get("resources/skyblock/collections")
+        return data["skyblock/collections"]
+
+    async def get_resources_skyblock_skills(self) -> dict:
+        """Get the current resources. Does not require api key
+
+        Returns:
+            dict: raw json response
+        """
+        data = await self.get("resources/skyblock/skills")
+        return data["skyblock/skills"]

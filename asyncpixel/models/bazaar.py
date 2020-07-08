@@ -41,9 +41,7 @@ class Bazaar_quick_status:
 
 
 class Bazaar:
-    def __init__(
-        self, lastUpdated: datetime.datetime, bazaar_items: List[Bazaar_item]
-    ):
+    def __init__(self, lastUpdated: datetime.datetime, bazaar_items: List):
         self.lastUpdated = lastUpdated
         self.bazaar_items = bazaar_items
 

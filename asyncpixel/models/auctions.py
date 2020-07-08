@@ -22,7 +22,7 @@ class Auction_item:
     def __init__(
         self,
         uuid: str,
-        auctionee: str,
+        auctioneer: str,
         profile_id: str,
         coop: List[str],
         start: datetime.datetime,
@@ -42,7 +42,7 @@ class Auction_item:
     ):
         self.id = _id
         self.uuid = uuid
-        self.auctionee = auctionee
+        self.auctioneer = auctioneer
         self.profile_id = profile_id
         self.coop = coop
         self.start = start
