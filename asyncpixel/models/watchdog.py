@@ -7,7 +7,7 @@ class WatchDog:
         watchdog_rollingDaily,
         staff_total,
     ):
-        """Base class for watchdog stat"""
+        """Base class for watchdog stat."""
         self.watchdog_lastMinute = watchdog_lastMinute
         self.staff_rollingDaily = staff_rollingDaily
         self.watchdog_total = watchdog_total

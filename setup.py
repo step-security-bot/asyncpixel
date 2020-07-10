@@ -4,9 +4,9 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="asyncpixel-Darkflame72",  # Replace with your own username
-    version="0.0.1",
-    author="Darkflame72",
+    name="asyncpixel",  # Replace with your own username
+    version="0.1.0",
+    author="Leon Bowie",
     author_email="leon@bowie-co.nz",
     description="An async wrapper for hypixel",
     long_description=long_description,

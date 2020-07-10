@@ -32,7 +32,7 @@ BASE_URL = "https://api.hypixel.net/"
 
 
 class Client:
-    """client class for hypixel wrapper"""
+    """client class for hypixel wrapper."""
 
     def __init__(self, api_key: str):
         """Initialise base class by storing keys and creating session
@@ -48,7 +48,7 @@ class Client:
         self.session = aiohttp.ClientSession()
 
     async def close(self):
-        """used for safe client cleanup and stuff"""
+        """used for safe client cleanup and stuff."""
         await self.session.close()
 
     async def get(self, path: str, params: Dict = {}) -> dict:
@@ -56,7 +56,7 @@ class Client:
 
         Args:
             path (str): path that you wish to request from
-            params (Dict, optional): parameters to pass into request. 
+            params (Dict, optional): parameters to pass into request.
             Defaults to empty dictionary.
 
         Raises:
@@ -254,9 +254,9 @@ class Client:
             for buy in elements["buy_summary"]:
                 buy_summary.append(
                     Bazaar_buy_summary(
-                        amount=sell["amount"],
-                        pricePerUnit=sell["pricePerUnit"],
-                        orders=sell["orders"],
+                        amount=buy["amount"],
+                        pricePerUnit=buy["pricePerUnit"],
+                        orders=buy["orders"],
                     )
                 )
             quick = elements["quick_status"]
@@ -350,17 +350,17 @@ class Client:
             if "ended" in game:
                 games_list.append(
                     Game(
-                        data=dt.datetime(game["date"]),
+                        date=dt.datetime.fromtimestamp(game["date"] / 1000),
                         gameType=game["gameType"],
                         mode=game["Mode"],
                         _map=game["map"],
-                        ended=dt.datetime(game["ended"]),
+                        ended=dt.datetime.fromtimestamp(game["ended"] / 1000),
                     )
                 )
             else:
                 games_list.append(
                     Game(
-                        data=dt.datetime(game["date"]),
+                        data=dt.datetime.fromtimestamp(game["date"] / 1000),
                         gameType=game["gameType"],
                         mode=game["Mode"],
                         _map=game["map"],
@@ -522,6 +522,7 @@ class Client:
             preferredGames=guild["preferredGames"],
             chatMute=guild["chatMute"],
             guildExpByGameType=guild["guildExpByGameType"],
+            banner=guild["banner"],
         )
 
     async def get_profile(self, profile: str) -> Dict:
