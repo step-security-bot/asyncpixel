@@ -9,3 +9,23 @@
 This is an asynchronous python wrapper for the [hypixel api](https://api.hypixel.net).
 
 ### Endpoints
+
+## Examples
+
+### Basic use
+
+```python
+import asyncpixel
+import asyncio
+
+uuid = "405dcf08b80f4e23b97d943ad93d14fd"
+
+
+async def main():
+    client = asyncpixel.Client("hypixel_api_key")
+    print(await client.get_profile("405dcf08b80f4e23b97d943ad93d14fd"))
+    await client.close()
+
+
+asyncio.run(main())
+```
