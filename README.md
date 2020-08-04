@@ -6,7 +6,7 @@
 
 ### Overview
 
-This is an asynchronous python wrapper for the [hypixel api](https://api.hypixel.net).
+This is an asynchronous python wrapper for the [hypixel api](https://api.hypixel.net). It is available for download on [pypi](https://pypi.org/project/asyncpixel/)
 
 ### Endpoints
 
