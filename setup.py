@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="asyncpixel",  # Replace with your own username
+    name="asyncpixel",
     version="0.1.0",
     author="Leon Bowie",
     author_email="leon@bowie-co.nz",
@@ -20,4 +20,7 @@ setuptools.setup(
         "Development Status :: 2 - Pre-Alpha",
     ],
     python_requires=">=3.6",
+    install_requires=[
+        "aiohttp",
+    ],
 )
