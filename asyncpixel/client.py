@@ -73,8 +73,9 @@ class Client:
             raise RateLimitError("Hypixel")
 
         response = await response.json()
-        if response["cause"] == "Invalid API key":
-            raise InvalidApiKey()
+        if "cause" in response:
+            if response["cause"] == "Invalid API key":
+                raise InvalidApiKey()
 
         if not response["success"]:
             raise ApiNoSuccess()
