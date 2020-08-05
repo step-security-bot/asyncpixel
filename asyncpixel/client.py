@@ -7,7 +7,7 @@ from typing import Dict, List
 
 import aiohttp
 
-from .exceptions.exceptions import ApiNoSuccess, RateLimitError
+from .exceptions.exceptions import ApiNoSuccess, RateLimitError, InvalidApiKey
 from .models.auctions import Auction, Auction_item
 from .models.bazaar import (
     Bazaar,
@@ -73,6 +73,9 @@ class Client:
             raise RateLimitError("Hypixel")
 
         response = await response.json()
+        if "cause" in response:
+            if response["cause"] == "Invalid API key":
+                raise InvalidApiKey()
 
         if not response["success"]:
             raise ApiNoSuccess()
@@ -99,7 +102,7 @@ class Client:
         """Get information about an api key.
 
         Args:
-            key (str, optional): api key. Defaults tokey provided in class.
+            key (str, optional): api key. Defaults token provided in class.
 
         Returns:
             Key: Key object
@@ -419,7 +422,7 @@ class Client:
             xp (int): amount of xp a player has
 
         Returns:
-            int: currentl level of player
+            int: current level of player
         """
         return int(1 + (-8750.0 + (8750 ** 2 + 5000 * xp) ** 0.5) / 2500)
 
@@ -525,7 +528,7 @@ class Client:
                             running get_profiles
 
         Returns:
-            Dict: json reponse
+            Dict: json response
         """
 
         params = {"profile": profile}
