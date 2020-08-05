@@ -6,4 +6,3 @@ class Key:
         self.limit = limit
         self.queriesInPastMin = queriesInPastMin
         self.totalQueries = totalQueries
-

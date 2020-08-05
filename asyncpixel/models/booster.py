@@ -26,8 +26,6 @@ class Booster:
 
 
 class Boosters:
-    def __init__(
-        self, boosterStatedecrementing: bool, boosters: List[Booster]
-    ):
+    def __init__(self, boosterStatedecrementing: bool, boosters: List[Booster]):
         self.boosterStatedecrementing = boosterStatedecrementing
         self.boosters = boosters

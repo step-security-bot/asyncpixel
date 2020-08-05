@@ -20,7 +20,5 @@ setuptools.setup(
         "Development Status :: 2 - Pre-Alpha",
     ],
     python_requires=">=3.6",
-    install_requires=[
-        "aiohttp",
-    ],
+    install_requires=["aiohttp",],
 )

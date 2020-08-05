@@ -58,4 +58,3 @@ class Auction_item:
         self.claimed_bidders = claimed_bidders
         self.highest_bid_amount = highest_bid_amount
         self.bids = bids
-

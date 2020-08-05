@@ -64,4 +64,3 @@ class Player:
         self.channel = channel
         self.mostRecentGameType = mostRecentGameType
         self.level = level
-
