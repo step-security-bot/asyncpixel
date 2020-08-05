@@ -74,7 +74,8 @@ class Client:
 
         response = await response.json()
         if response["cause"] == "Invalid API key":
-            raise InvalidApiKey
+            raise InvalidApiKey()
+
         if not response["success"]:
             raise ApiNoSuccess()
 
