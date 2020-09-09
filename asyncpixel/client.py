@@ -189,7 +189,7 @@ class Client:
         Returns:
             Status: Status object of player
         """
-
+        uuid = uuid.replace("-", "")
         data = await self.get("status", params={"uuid": uuid})
         if data["session"]["online"]:
             return Status(
@@ -209,7 +209,7 @@ class Client:
         Returns:
             List[Friend]: returns a list of friend elements
         """
-
+        uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("friends", params=params)
 
@@ -339,7 +339,8 @@ class Client:
         Returns:
             List[Game]: list of recent games
         """
-
+        
+        uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("recentGames", params=params)
 
@@ -379,6 +380,8 @@ class Client:
         Returns:
             Player: player object
         """
+        
+        uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("player", params=params)
 
@@ -448,6 +451,8 @@ class Client:
         Returns:
             str: id of guild
         """
+        
+        uuid = uuid.replace("-", "")
         params = {"byUuid": uuid}
         data = await self.get("findGuild", params=params)
         return data["guild"]
@@ -490,6 +495,8 @@ class Client:
         Returns:
             Guild: guild object
         """
+        
+        player_uuid = player_uuid.replace("-", "")
         params = {"player": player_uuid}
         data = await self.get("guild", params=params)
         guild_object = await self.create_guild_object(data)
@@ -545,6 +552,7 @@ class Client:
             Dict: json response
         """
 
+        uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("skyblock/profiles", params=params)
         return data["profiles"]
