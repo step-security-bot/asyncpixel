@@ -339,7 +339,7 @@ class Client:
         Returns:
             List[Game]: list of recent games
         """
-        
+
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("recentGames", params=params)
@@ -380,7 +380,7 @@ class Client:
         Returns:
             Player: player object
         """
-        
+
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("player", params=params)
@@ -451,7 +451,7 @@ class Client:
         Returns:
             str: id of guild
         """
-        
+
         uuid = uuid.replace("-", "")
         params = {"byUuid": uuid}
         data = await self.get("findGuild", params=params)
@@ -495,7 +495,7 @@ class Client:
         Returns:
             Guild: guild object
         """
-        
+
         player_uuid = player_uuid.replace("-", "")
         params = {"player": player_uuid}
         data = await self.get("guild", params=params)
