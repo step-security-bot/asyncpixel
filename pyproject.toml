@@ -1,4 +1,33 @@
+[tool.poetry]
+authors = ["Darkflame72 <leon@bowie-co.nz>"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Topic :: Games/Entertainment",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Utilities",
+]
+description = "An async wrapper for hypixel"
+license = "LGPL-3.0-or-later"
+name = "asyncpixel"
+readme = "README.md"
+repository = "https://github.com/Obsidion-dev/asyncpixel"
+version = "0.1.1"
+
+[tool.poetry.dependencies]
+aiohttp = "^3.6.2"
+python = "^3.6"
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.6"
+
+[build-system]
+build-backend = "poetry.masonry.api"
+requires = ["poetry>=0.12"]
+
 [tool.black]
+include = '\.pyi?$'
 line-length = 88
 target-version = ['py37']
-include = '\.pyi?$'
