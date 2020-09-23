@@ -31,7 +31,8 @@ class Client:
     """client class for hypixel wrapper."""
 
     def __init__(self, api_key: str):
-        """Initialise base class by storing keys and creating session
+        """
+        Initialise base class by storing keys and creating session
 
         Args:
             api_key (str): hypixel api key
@@ -50,7 +51,8 @@ class Client:
         await self.session.close()
 
     async def get(self, path: str, params: Dict = {}) -> dict:
-        """Base function to get raw data from hypixel.
+        """
+        Base function to get raw data from hypixel.
 
         Args:
             path (str): path that you wish to request from
@@ -81,7 +83,8 @@ class Client:
         return response
 
     async def get_watchdog_stats(self) -> WatchDog:
-        """Get current watchdog stats.
+        """
+        Get current watchdog stats.
 
         Returns:
             WatchDog: WatchDog stats object
@@ -97,7 +100,8 @@ class Client:
         )
 
     async def get_key_data(self, key: str = None) -> Key:
-        """Get information about an api key.
+        """
+        Get information about an api key.
 
         Args:
             key (str, optional): api key. Defaults token provided in class.
@@ -119,7 +123,8 @@ class Client:
         )
 
     async def get_boosters(self) -> Boosters:
-        """Get the current online boosters.
+        """
+        Get the current online boosters.
 
         Returns:
             Boosters: object containing boosters
@@ -148,7 +153,9 @@ class Client:
         )
 
     async def get_player_count(self) -> int:
-        """Get the current amount of players online.
+        """
+
+        Get the current amount of players online.
 
         Returns:
             int: number of online players
@@ -158,7 +165,8 @@ class Client:
         return data["playerCount"]
 
     async def get_news(self) -> List[News]:
-        """Get current skyblock news.
+        """
+        Get current skyblock news.
 
         Returns:
             List[News]: List of news objects
@@ -178,7 +186,8 @@ class Client:
         return news_list
 
     async def get_player_status(self, uuid: str) -> Status:
-        """Get current online status about a player.
+        """
+        Get current online status about a player.
 
         Args:
             uuid (str): uuid of player
@@ -198,7 +207,8 @@ class Client:
         return Status(online=False)
 
     async def get_player_friends(self, uuid: str) -> List[Friend]:
-        """Get a list of a players friends
+        """
+        Get a list of a players friends
 
         Args:
             uuid (str): the uuid of the player you wish to get friends from
@@ -227,7 +237,8 @@ class Client:
         return friend_list
 
     async def get_bazaar(self) -> Bazaar:
-        """Get info of the items in the bazaar.
+        """
+        Get info of the items in the bazaar.
 
         Returns:
             Bazaar: object for bazzar
@@ -284,7 +295,8 @@ class Client:
         )
 
     async def auctions(self, page: int = 0) -> Auction:
-        """Get the auctions available.
+        """
+        Get the auctions available.
 
         Args:
             page (int, optional): Page of auction list you want. Defaults to 0.
@@ -326,7 +338,8 @@ class Client:
         )
 
     async def get_recent_games(self, uuid: str) -> List[Game]:
-        """Get recent games of a player
+        """
+        Get recent games of a player
 
         Args:
             uuid (str): uuid of player
@@ -366,7 +379,8 @@ class Client:
         return games_list
 
     async def get_player(self, uuid: str) -> Player:
-        """Get information about a player from their uuid
+        """
+        Get information about a player from their uuid
 
         Args:
             uuid (str): uuid of player
@@ -412,7 +426,8 @@ class Client:
 
     @staticmethod
     def calcPlayerLevel(xp: int) -> int:
-        """Calculate player level from xp.
+        """
+        Calculate player level from xp.
 
         Args:
             xp (int): amount of xp a player has
@@ -423,7 +438,8 @@ class Client:
         return int(1 + (-8750.0 + (8750 ** 2 + 5000 * xp) ** 0.5) / 2500)
 
     async def find_guild_by_name(self, name: str) -> str:
-        """Find guild id by name.
+        """
+        Find guild id by name.
 
         Args:
             name (str): name of guild
@@ -436,7 +452,8 @@ class Client:
         return data["guild"]
 
     async def find_guild_by_uuid(self, uuid: str) -> str:
-        """Find guild by uuid
+        """
+        Find guild by uuid
 
         Args:
             uuid (str): uuid of guild
@@ -451,7 +468,8 @@ class Client:
         return data["guild"]
 
     async def get_guild_by_name(self, guild_name: str) -> Guild:
-        """Get guild by name
+        """
+        Get guild by name
 
         Args:
             guild_name (str): name of guild
@@ -465,7 +483,8 @@ class Client:
         return guild_object
 
     async def get_guild_by_id(self, guild_id: int) -> Guild:
-        """Get guild by id
+        """
+        Get guild by id
 
         Args:
             guild_id (str): id of guild
@@ -479,7 +498,8 @@ class Client:
         return guild_object
 
     async def get_guild_by_player(self, player_uuid: str) -> Guild:
-        """Get guild by player
+        """
+        Get guild by player
 
         Args:
             player_uuid (str): uuid of a player in the guild
@@ -495,7 +515,8 @@ class Client:
 
     @staticmethod
     def create_guild_object(data: Dict) -> Guild:
-        """Create guild object from json
+        """
+        Create guild object from json
 
         Args:
             data (dict): json
@@ -527,7 +548,8 @@ class Client:
         )
 
     async def get_profile(self, profile: str) -> Dict:
-        """Get profile info of a skyblock player.
+        """
+        Get profile info of a skyblock player.
 
         Args:
             _profile (str): profile id of player ca be gotten from
@@ -541,7 +563,8 @@ class Client:
         return data["profile"]
 
     async def get_profiles(self, uuid: str) -> Dict:
-        """Get info on a profile.
+        """
+        Get info on a profile.
 
         Args:
             uuid (str): uuid of player
@@ -574,7 +597,8 @@ class Client:
 
     @staticmethod
     def create_auction_object(data: Dict) -> List[Auction_item]:
-        """Create auction object
+        """
+        Create auction object
 
         Args:
             data (Dict): json input
@@ -611,7 +635,8 @@ class Client:
     # NOT FULLY IMPLEMENTED
 
     async def get_game_count(self) -> dict:
-        """Get the current game count
+        """
+        Get the current game count
 
         Returns:
             dict: raw json response
@@ -621,7 +646,8 @@ class Client:
         return data["games"]
 
     async def get_leaderboard(self) -> dict:
-        """Get the current leaderboards
+        """
+        Get the current leaderboards
 
         Returns:
             dict: raw json response
@@ -631,7 +657,8 @@ class Client:
         return data["leaderboards"]
 
     async def get_resources_achievements(self) -> dict:
-        """Get the current resources. Does not require api key
+        """
+        Get the current resources. Does not require api key
 
         Returns:
             dict: raw json response
@@ -640,7 +667,8 @@ class Client:
         return data["achievements"]
 
     async def get_resources_challenges(self) -> dict:
-        """Get the current resources. Does not require api key
+        """
+        Get the current resources. Does not require api key
 
         Returns:
             dict: raw json response
@@ -649,7 +677,8 @@ class Client:
         return data["challenges"]
 
     async def get_resources_quests(self) -> dict:
-        """Get the current resources. Does not require api key
+        """
+        Get the current resources. Does not require api key
 
         Returns:
             dict: raw json response
@@ -658,7 +687,8 @@ class Client:
         return data["quests"]
 
     async def get_resources_guilds_achievements(self) -> dict:
-        """Get the current resources. Does not require api key
+        """
+        Get the current resources. Does not require api key
 
         Returns:
             dict: raw json response
@@ -667,7 +697,8 @@ class Client:
         return data["guilds/achievements"]
 
     async def get_resources_guilds_permissions(self) -> dict:
-        """Get the current resources. Does not require api key
+        """
+        Get the current resources. Does not require api key
 
         Returns:
             dict: raw json response
@@ -676,7 +707,8 @@ class Client:
         return data["guilds/permissions"]
 
     async def get_resources_skyblock_collections(self) -> dict:
-        """Get the current resources. Does not require api key
+        """
+        Get the current resources. Does not require api key
 
         Returns:
             dict: raw json response
@@ -685,7 +717,8 @@ class Client:
         return data["skyblock/collections"]
 
     async def get_resources_skyblock_skills(self) -> dict:
-        """Get the current resources. Does not require api key
+        """
+        Get the current resources. Does not require api key
 
         Returns:
             dict: raw json response
