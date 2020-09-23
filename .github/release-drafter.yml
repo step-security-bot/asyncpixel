@@ -19,8 +19,7 @@ categories:
     label: "removal"
   - title: ":lipstick: Style"
     label: "style"
-  - title: ":rotating_light: Testing"
-    label: "testing"
+
 template: |
   ## What’s Changed
 
