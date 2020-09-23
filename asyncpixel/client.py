@@ -105,7 +105,6 @@ class Client:
         Returns:
             Key: Key object
         """
-
         if key is None:
             key = self.api_key
 
@@ -221,9 +220,7 @@ class Client:
                     _id=friend["_id"],
                     uuidSender=friend["uuidSender"],
                     uuidReceiver=friend["uuidReceiver"],
-                    started=dt.datetime.fromtimestamp(
-                        friend["started"] / 1000
-                    ),
+                    started=dt.datetime.fromtimestamp(friend["started"] / 1000),
                 )
             )
 
@@ -235,7 +232,6 @@ class Client:
         Returns:
             Bazaar: object for bazzar
         """
-
         data = await self.get("skyblock/bazaar")
 
         bazaar_items = []
@@ -296,7 +292,6 @@ class Client:
         Returns:
             Auction: Auction object.
         """
-
         params = {"page": page}
         data = await self.get("skyblock/auctions", params=params)
         auction_list = []
@@ -339,7 +334,6 @@ class Client:
         Returns:
             List[Game]: list of recent games
         """
-
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("recentGames", params=params)
@@ -380,7 +374,6 @@ class Client:
         Returns:
             Player: player object
         """
-
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("player", params=params)
@@ -388,13 +381,9 @@ class Client:
         return Player(
             _id=data["player"]["_id"],
             uuid=data["player"]["uuid"],
-            firstLogin=dt.datetime.fromtimestamp(
-                data["player"]["firstLogin"] / 1000
-            ),
+            firstLogin=dt.datetime.fromtimestamp(data["player"]["firstLogin"] / 1000),
             playername=data["player"]["playername"],
-            lastLogin=dt.datetime.fromtimestamp(
-                data["player"]["lastLogin"] / 1000
-            ),
+            lastLogin=dt.datetime.fromtimestamp(data["player"]["lastLogin"] / 1000),
             displayname=data["player"]["displayname"],
             knownAliases=data["player"]["knownAliases"],
             knownAliasesLower=data["player"]["knownAliasesLower"],
@@ -410,9 +399,7 @@ class Client:
             rewardStreak=data["player"]["rewardStreak"],
             rewardScore=data["player"]["rewardScore"],
             rewardHighScore=data["player"]["rewardHighScore"],
-            lastLogout=dt.datetime.fromtimestamp(
-                data["player"]["lastLogout"] / 1000
-            ),
+            lastLogout=dt.datetime.fromtimestamp(data["player"]["lastLogout"] / 1000),
             friendRequestsUuid=data["player"]["friendRequestsUuid"],
             network_update_book=data["player"]["network_update_book"],
             achievementTracking=data["player"]["achievementTracking"],
@@ -472,7 +459,6 @@ class Client:
         Returns:
             Guild: guild object
         """
-
         params = {"name": guild_name}
         data = await self.get("guild", params=params)
         guild_object = await self.create_guild_object(data)
@@ -501,7 +487,6 @@ class Client:
         Returns:
             Guild: guild object
         """
-
         player_uuid = player_uuid.replace("-", "")
         params = {"player": player_uuid}
         data = await self.get("guild", params=params)
@@ -509,7 +494,15 @@ class Client:
         return guild_object
 
     @staticmethod
-    def create_guild_object(data) -> Guild:
+    def create_guild_object(data: Dict) -> Guild:
+        """Create guild object from json
+
+        Args:
+            data (dict): json
+
+        Returns:
+            Guild: guild object
+        """
         guild = data["guild"]
         return Guild(
             _id=guild["_id"],
@@ -543,7 +536,6 @@ class Client:
         Returns:
             Dict: json response
         """
-
         params = {"profile": profile}
         data = await self.get("skyblock/profile", params=params)
         return data["profile"]
@@ -557,7 +549,6 @@ class Client:
         Returns:
             Dict: json response
         """
-
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("skyblock/profiles", params=params)
@@ -575,16 +566,22 @@ class Client:
         auction_items = self.create_auction_object(data)
         return auction_items
 
-    async def get_auction_from_profile(
-        self, profile_id: str
-    ) -> List[Auction_item]:
+    async def get_auction_from_profile(self, profile_id: str) -> List[Auction_item]:
         params = {"profile": profile_id}
         data = await self.get("skyblock/auction", params=params)
         auction_items = self.create_auction_object(data)
         return auction_items
 
     @staticmethod
-    def create_auction_object(data) -> List[Auction_item]:
+    def create_auction_object(data: Dict) -> List[Auction_item]:
+        """Create auction object
+
+        Args:
+            data (Dict): json input
+
+        Returns:
+            List[Auction_item]: auction object list
+        """
         auction_list = []
         for auc in data["auctions"]:
             auction_list.append(
