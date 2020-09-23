@@ -35,6 +35,9 @@ class Client:
 
         Args:
             api_key (str): hypixel api key
+
+        Returns:
+            None: init only.
         """
         # Handles the instance of a singular key
 
