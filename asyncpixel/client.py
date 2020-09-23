@@ -1,13 +1,11 @@
-"""
-A Python HypixelAPI wrapper.
-"""
+"""A Python HypixelAPI wrapper."""
 
 import datetime as dt
 from typing import Dict, List
 
 import aiohttp
 
-from .exceptions.exceptions import ApiNoSuccess, RateLimitError, InvalidApiKey
+from .exceptions.exceptions import ApiNoSuccess, InvalidApiKey, RateLimitError
 from .models.auctions import Auction, Auction_item
 from .models.bazaar import (
     Bazaar,
@@ -18,12 +16,10 @@ from .models.bazaar import (
 )
 from .models.booster import Booster, Boosters
 from .models.friends import Friend
-from .models.guild import Guild
-
 from .models.games import Game
+from .models.guild import Guild
 from .models.key import Key
 from .models.news import News
-
 from .models.player import Player
 from .models.status import Status
 from .models.watchdog import WatchDog
@@ -40,7 +36,6 @@ class Client:
         Args:
             api_key (str): hypixel api key
         """
-
         # Handles the instance of a singular key
 
         self.api_key = api_key
@@ -52,7 +47,7 @@ class Client:
         await self.session.close()
 
     async def get(self, path: str, params: Dict = {}) -> dict:
-        """Base function to get raw data from hypixel
+        """Base function to get raw data from hypixel.
 
         Args:
             path (str): path that you wish to request from
@@ -223,7 +218,9 @@ class Client:
                     _id=friend["_id"],
                     uuidSender=friend["uuidSender"],
                     uuidReceiver=friend["uuidReceiver"],
-                    started=dt.datetime.fromtimestamp(friend["started"] / 1000),
+                    started=dt.datetime.fromtimestamp(
+                        friend["started"] / 1000
+                    ),
                 )
             )
 
@@ -388,9 +385,13 @@ class Client:
         return Player(
             _id=data["player"]["_id"],
             uuid=data["player"]["uuid"],
-            firstLogin=dt.datetime.fromtimestamp(data["player"]["firstLogin"] / 1000),
+            firstLogin=dt.datetime.fromtimestamp(
+                data["player"]["firstLogin"] / 1000
+            ),
             playername=data["player"]["playername"],
-            lastLogin=dt.datetime.fromtimestamp(data["player"]["lastLogin"] / 1000),
+            lastLogin=dt.datetime.fromtimestamp(
+                data["player"]["lastLogin"] / 1000
+            ),
             displayname=data["player"]["displayname"],
             knownAliases=data["player"]["knownAliases"],
             knownAliasesLower=data["player"]["knownAliasesLower"],
@@ -406,7 +407,9 @@ class Client:
             rewardStreak=data["player"]["rewardStreak"],
             rewardScore=data["player"]["rewardScore"],
             rewardHighScore=data["player"]["rewardHighScore"],
-            lastLogout=dt.datetime.fromtimestamp(data["player"]["lastLogout"] / 1000),
+            lastLogout=dt.datetime.fromtimestamp(
+                data["player"]["lastLogout"] / 1000
+            ),
             friendRequestsUuid=data["player"]["friendRequestsUuid"],
             network_update_book=data["player"]["network_update_book"],
             achievementTracking=data["player"]["achievementTracking"],
@@ -569,7 +572,9 @@ class Client:
         auction_items = self.create_auction_object(data)
         return auction_items
 
-    async def get_auction_from_profile(self, profile_id: str) -> List[Auction_item]:
+    async def get_auction_from_profile(
+        self, profile_id: str
+    ) -> List[Auction_item]:
         params = {"profile": profile_id}
         data = await self.get("skyblock/auction", params=params)
         auction_items = self.create_auction_object(data)
