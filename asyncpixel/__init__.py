@@ -1,5 +1,4 @@
-"""
-asyncpixel
+"""Asyncpixel.
 
 An asyncronous hypixel api wrapper
 """
