@@ -28,9 +28,10 @@ BASE_URL = "https://api.hypixel.net/"
 
 
 class Client:
+
     """client class for hypixel wrapper."""
 
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str) -> None:
         """
         Initialise base class by storing keys and creating session
 
@@ -50,7 +51,7 @@ class Client:
         """used for safe client cleanup and stuff."""
         await self.session.close()
 
-    async def get(self, path: str, params: Dict = {}) -> dict:
+    async def get(self, path: str, params: Dict = None) -> dict:
         """
         Base function to get raw data from hypixel.
 
@@ -66,6 +67,9 @@ class Client:
             dict: returns a dictionary of the json response
         """
         params["key"] = self.api_key
+
+        if params is None:
+            params = {}
 
         response = await self.session.get(f"{BASE_URL}{path}", params=params)
 
@@ -202,7 +206,7 @@ class Client:
                 online=True,
                 gameType=data["session"]["gameType"],
                 _mode=data["session"]["mode"],
-                map=data["session"],
+                _map=data["session"],
             )
         return Status(online=False)
 
