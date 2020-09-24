@@ -1,5 +1,20 @@
+"""Status data class."""
+
+
 class Status:
-    def __init__(self, online: bool, gameType=None, _mode=None, _map=None):
+    """Status data object."""
+
+    def __init__(
+        self, online: bool, gameType: str = None, _mode: str = None, _map: str = None
+    ) -> None:
+        """Init class.
+
+        Args:
+            online (bool): online status
+            gameType ([str], optional): current game. Defaults to None.
+            _mode ([str], optional): game mode. Defaults to None.
+            _map ([str], optional): map. Defaults to None.
+        """
         self.online = online
         self.gameType = gameType
         self.mode = _mode

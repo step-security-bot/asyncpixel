@@ -1,8 +1,12 @@
+"""Guild objects."""
+
 import datetime
-from typing import List
+from typing import List, Dict
 
 
 class Guild:
+    """Guild object."""
+
     def __init__(
         self,
         _id: str,
@@ -14,17 +18,40 @@ class Guild:
         tagColor: str,
         exp: int,
         members: List,
-        achievements,
-        ranks,
+        achievements: Dict,
+        ranks: List,
         joinable: bool,
         legacyRanking: int,
         publiclyListed: bool,
         hideGmTag: bool,
         preferredGames: List[str],
         chatMute: datetime.datetime,
-        guildExpByGameType,
-        banner,
-    ):
+        guildExpByGameType: Dict,
+        banner: Dict,
+    ) -> None:
+        """Init object.
+
+        Args:
+            _id (str): [description]
+            created (datetime.datetime): [description]
+            name (str): [description]
+            name_lower (str): [description]
+            description (str): [description]
+            tag (str): [description]
+            tagColor (str): [description]
+            exp (int): [description]
+            members (List): [description]
+            achievements ([type]): [description]
+            ranks ([type]): [description]
+            joinable (bool): [description]
+            legacyRanking (int): [description]
+            publiclyListed (bool): [description]
+            hideGmTag (bool): [description]
+            preferredGames (List[str]): [description]
+            chatMute (datetime.datetime): [description]
+            guildExpByGameType ([type]): [description]
+            banner ([type]): [description]
+        """
         self._id = _id
         self.created = created
         self.name = name

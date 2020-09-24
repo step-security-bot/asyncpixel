@@ -1,8 +1,12 @@
+"""Auction related objects."""
+
 import datetime
 from typing import List
 
 
 class Auction:
+    """Main auction object."""
+
     def __init__(
         self,
         page: str,
@@ -10,7 +14,16 @@ class Auction:
         totalAuctions: str,
         lastUpdated: datetime.datetime,
         auctions: str,
-    ):
+    ) -> None:
+        """Init main object.
+
+        Args:
+            page (str): page
+            totalPages (str): totalPages
+            totalAuctions (str):totalAuctions
+            lastUpdated (datetime.datetime): lastUpdated
+            auctions (str): auctions
+        """
         self.page = page
         self.totalPages = totalPages
         self.totalAuctions = totalAuctions
@@ -19,6 +32,8 @@ class Auction:
 
 
 class Auction_item:
+    """auction item class."""
+
     def __init__(
         self,
         uuid: str,
@@ -39,7 +54,29 @@ class Auction_item:
         highest_bid_amount: int,
         bids: List,
         _id: str = None,
-    ):
+    ) -> None:
+        """Auction Object.
+
+        Args:
+            uuid (str): [description]
+            auctioneer (str): [description]
+            profile_id (str): [description]
+            coop (List[str]): [description]
+            start (datetime.datetime): [description]
+            end (datetime.datetime): [description]
+            item_name (str): [description]
+            item_lore (str): [description]
+            extra (str): [description]
+            category (str): [description]
+            tier (str): [description]
+            starting_bid (int): [description]
+            item_bytes (str): [description]
+            claimed (bool): [description]
+            claimed_bidders (List): [description]
+            highest_bid_amount (int): [description]
+            bids (List): [description]
+            _id (str, optional): [description]. Defaults to None.
+        """
         self.id = _id
         self.uuid = uuid
         self.auctioneer = auctioneer
