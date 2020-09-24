@@ -1,7 +1,7 @@
 """A Python HypixelAPI wrapper."""
 
 import datetime as dt
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import aiohttp
 
@@ -46,7 +46,7 @@ class Client:
         """Used for safe client cleanup and stuff."""
         await self.session.close()
 
-    async def get(self, path: str, params: Dict = None) -> dict:
+    async def get(self, path: str, params: Optional[Dict] = None) -> dict:
         """Base function to get raw data from hypixel.
 
         Args:
@@ -63,10 +63,10 @@ class Client:
         Returns:
             dict: returns a dictionary of the json response
         """
-        params["key"] = self.api_key
-
         if params is None:
             params = {}
+
+        params["key"] = self.api_key
 
         response = await self.session.get(f"{BASE_URL}{path}", params=params)
 
@@ -457,7 +457,7 @@ class Client:
         """
         params = {"name": guild_name}
         data = await self.get("guild", params=params)
-        guild_object = await self.create_guild_object(data)
+        guild_object = self.create_guild_object(data)
         return guild_object
 
     async def get_guild_by_id(self, guild_id: int) -> Guild:
@@ -471,7 +471,7 @@ class Client:
         """
         params = {"id": guild_id}
         data = await self.get("guild", params=params)
-        guild_object = await self.create_guild_object(data)
+        guild_object = self.create_guild_object(data)
         return guild_object
 
     async def get_guild_by_player(self, player_uuid: str) -> Guild:
@@ -486,7 +486,7 @@ class Client:
         player_uuid = player_uuid.replace("-", "")
         params = {"player": player_uuid}
         data = await self.get("guild", params=params)
-        guild_object = await self.create_guild_object(data)
+        guild_object = self.create_guild_object(data)
         return guild_object
 
     @staticmethod

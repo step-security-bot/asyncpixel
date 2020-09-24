@@ -4,33 +4,6 @@ import datetime
 from typing import List
 
 
-class Auction:
-    """Main auction object."""
-
-    def __init__(
-        self,
-        page: str,
-        totalPages: str,
-        totalAuctions: str,
-        lastUpdated: datetime.datetime,
-        auctions: str,
-    ) -> None:
-        """Init main object.
-
-        Args:
-            page (str): page
-            totalPages (str): totalPages
-            totalAuctions (str):totalAuctions
-            lastUpdated (datetime.datetime): lastUpdated
-            auctions (str): auctions
-        """
-        self.page = page
-        self.totalPages = totalPages
-        self.totalAuctions = totalAuctions
-        self.lastUpdated = lastUpdated
-        self.auctions = auctions
-
-
 class Auction_item:
     """auction item class."""
 
@@ -95,3 +68,30 @@ class Auction_item:
         self.claimed_bidders = claimed_bidders
         self.highest_bid_amount = highest_bid_amount
         self.bids = bids
+
+
+class Auction:
+    """Main auction object."""
+
+    def __init__(
+        self,
+        page: str,
+        totalPages: str,
+        totalAuctions: str,
+        lastUpdated: datetime.datetime,
+        auctions: List[Auction_item],
+    ) -> None:
+        """Init main object.
+
+        Args:
+            page (str): page
+            totalPages (str): totalPages
+            totalAuctions (str):totalAuctions
+            lastUpdated (datetime.datetime): lastUpdated
+            auctions (List[Auction_item]): auctions
+        """
+        self.page = page
+        self.totalPages = totalPages
+        self.totalAuctions = totalAuctions
+        self.lastUpdated = lastUpdated
+        self.auctions = auctions

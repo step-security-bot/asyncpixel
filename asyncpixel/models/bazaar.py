@@ -96,9 +96,9 @@ class Bazaar_item:
         self,
         name: str,
         product_id: str,
-        sell_summary: Bazaar_sell_summary,
-        buy_summary: Bazaar_buy_summary,
-        quick_status: List[Bazaar_quick_status],
+        sell_summary: List[Bazaar_sell_summary],
+        buy_summary: List[Bazaar_buy_summary],
+        quick_status: Bazaar_quick_status,
     ) -> None:
         """Init object.
 
@@ -107,7 +107,7 @@ class Bazaar_item:
             product_id (str): [description]
             sell_summary (Bazaar_sell_summary): [description]
             buy_summary (Bazaar_buy_summary): [description]
-            quick_status (List[Bazaar_quick_status]): [description]
+            quick_status (Bazaar_quick_status): [description]
         """
         self.name = name
         self.product_id = product_id
