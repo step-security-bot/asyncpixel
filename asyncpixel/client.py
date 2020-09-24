@@ -213,9 +213,6 @@ class Client:
         params = {"uuid": uuid}
         data = await self.get("friends", params=params)
 
-        if not data["success"]:
-            return None
-
         friend_list = []
         for friend in data["records"]:
             friend_list.append(
@@ -340,9 +337,6 @@ class Client:
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("recentGames", params=params)
-
-        if not data["success"]:
-            return None
 
         games_list = []
         for game in data["games"]:
