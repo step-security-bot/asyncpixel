@@ -42,15 +42,15 @@ class Player:
         """Init object.
 
         Args:
-            _id (str): [description]
-            uuid (str): [description]
-            firstLogin (datetime.datetime): [description]
-            playername (str): [description]
-            lastLogin (datetime.datetime): [description]
-            displayname (str): [description]
-            knownAliases (List[str]): [description]
-            knownAliasesLower (List[str]): [description]
-            achievementsOneTime (List[str]): [description]
+            _id (str): id of player
+            uuid (str): uuid of player
+            firstLogin (datetime.datetime): date of first login
+            playername (str): in game username
+            lastLogin (datetime.datetime): most recent login
+            displayname (str): player display name
+            knownAliases (List[str]): known usernames
+            knownAliasesLower (List[str]): known usernames lower case
+            achievementsOneTime (List[str]): achievements
             mcVersionRp (str): [description]
             networkExp (int): [description]
             karma (int): [description]
