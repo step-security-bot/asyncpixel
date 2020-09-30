@@ -1,8 +1,12 @@
+"""Player objects."""
+
 import datetime
 from typing import List
 
 
 class Player:
+    """Player object."""
+
     def __init__(
         self,
         _id: str,
@@ -34,7 +38,40 @@ class Player:
         channel: str,
         mostRecentGameType: str,
         level: int,
-    ):
+    ) -> None:
+        """Init object.
+
+        Args:
+            _id (str): id of player.
+            uuid (str): uuid of player.
+            firstLogin (datetime.datetime): date of first login.
+            playername (str): in game username.
+            lastLogin (datetime.datetime): most recent login.
+            displayname (str): player display name.
+            knownAliases (List[str]): known usernames.
+            knownAliasesLower (List[str]): known usernames lower case.
+            achievementsOneTime (List[str]): achievements.
+            mcVersionRp (str): mcVersionRp.
+            networkExp (int): networkExp.
+            karma (int): karma.
+            spec_always_flying (bool): spec_always_flying.
+            lastAdsenseGenerateTime (datetime.datetime): LastAdsenseGenerateTime.
+            lastClaimedReward (int): lastClaimedReward.
+            totalRewards (int): totalRewards.
+            totalDailyRewards (int): totalDailyRewards.
+            rewardStreak (int): rewardStreak
+            rewardScore (int): rewardScore
+            rewardHighScore (int): rewardHighScore
+            lastLogout (datetime.datetime): lastLogout
+            friendRequestsUuid (List[str]): friendRequestsUuid
+            network_update_book (str): network_update_book
+            achievementTracking (List[str]): achievementTracking
+            achievementPoints (int): achievementPoints
+            currentGadget (str): currentGadget
+            channel (str): channel
+            mostRecentGameType (str): mostRecentGameType
+            level (int): level
+        """
         self.id = _id
         self.uuid = uuid
         self.firstLogin = firstLogin

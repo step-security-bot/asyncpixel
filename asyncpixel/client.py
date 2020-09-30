@@ -1,7 +1,7 @@
 """A Python HypixelAPI wrapper."""
 
 import datetime as dt
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 import aiohttp
 
@@ -28,10 +28,10 @@ BASE_URL = "https://api.hypixel.net/"
 
 
 class Client:
-    """client class for hypixel wrapper."""
+    """Client class for hypixel wrapper."""
 
-    def __init__(self, api_key: str):
-        """Initialise base class by storing keys and creating session
+    def __init__(self, api_key: str) -> None:
+        """Initialise base class by storing keys and creating session.
 
         Args:
             api_key (str): hypixel api key
@@ -42,24 +42,30 @@ class Client:
 
         self.session = aiohttp.ClientSession()
 
-    async def close(self):
-        """used for safe client cleanup and stuff."""
+    async def close(self) -> None:
+        """Used for safe client cleanup and stuff."""
         await self.session.close()
 
-    async def get(self, path: str, params: Dict = {}) -> dict:
+    async def get(self, path: str, params: Optional[Dict] = None) -> dict:
         """Base function to get raw data from hypixel.
 
         Args:
-            path (str): path that you wish to request from
-            params (Dict, optional): parameters to pass into request.
-            Defaults to empty dictionary.
+            path (str):
+                path that you wish to request from
+            params (Dict, optional):
+                parameters to pass into request defaults to empty dictionary
 
         Raises:
             RateLimitError: error if ratelimit has been reached
+            InvalidApiKey: error if api key is invalid
+            ApiNoSuccess: error if api throughs an error
 
         Returns:
             dict: returns a dictionary of the json response
         """
+        if params is None:
+            params = {}
+
         params["key"] = self.api_key
 
         response = await self.session.get(f"{BASE_URL}{path}", params=params)
@@ -102,7 +108,6 @@ class Client:
         Returns:
             Key: Key object
         """
-
         if key is None:
             key = self.api_key
 
@@ -191,12 +196,12 @@ class Client:
                 online=True,
                 gameType=data["session"]["gameType"],
                 _mode=data["session"]["mode"],
-                map=data["session"],
+                _map=data["session"],
             )
         return Status(online=False)
 
     async def get_player_friends(self, uuid: str) -> List[Friend]:
-        """Get a list of a players friends
+        """Get a list of a players friends.
 
         Args:
             uuid (str): the uuid of the player you wish to get friends from
@@ -208,9 +213,6 @@ class Client:
         params = {"uuid": uuid}
         data = await self.get("friends", params=params)
 
-        if not data["success"]:
-            return None
-
         friend_list = []
         for friend in data["records"]:
             friend_list.append(
@@ -218,9 +220,7 @@ class Client:
                     _id=friend["_id"],
                     uuidSender=friend["uuidSender"],
                     uuidReceiver=friend["uuidReceiver"],
-                    started=dt.datetime.fromtimestamp(
-                        friend["started"] / 1000
-                    ),
+                    started=dt.datetime.fromtimestamp(friend["started"] / 1000),
                 )
             )
 
@@ -232,7 +232,6 @@ class Client:
         Returns:
             Bazaar: object for bazzar
         """
-
         data = await self.get("skyblock/bazaar")
 
         bazaar_items = []
@@ -293,7 +292,6 @@ class Client:
         Returns:
             Auction: Auction object.
         """
-
         params = {"page": page}
         data = await self.get("skyblock/auctions", params=params)
         auction_list = []
@@ -328,7 +326,7 @@ class Client:
         )
 
     async def get_recent_games(self, uuid: str) -> List[Game]:
-        """Get recent games of a player
+        """Get recent games of a player.
 
         Args:
             uuid (str): uuid of player
@@ -336,13 +334,9 @@ class Client:
         Returns:
             List[Game]: list of recent games
         """
-
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("recentGames", params=params)
-
-        if not data["success"]:
-            return None
 
         games_list = []
         for game in data["games"]:
@@ -369,7 +363,7 @@ class Client:
         return games_list
 
     async def get_player(self, uuid: str) -> Player:
-        """Get information about a player from their uuid
+        """Get information about a player from their uuid.
 
         Args:
             uuid (str): uuid of player
@@ -377,7 +371,6 @@ class Client:
         Returns:
             Player: player object
         """
-
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("player", params=params)
@@ -385,13 +378,9 @@ class Client:
         return Player(
             _id=data["player"]["_id"],
             uuid=data["player"]["uuid"],
-            firstLogin=dt.datetime.fromtimestamp(
-                data["player"]["firstLogin"] / 1000
-            ),
+            firstLogin=dt.datetime.fromtimestamp(data["player"]["firstLogin"] / 1000),
             playername=data["player"]["playername"],
-            lastLogin=dt.datetime.fromtimestamp(
-                data["player"]["lastLogin"] / 1000
-            ),
+            lastLogin=dt.datetime.fromtimestamp(data["player"]["lastLogin"] / 1000),
             displayname=data["player"]["displayname"],
             knownAliases=data["player"]["knownAliases"],
             knownAliasesLower=data["player"]["knownAliasesLower"],
@@ -407,9 +396,7 @@ class Client:
             rewardStreak=data["player"]["rewardStreak"],
             rewardScore=data["player"]["rewardScore"],
             rewardHighScore=data["player"]["rewardHighScore"],
-            lastLogout=dt.datetime.fromtimestamp(
-                data["player"]["lastLogout"] / 1000
-            ),
+            lastLogout=dt.datetime.fromtimestamp(data["player"]["lastLogout"] / 1000),
             friendRequestsUuid=data["player"]["friendRequestsUuid"],
             network_update_book=data["player"]["network_update_book"],
             achievementTracking=data["player"]["achievementTracking"],
@@ -446,7 +433,7 @@ class Client:
         return data["guild"]
 
     async def find_guild_by_uuid(self, uuid: str) -> str:
-        """Find guild by uuid
+        """Find guild by uuid.
 
         Args:
             uuid (str): uuid of guild
@@ -454,14 +441,13 @@ class Client:
         Returns:
             str: id of guild
         """
-
         uuid = uuid.replace("-", "")
         params = {"byUuid": uuid}
         data = await self.get("findGuild", params=params)
         return data["guild"]
 
     async def get_guild_by_name(self, guild_name: str) -> Guild:
-        """Get guild by name
+        """Get guild by name.
 
         Args:
             guild_name (str): name of guild
@@ -469,28 +455,27 @@ class Client:
         Returns:
             Guild: guild object
         """
-
         params = {"name": guild_name}
         data = await self.get("guild", params=params)
-        guild_object = await self.create_guild_object(data)
+        guild_object = self.create_guild_object(data)
         return guild_object
 
     async def get_guild_by_id(self, guild_id: int) -> Guild:
-        """Get guild by id
+        """Get guild by id.
 
         Args:
-            guild_id (str): id of guild
+            guild_id (int): id of guild
 
         Returns:
             Guild: guild object
         """
         params = {"id": guild_id}
         data = await self.get("guild", params=params)
-        guild_object = await self.create_guild_object(data)
+        guild_object = self.create_guild_object(data)
         return guild_object
 
     async def get_guild_by_player(self, player_uuid: str) -> Guild:
-        """Get guild by player
+        """Get guild by player.
 
         Args:
             player_uuid (str): uuid of a player in the guild
@@ -498,15 +483,22 @@ class Client:
         Returns:
             Guild: guild object
         """
-
         player_uuid = player_uuid.replace("-", "")
         params = {"player": player_uuid}
         data = await self.get("guild", params=params)
-        guild_object = await self.create_guild_object(data)
+        guild_object = self.create_guild_object(data)
         return guild_object
 
     @staticmethod
-    def create_guild_object(data) -> Guild:
+    def create_guild_object(data: Dict) -> Guild:
+        """Create guild object from json.
+
+        Args:
+            data (dict): json
+
+        Returns:
+            Guild: guild object
+        """
         guild = data["guild"]
         return Guild(
             _id=guild["_id"],
@@ -534,13 +526,12 @@ class Client:
         """Get profile info of a skyblock player.
 
         Args:
-            _profile (str): profile id of player ca be gotten from
+            profile (str): profile id of player ca be gotten from
                             running get_profiles
 
         Returns:
             Dict: json response
         """
-
         params = {"profile": profile}
         data = await self.get("skyblock/profile", params=params)
         return data["profile"]
@@ -554,34 +545,63 @@ class Client:
         Returns:
             Dict: json response
         """
-
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
         data = await self.get("skyblock/profiles", params=params)
         return data["profiles"]
 
     async def get_auction_from_uuid(self, uuid: str) -> List[Auction_item]:
+        """Get auction from uuid.
+
+        Args:
+            uuid (str): minecraft uuid
+
+        Returns:
+            List[Auction_item]: list of auctions
+        """
         params = {"uuid": uuid}
         data = await self.get("skyblock/auction", params=params)
         auction_items = self.create_auction_object(data)
         return auction_items
 
     async def get_auction_from_player(self, player: str) -> List[Auction_item]:
+        """Get auction data from player.
+
+        Args:
+            player (str): player
+
+        Returns:
+            List[Auction_item]: list of auction items
+        """
         params = {"player": player}
         data = await self.get("skyblock/auction", params=params)
         auction_items = self.create_auction_object(data)
         return auction_items
 
-    async def get_auction_from_profile(
-        self, profile_id: str
-    ) -> List[Auction_item]:
+    async def get_auction_from_profile(self, profile_id: str) -> List[Auction_item]:
+        """Get auction data from profile.
+
+        Args:
+            profile_id (str): profile id
+
+        Returns:
+            List[Auction_item]: list of auction items
+        """
         params = {"profile": profile_id}
         data = await self.get("skyblock/auction", params=params)
         auction_items = self.create_auction_object(data)
         return auction_items
 
     @staticmethod
-    def create_auction_object(data) -> List[Auction_item]:
+    def create_auction_object(data: Dict) -> List[Auction_item]:
+        """Create auction object.
+
+        Args:
+            data (Dict): json input
+
+        Returns:
+            List[Auction_item]: auction object list
+        """
         auction_list = []
         for auc in data["auctions"]:
             auction_list.append(
@@ -611,27 +631,25 @@ class Client:
     # NOT FULLY IMPLEMENTED
 
     async def get_game_count(self) -> dict:
-        """Get the current game count
+        """Get the current game count.
 
         Returns:
             dict: raw json response
         """
-
         data = await self.get("gameCounts")
         return data["games"]
 
     async def get_leaderboard(self) -> dict:
-        """Get the current leaderboards
+        """Get the current leaderboards.
 
         Returns:
             dict: raw json response
         """
-
         data = await self.get("leaderboards")
         return data["leaderboards"]
 
     async def get_resources_achievements(self) -> dict:
-        """Get the current resources. Does not require api key
+        """Get the current resources. Does not require api key.
 
         Returns:
             dict: raw json response
@@ -640,7 +658,7 @@ class Client:
         return data["achievements"]
 
     async def get_resources_challenges(self) -> dict:
-        """Get the current resources. Does not require api key
+        """Get the current resources. Does not require api key.
 
         Returns:
             dict: raw json response
@@ -649,7 +667,7 @@ class Client:
         return data["challenges"]
 
     async def get_resources_quests(self) -> dict:
-        """Get the current resources. Does not require api key
+        """Get the current resources. Does not require api key.
 
         Returns:
             dict: raw json response
@@ -658,7 +676,7 @@ class Client:
         return data["quests"]
 
     async def get_resources_guilds_achievements(self) -> dict:
-        """Get the current resources. Does not require api key
+        """Get the current resources. Does not require api key.
 
         Returns:
             dict: raw json response
@@ -667,7 +685,7 @@ class Client:
         return data["guilds/achievements"]
 
     async def get_resources_guilds_permissions(self) -> dict:
-        """Get the current resources. Does not require api key
+        """Get the current resources. Does not require api key.
 
         Returns:
             dict: raw json response
@@ -676,7 +694,7 @@ class Client:
         return data["guilds/permissions"]
 
     async def get_resources_skyblock_collections(self) -> dict:
-        """Get the current resources. Does not require api key
+        """Get the current resources. Does not require api key.
 
         Returns:
             dict: raw json response
@@ -685,7 +703,7 @@ class Client:
         return data["skyblock/collections"]
 
     async def get_resources_skyblock_skills(self) -> dict:
-        """Get the current resources. Does not require api key
+        """Get the current resources. Does not require api key.
 
         Returns:
             dict: raw json response

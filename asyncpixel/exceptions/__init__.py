@@ -1,1 +1,1 @@
-
+"""Exceptions for asyncpixel."""

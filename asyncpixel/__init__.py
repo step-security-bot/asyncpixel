@@ -1,5 +1,4 @@
-"""
-asyncpixel
+"""Asyncpixel.
 
 An asyncronous hypixel api wrapper
 """
@@ -15,5 +14,3 @@ try:
 except PackageNotFoundError:  # pragma: no cover
     __version__ = "unknown"
 __author__ = "Leon Bowie"
-
-from .client import Client
