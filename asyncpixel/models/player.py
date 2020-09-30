@@ -42,35 +42,35 @@ class Player:
         """Init object.
 
         Args:
-            _id (str): id of player
-            uuid (str): uuid of player
-            firstLogin (datetime.datetime): date of first login
-            playername (str): in game username
-            lastLogin (datetime.datetime): most recent login
-            displayname (str): player display name
-            knownAliases (List[str]): known usernames
-            knownAliasesLower (List[str]): known usernames lower case
-            achievementsOneTime (List[str]): achievements
-            mcVersionRp (str): [description]
-            networkExp (int): [description]
-            karma (int): [description]
-            spec_always_flying (bool): [description]
-            lastAdsenseGenerateTime (datetime.datetime): [description]
-            lastClaimedReward (int): [description]
-            totalRewards (int): [description]
-            totalDailyRewards (int): [description]
-            rewardStreak (int): [description]
-            rewardScore (int): [description]
-            rewardHighScore (int): [description]
-            lastLogout (datetime.datetime): [description]
-            friendRequestsUuid (List[str]): [description]
-            network_update_book (str): [description]
-            achievementTracking (List[str]): [description]
-            achievementPoints (int): [description]
-            currentGadget (str): [description]
-            channel (str): [description]
-            mostRecentGameType (str): [description]
-            level (int): [description]
+            _id (str): id of player.
+            uuid (str): uuid of player.
+            firstLogin (datetime.datetime): date of first login.
+            playername (str): in game username.
+            lastLogin (datetime.datetime): most recent login.
+            displayname (str): player display name.
+            knownAliases (List[str]): known usernames.
+            knownAliasesLower (List[str]): known usernames lower case.
+            achievementsOneTime (List[str]): achievements.
+            mcVersionRp (str): mcVersionRp.
+            networkExp (int): networkExp.
+            karma (int): karma.
+            spec_always_flying (bool): spec_always_flying.
+            lastAdsenseGenerateTime (datetime.datetime): LastAdsenseGenerateTime.
+            lastClaimedReward (int): lastClaimedReward.
+            totalRewards (int): totalRewards.
+            totalDailyRewards (int): totalDailyRewards.
+            rewardStreak (int): rewardStreak
+            rewardScore (int): rewardScore
+            rewardHighScore (int): rewardHighScore
+            lastLogout (datetime.datetime): lastLogout
+            friendRequestsUuid (List[str]): friendRequestsUuid
+            network_update_book (str): network_update_book
+            achievementTracking (List[str]): achievementTracking
+            achievementPoints (int): achievementPoints
+            currentGadget (str): currentGadget
+            channel (str): channel
+            mostRecentGameType (str): mostRecentGameType
+            level (int): level
         """
         self.id = _id
         self.uuid = uuid

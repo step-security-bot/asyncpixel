@@ -11,9 +11,9 @@ class Bazaar_buy_summary:
         """Init object.
 
         Args:
-            amount (int): [description]
-            pricePerUnit (int): [description]
-            orders (int): [description]
+            amount (int): Amount.
+            pricePerUnit (int): Price Per Unit.
+            orders (int): Amount of orders.
         """
         self.amount = amount
         self.pricePerUnit = pricePerUnit
@@ -27,9 +27,9 @@ class Bazaar_sell_summary:
         """Init object.
 
         Args:
-            amount (int): [description]
-            pricePerUnit (int): [description]
-            orders (int): [description]
+            amount (int): Amount.
+            pricePerUnit (int): Price Per Unit.
+            orders (int): How many orders.
         """
         self.amount = amount
         self.pricePerUnit = pricePerUnit
@@ -54,15 +54,17 @@ class Bazaar_quick_status:
         """Init object.
 
         Args:
-            productId (str): [description]
-            sellPrice (float): [description]
-            sellVolume (int): [description]
-            sellMovingWeek (int): [description]
-            sellOrders (int): [description]
-            buyPrice (float): [description]
-            buyVolume (int): [description]
-            buyMovingWeek (int): [description]
-            buyOrders (int): [description]
+            productId (str): ID of the product being sold.
+            sellPrice (float): Weighted average of the top 2%
+                of orders by volume.
+            sellVolume (int):  Sum of item amounts in all orders.
+            sellMovingWeek (int): Volume sold in the last 7 days + live.
+            sellOrders (int): Count of current orders.
+            buyPrice (float): Weighted average of the top 2%
+                of orders by volume.
+            buyVolume (int): Sum of item amounts in all orders.
+            buyMovingWeek (int): Volume sold in the last 7 days + live.
+            buyOrders (int): count of current orders.
         """
         self.productId = productId
         self.sellPrice = sellPrice
@@ -82,8 +84,9 @@ class Bazaar:
         """Init object.
 
         Args:
-            lastUpdated (datetime.datetime): [description]
-            bazaar_items (List): [description]
+            lastUpdated (datetime.datetime): dateTime of when the data
+                was last updated.
+            bazaar_items (List): List of Bazaar items
         """
         self.lastUpdated = lastUpdated
         self.bazaar_items = bazaar_items
@@ -103,11 +106,14 @@ class Bazaar_item:
         """Init object.
 
         Args:
-            name (str): [description]
-            product_id (str): [description]
-            sell_summary (Bazaar_sell_summary): [description]
-            buy_summary (Bazaar_buy_summary): [description]
-            quick_status (Bazaar_quick_status): [description]
+            name (str): Name of the product being sold.
+            product_id (str): Product ID of item being sold.
+            sell_summary (Bazaar_sell_summary): List of current top 30 orders
+                for this product.
+            buy_summary (Bazaar_buy_summary): List of current top 30 orders
+                for this product.
+            quick_status (Bazaar_quick_status): Computed summary of live
+                state of the product.
         """
         self.name = name
         self.product_id = product_id

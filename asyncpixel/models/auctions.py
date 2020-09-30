@@ -31,24 +31,24 @@ class Auction_item:
         """Auction Object.
 
         Args:
-            uuid (str): [description]
-            auctioneer (str): [description]
-            profile_id (str): [description]
-            coop (List[str]): [description]
-            start (datetime.datetime): [description]
-            end (datetime.datetime): [description]
-            item_name (str): [description]
-            item_lore (str): [description]
-            extra (str): [description]
-            category (str): [description]
-            tier (str): [description]
-            starting_bid (int): [description]
-            item_bytes (str): [description]
-            claimed (bool): [description]
-            claimed_bidders (List): [description]
-            highest_bid_amount (int): [description]
-            bids (List): [description]
-            _id (str, optional): [description]. Defaults to None.
+            uuid (str): UUID of Auction.
+            auctioneer (str): UUID of Auctioneer.
+            profile_id (str): UUID of the player.
+            coop (List[str]): coop.
+            start (datetime.datetime): Auction start time.
+            end (datetime.datetime): Auction end time.
+            item_name (str): Name of the item for auction.
+            item_lore (str): Lore of the item for auction.
+            extra (str): Extra information about the item for auction.
+            category (str): The category the item is in.
+            tier (str): The tier of the item.
+            starting_bid (int): Starting bid of the item.
+            item_bytes (str): item_bytes.
+            claimed (bool): If the item has been claimed.
+            claimed_bidders (List): List of bidders who have claimed the item.
+            highest_bid_amount (int): Highest amount bid on the iteam.
+            bids (List): List of bids on the item.
+            _id (str, optional): _id of the auction. Defaults to None.
         """
         self.id = _id
         self.uuid = uuid
@@ -84,11 +84,11 @@ class Auction:
         """Init main object.
 
         Args:
-            page (str): page
-            totalPages (str): totalPages
-            totalAuctions (str):totalAuctions
-            lastUpdated (datetime.datetime): lastUpdated
-            auctions (List[Auction_item]): auctions
+            page (str): Current page number.
+            totalPages (str): Total pages.
+            totalAuctions (str): Total auctions.
+            lastUpdated (datetime.datetime): When data was last updated
+            auctions (List[Auction_item]): List of auctions
         """
         self.page = page
         self.totalPages = totalPages
