@@ -34,9 +34,9 @@ class Client:
         """Initialise base class by storing keys and creating session.
 
         Args:
-            api_key (str): hypixel api key
+            api_key (str): hypixel api key.
         """
-        # Handles the instance of a singular key
+        # Handles the instance of a singular key.
 
         self.api_key = api_key
 
@@ -51,17 +51,17 @@ class Client:
 
         Args:
             path (str):
-                path that you wish to request from
+                path that you wish to request from.
             params (Dict, optional):
-                parameters to pass into request defaults to empty dictionary
+                parameters to pass into request defaults to empty dictionary.
 
         Raises:
-            RateLimitError: error if ratelimit has been reached
-            InvalidApiKey: error if api key is invalid
+            RateLimitError: error if ratelimit has been reached.
+            InvalidApiKey: error if api key is invalid.
             ApiNoSuccess: error if api throughs an error
 
         Returns:
-            dict: returns a dictionary of the json response
+            dict: returns a dictionary of the json response.
         """
         if params is None:
             params = {}
@@ -87,7 +87,7 @@ class Client:
         """Get current watchdog stats.
 
         Returns:
-            WatchDog: WatchDog stats object
+            WatchDog: WatchDog stats object.
         """
         data = await self.get("watchdogstats")
 
@@ -106,7 +106,7 @@ class Client:
             key (str, optional): api key. Defaults token provided in class.
 
         Returns:
-            Key: Key object
+            Key: Key object.
         """
         if key is None:
             key = self.api_key
@@ -125,7 +125,7 @@ class Client:
         """Get the current online boosters.
 
         Returns:
-            Boosters: object containing boosters
+            Boosters: object containing boosters.
         """
         data = await self.get("boosters")
         boosterlist = []
@@ -154,7 +154,7 @@ class Client:
         """Get the current amount of players online.
 
         Returns:
-            int: number of online players
+            int: number of online players.
         """
         data = await self.get("playerCount")
 
@@ -164,7 +164,7 @@ class Client:
         """Get current skyblock news.
 
         Returns:
-            List[News]: List of news objects
+            List[News]: List of news objects.
         """
         data = await self.get("skyblock/news")
         news_list = []
@@ -184,10 +184,10 @@ class Client:
         """Get current online status about a player.
 
         Args:
-            uuid (str): uuid of player
+            uuid (str): uuid of player.
 
         Returns:
-            Status: Status object of player
+            Status: Status object of player.
         """
         uuid = uuid.replace("-", "")
         data = await self.get("status", params={"uuid": uuid})
@@ -204,10 +204,10 @@ class Client:
         """Get a list of a players friends.
 
         Args:
-            uuid (str): the uuid of the player you wish to get friends from
+            uuid (str): the uuid of the player you wish to get friends from.
 
         Returns:
-            List[Friend]: returns a list of friend elements
+            List[Friend]: returns a list of friend elements.
         """
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
@@ -230,7 +230,7 @@ class Client:
         """Get info of the items in the bazaar.
 
         Returns:
-            Bazaar: object for bazzar
+            Bazaar: object for bazzar.
         """
         data = await self.get("skyblock/bazaar")
 
@@ -287,7 +287,7 @@ class Client:
         """Get the auctions available.
 
         Args:
-            page (int, optional): Page of auction list you want. Defaults to 0.
+            page (int, optional): Page of auction list you would like. Defaults to 0.
 
         Returns:
             Auction: Auction object.
@@ -329,10 +329,10 @@ class Client:
         """Get recent games of a player.
 
         Args:
-            uuid (str): uuid of player
+            uuid (str): uuid of player.
 
         Returns:
-            List[Game]: list of recent games
+            List[Game]: list of recent games.
         """
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
@@ -366,10 +366,10 @@ class Client:
         """Get information about a player from their uuid.
 
         Args:
-            uuid (str): uuid of player
+            uuid (str): uuid of player.
 
         Returns:
-            Player: player object
+            Player: player object.
         """
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
@@ -412,10 +412,10 @@ class Client:
         """Calculate player level from xp.
 
         Args:
-            xp (int): amount of xp a player has
+            xp (int): amount of xp a player has.
 
         Returns:
-            int: current level of player
+            int: current level of player.
         """
         return int(1 + (-8750.0 + (8750 ** 2 + 5000 * xp) ** 0.5) / 2500)
 
@@ -423,10 +423,10 @@ class Client:
         """Find guild id by name.
 
         Args:
-            name (str): name of guild
+            name (str): name of guild.
 
         Returns:
-            str: id of guild
+            str: id of guild.
         """
         params = {"byName": name}
         data = await self.get("findGuild", params=params)
@@ -436,10 +436,10 @@ class Client:
         """Find guild by uuid.
 
         Args:
-            uuid (str): uuid of guild
+            uuid (str): uuid of guild.
 
         Returns:
-            str: id of guild
+            str: id of guild.
         """
         uuid = uuid.replace("-", "")
         params = {"byUuid": uuid}
@@ -450,10 +450,10 @@ class Client:
         """Get guild by name.
 
         Args:
-            guild_name (str): name of guild
+            guild_name (str): name of guild.
 
         Returns:
-            Guild: guild object
+            Guild: guild object.
         """
         params = {"name": guild_name}
         data = await self.get("guild", params=params)
@@ -464,10 +464,10 @@ class Client:
         """Get guild by id.
 
         Args:
-            guild_id (int): id of guild
+            guild_id (int): id of guild.
 
         Returns:
-            Guild: guild object
+            Guild: guild object.
         """
         params = {"id": guild_id}
         data = await self.get("guild", params=params)
@@ -478,10 +478,10 @@ class Client:
         """Get guild by player.
 
         Args:
-            player_uuid (str): uuid of a player in the guild
+            player_uuid (str): uuid of a player in the guild.
 
         Returns:
-            Guild: guild object
+            Guild: guild object.
         """
         player_uuid = player_uuid.replace("-", "")
         params = {"player": player_uuid}
@@ -494,10 +494,10 @@ class Client:
         """Create guild object from json.
 
         Args:
-            data (dict): json
+            data (dict): json.
 
         Returns:
-            Guild: guild object
+            Guild: guild object.
         """
         guild = data["guild"]
         return Guild(
@@ -526,11 +526,11 @@ class Client:
         """Get profile info of a skyblock player.
 
         Args:
-            profile (str): profile id of player ca be gotten from
-                            running get_profiles
+            profile (str): profile id of player can be gotten from
+                            running get_profiles.
 
         Returns:
-            Dict: json response
+            Dict: json response.
         """
         params = {"profile": profile}
         data = await self.get("skyblock/profile", params=params)
@@ -540,10 +540,10 @@ class Client:
         """Get info on a profile.
 
         Args:
-            uuid (str): uuid of player
+            uuid (str): uuid of player.
 
         Returns:
-            Dict: json response
+            Dict: json response.
         """
         uuid = uuid.replace("-", "")
         params = {"uuid": uuid}
@@ -554,10 +554,10 @@ class Client:
         """Get auction from uuid.
 
         Args:
-            uuid (str): minecraft uuid
+            uuid (str): minecraft uuid.
 
         Returns:
-            List[Auction_item]: list of auctions
+            List[Auction_item]: list of auctions.
         """
         params = {"uuid": uuid}
         data = await self.get("skyblock/auction", params=params)
@@ -568,10 +568,10 @@ class Client:
         """Get auction data from player.
 
         Args:
-            player (str): player
+            player (str): player.
 
         Returns:
-            List[Auction_item]: list of auction items
+            List[Auction_item]: list of auction items.
         """
         params = {"player": player}
         data = await self.get("skyblock/auction", params=params)
@@ -582,10 +582,10 @@ class Client:
         """Get auction data from profile.
 
         Args:
-            profile_id (str): profile id
+            profile_id (str): profile id.
 
         Returns:
-            List[Auction_item]: list of auction items
+            List[Auction_item]: list of auction items.
         """
         params = {"profile": profile_id}
         data = await self.get("skyblock/auction", params=params)
@@ -597,10 +597,10 @@ class Client:
         """Create auction object.
 
         Args:
-            data (Dict): json input
+            data (Dict): json input.
 
         Returns:
-            List[Auction_item]: auction object list
+            List[Auction_item]: auction object list.
         """
         auction_list = []
         for auc in data["auctions"]:
@@ -634,7 +634,7 @@ class Client:
         """Get the current game count.
 
         Returns:
-            dict: raw json response
+            dict: raw json response.
         """
         data = await self.get("gameCounts")
         return data["games"]
@@ -643,7 +643,7 @@ class Client:
         """Get the current leaderboards.
 
         Returns:
-            dict: raw json response
+            dict: raw json response.
         """
         data = await self.get("leaderboards")
         return data["leaderboards"]
@@ -652,7 +652,7 @@ class Client:
         """Get the current resources. Does not require api key.
 
         Returns:
-            dict: raw json response
+            dict: raw json response.
         """
         data = await self.get("resources/achievements")
         return data["achievements"]
@@ -661,7 +661,7 @@ class Client:
         """Get the current resources. Does not require api key.
 
         Returns:
-            dict: raw json response
+            dict: raw json response.
         """
         data = await self.get("resources/challenges")
         return data["challenges"]
@@ -670,7 +670,7 @@ class Client:
         """Get the current resources. Does not require api key.
 
         Returns:
-            dict: raw json response
+            dict: raw json response.
         """
         data = await self.get("resources/quests")
         return data["quests"]
@@ -679,7 +679,7 @@ class Client:
         """Get the current resources. Does not require api key.
 
         Returns:
-            dict: raw json response
+            dict: raw json response.
         """
         data = await self.get("resources/guilds/achievements")
         return data["guilds/achievements"]
@@ -688,7 +688,7 @@ class Client:
         """Get the current resources. Does not require api key.
 
         Returns:
-            dict: raw json response
+            dict: raw json response.
         """
         data = await self.get("resources/guilds/permissions")
         return data["guilds/permissions"]
@@ -697,7 +697,7 @@ class Client:
         """Get the current resources. Does not require api key.
 
         Returns:
-            dict: raw json response
+            dict: raw json response.
         """
         data = await self.get("resources/skyblock/collections")
         return data["skyblock/collections"]
@@ -706,7 +706,7 @@ class Client:
         """Get the current resources. Does not require api key.
 
         Returns:
-            dict: raw json response
+            dict: raw json response.
         """
         data = await self.get("resources/skyblock/skills")
         return data["skyblock/skills"]

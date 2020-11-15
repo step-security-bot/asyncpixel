@@ -87,8 +87,8 @@ class Auction:
             page (str): Current page number.
             totalPages (str): Total pages.
             totalAuctions (str): Total auctions.
-            lastUpdated (datetime.datetime): When data was last updated
-            auctions (List[Auction_item]): List of auctions
+            lastUpdated (datetime.datetime): When data was last updated.
+            auctions (List[Auction_item]): List of auctions.
         """
         self.page = page
         self.totalPages = totalPages

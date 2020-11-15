@@ -86,7 +86,7 @@ class Bazaar:
         Args:
             lastUpdated (datetime.datetime): dateTime of when the data
                 was last updated.
-            bazaar_items (List): List of Bazaar items
+            bazaar_items (List): List of Bazaar items.
         """
         self.lastUpdated = lastUpdated
         self.bazaar_items = bazaar_items

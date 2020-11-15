@@ -10,11 +10,11 @@ class Key:
         """Init key object.
 
         Args:
-            key (str): key str
-            owner (str): owner uuid
-            limit (int): max queries per minute
-            queriesInPastMin (int): last queries per minute
-            totalQueries (int): total ever quries
+            key (str): key str.
+            owner (str): owner uuid.
+            limit (int): max queries per minute.
+            queriesInPastMin (int): last queries per minute.
+            totalQueries (int): total ever quries.
         """
         self.key = key
         self.owner = owner

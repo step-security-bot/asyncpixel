@@ -10,7 +10,7 @@ class Status:
         """Init class.
 
         Args:
-            online (bool): online status
+            online (bool): online status.
             gameType ([str], optional): current game. Defaults to None.
             _mode ([str], optional): game mode. Defaults to None.
             _map ([str], optional): map. Defaults to None.

@@ -15,11 +15,11 @@ class WatchDog:
         """Watchdog stats.
 
         Args:
-            watchdog_lastMinute ([int]): watchdog bans in last minute
-            staff_rollingDaily ([int]): bans in the day by staff
-            watchdog_total ([int]): total bans
-            watchdog_rollingDaily ([int]): watchdog bans that day
-            staff_total ([int]): total ever staff
+            watchdog_lastMinute ([int]): watchdog bans in last minute.
+            staff_rollingDaily ([int]): bans in the day by staff.
+            watchdog_total ([int]): total bans.
+            watchdog_rollingDaily ([int]): watchdog bans that day.
+            staff_total ([int]): total ever staff.
         """
         self.watchdog_lastMinute = watchdog_lastMinute
         self.staff_rollingDaily = staff_rollingDaily

@@ -17,10 +17,10 @@ class Game:
         """Init game class.
 
         Args:
-            date (datetime.datetime): date
-            gameType (str): gametype
-            mode (str): mode
-            _map (str): game
+            date (datetime.datetime): date.
+            gameType (str): gametype.
+            mode (str): mode.
+            _map (str): game.
             ended (datetime.datetime, optional): ended. Defaults to None.
         """
         self.date = date

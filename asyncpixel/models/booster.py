@@ -21,13 +21,13 @@ class Booster:
         """Class for a booster.
 
         Args:
-            _id (str): id of booster
-            purchaserUuid (str): purchaser uuid
-            amount (int): amount of boosters
-            originalLength (int): original lenth
-            length (int): length
-            gameType (int): type of game applied to
-            dateActivated (datetime.datetime): date activated
+            _id (str): id of booster.
+            purchaserUuid (str): purchaser uuid.
+            amount (int): amount of boosters.
+            originalLength (int): original lenth.
+            length (int): length.
+            gameType (int): type of game applied to.
+            dateActivated (datetime.datetime): date activated.
             stacked (bool, optional): wether stacked]. Defaults to False.
         """
         self._id = _id
@@ -47,8 +47,8 @@ class Boosters:
         """Init object.
 
         Args:
-            boosterStatedecrementing (bool): wether boosters stacked
-            boosters (List[Booster]): list of boosters
+            boosterStatedecrementing (bool): wether boosters stacked.
+            boosters (List[Booster]): list of boosters.
         """
         self.boosterStatedecrementing = boosterStatedecrementing
         self.boosters = boosters

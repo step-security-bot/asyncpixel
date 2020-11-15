@@ -8,10 +8,10 @@ class News:
         """Init news.
 
         Args:
-            material (str): material
-            link (str): link to artivle
-            text (str): text
-            title (str): title
+            material (str): material.
+            link (str): link to artivle.
+            text (str): text.
+            title (str): title.
         """
         self.material = material
         self.link = link

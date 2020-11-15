@@ -59,18 +59,18 @@ class Player:
             lastClaimedReward (int): lastClaimedReward.
             totalRewards (int): totalRewards.
             totalDailyRewards (int): totalDailyRewards.
-            rewardStreak (int): rewardStreak
-            rewardScore (int): rewardScore
-            rewardHighScore (int): rewardHighScore
-            lastLogout (datetime.datetime): lastLogout
-            friendRequestsUuid (List[str]): friendRequestsUuid
-            network_update_book (str): network_update_book
-            achievementTracking (List[str]): achievementTracking
-            achievementPoints (int): achievementPoints
-            currentGadget (str): currentGadget
-            channel (str): channel
-            mostRecentGameType (str): mostRecentGameType
-            level (int): level
+            rewardStreak (int): rewardStreak.
+            rewardScore (int): rewardScore.
+            rewardHighScore (int): rewardHighScore.
+            lastLogout (datetime.datetime): lastLogout.
+            friendRequestsUuid (List[str]): friendRequestsUuid.
+            network_update_book (str): network_update_book.
+            achievementTracking (List[str]): achievementTracking.
+            achievementPoints (int): achievementPoints.
+            currentGadget (str): currentGadget.
+            channel (str): channel.
+            mostRecentGameType (str): mostRecentGameType.
+            level (int): level.
         """
         self.id = _id
         self.uuid = uuid

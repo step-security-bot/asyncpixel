@@ -16,10 +16,10 @@ class Friend:
         """Initialises object.
 
         Args:
-            _id (str): id of friend
-            uuidSender (str): sender of friend request
-            uuidReceiver (str): receiver of friend request
-            started (datetime.datetime): start of friendship
+            _id (str): id of friend.
+            uuidSender (str): sender of friend request.
+            uuidReceiver (str): receiver of friend request.
+            started (datetime.datetime): start of friendship.
         """
         self._id = _id
         self.uuidSender = uuidSender

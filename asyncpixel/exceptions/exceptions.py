@@ -17,7 +17,7 @@ class RateLimitError(Exception):
         """Return error in readable format.
 
         Returns:
-            str: string version of error
+            str: string version of error.
         """
         return self.message
 
@@ -34,7 +34,7 @@ class ApiNoSuccess(Exception):
         """Return error in readable format.
 
         Returns:
-            str: string version of error
+            str: string version of error.
         """
         return self.message
 
@@ -51,6 +51,6 @@ class InvalidApiKey(Exception):
         """Return error in readable format.
 
         Returns:
-            str: string version of error
+            str: string version of error.
         """
         return self.message
