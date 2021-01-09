@@ -1,23 +1,22 @@
 """Main class for key data."""
+import uuid
+
+from pydantic import BaseModel
 
 
-class Key:
-    """Main class for key data."""
+class Key(BaseModel):
+    """Main class for key data.
 
-    def __init__(
-        self, key: str, owner: str, limit: int, queriesInPastMin: int, totalQueries: int
-    ) -> None:
-        """Init key object.
+    Args:
+        key (uuid.UUID): key text.
+        owner (uuid.UUID): uuid of owner.
+        limit (int): Limit of toal queries.
+        queries_in_past_min (int): Queries in the past minute.
+        total_queries (int): Total queries using the key.
+    """
 
-        Args:
-            key (str): key str.
-            owner (str): owner uuid.
-            limit (int): max queries per minute.
-            queriesInPastMin (int): last queries per minute.
-            totalQueries (int): total ever quries.
-        """
-        self.key = key
-        self.owner = owner
-        self.limit = limit
-        self.queriesInPastMin = queriesInPastMin
-        self.totalQueries = totalQueries
+    key: uuid.UUID
+    owner: uuid.UUID
+    limit: int
+    queries_in_past_min: int
+    total_queries: int

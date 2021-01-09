@@ -1,16 +1,16 @@
-"""All exceptions for asyncpixel."""
+"""Custom Exceptions for asyncpixel."""
+import datetime
 
 
 class RateLimitError(Exception):
-    """Raised when a ratelimit is reached."""
+    """Exception raised when Hypixel ratelimit is reached."""
 
-    def __init__(self, source: str = "unknown source") -> None:
-        """Error raised when ratelimit reached.
-
-        Args:
-            source (str, optional): Source of the error. Defaults to "unknown source".
-        """
-        self.message = f"The {source}API ratelimit was reached!"
+    def __init__(self, retry_after: datetime.datetime) -> None:
+        """Create error."""
+        self.message = (
+            "The hypixel API ratelimit was reached, "
+            + f"try again at {retry_after.strftime('%H:%M:%S')}."
+        )
         super().__init__(self.message)
 
     def __str__(self) -> str:
@@ -23,11 +23,14 @@ class RateLimitError(Exception):
 
 
 class ApiNoSuccess(Exception):
-    """Raised when an error occurred."""
+    """Exception raised when api has an error."""
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        source: str,
+    ) -> None:
         """Create error."""
-        self.message = "The method encountered an error on the hypixel side."
+        self.message = f"The {source} endpoint encounted an error on the hypixel side."
         super().__init__(self.message)
 
     def __str__(self) -> str:
@@ -40,7 +43,7 @@ class ApiNoSuccess(Exception):
 
 
 class InvalidApiKey(Exception):
-    """Raised when api key is incorrect."""
+    """Exception raised when the API key is invalid."""
 
     def __init__(self) -> None:
         """Create error."""

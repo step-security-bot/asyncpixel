@@ -1,30 +1,25 @@
 """Game related objects."""
-
 import datetime
+from typing import Optional
+
+from pydantic import BaseModel
+
+from .game_type import gametype
 
 
-class Game:
-    """Game class."""
+class Game(BaseModel):
+    """Game class.
 
-    def __init__(
-        self,
-        date: datetime.datetime,
-        gameType: str,
-        mode: str,
-        _map: str,
-        ended: datetime.datetime = None,
-    ) -> None:
-        """Init game class.
+    Args:
+        date (datetime.datetime): Time game started.
+        game_type (str): Game Type.
+        mode (str): Game mode.
+        map (str): Map the game is on.
+        ended (Optional[datetime.datetime]): Time game ended. Defaults to None.
+    """
 
-        Args:
-            date (datetime.datetime): date.
-            gameType (str): gametype.
-            mode (str): mode.
-            _map (str): game.
-            ended (datetime.datetime, optional): ended. Defaults to None.
-        """
-        self.date = date
-        self.gameType = gameType
-        self.mode = mode
-        self.map = _map
-        self.ended = ended
+    date: datetime.datetime
+    game_type: gametype
+    mode: str
+    map: str
+    ended: Optional[datetime.datetime] = None

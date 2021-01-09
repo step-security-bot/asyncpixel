@@ -1,21 +1,22 @@
 """Status data class."""
+from typing import Optional
+
+from pydantic import BaseModel
+
+from .game_type import gametype
 
 
-class Status:
-    """Status data object."""
+class Status(BaseModel):
+    """Status data object.
 
-    def __init__(
-        self, online: bool, gameType: str = None, _mode: str = None, _map: str = None
-    ) -> None:
-        """Init class.
+    Args:
+        online (bool): Wether player is online.
+        game_type (Optional[str]): Current game player is playing. Defaults to None.
+        mode (Optional[str]): Mode of current game. Defaults to None.
+        map (Optional[str]): Map of current game. Defaults to None.
+    """
 
-        Args:
-            online (bool): online status.
-            gameType ([str], optional): current game. Defaults to None.
-            _mode ([str], optional): game mode. Defaults to None.
-            _map ([str], optional): map. Defaults to None.
-        """
-        self.online = online
-        self.gameType = gameType
-        self.mode = _mode
-        self.map = _map
+    online: bool
+    game_type: Optional[gametype] = None
+    mode: Optional[str] = None
+    map: Optional[str] = None

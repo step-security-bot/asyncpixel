@@ -1,103 +1,76 @@
 """Player objects."""
-
 import datetime
+import uuid
 from typing import List
 
+from pydantic import BaseModel
 
-class Player:
-    """Player object."""
+from .game_type import gametype
 
-    def __init__(
-        self,
-        _id: str,
-        uuid: str,
-        firstLogin: datetime.datetime,
-        playername: str,
-        lastLogin: datetime.datetime,
-        displayname: str,
-        knownAliases: List[str],
-        knownAliasesLower: List[str],
-        achievementsOneTime: List[str],
-        mcVersionRp: str,
-        networkExp: int,
-        karma: int,
-        spec_always_flying: bool,
-        lastAdsenseGenerateTime: datetime.datetime,
-        lastClaimedReward: int,
-        totalRewards: int,
-        totalDailyRewards: int,
-        rewardStreak: int,
-        rewardScore: int,
-        rewardHighScore: int,
-        lastLogout: datetime.datetime,
-        friendRequestsUuid: List[str],
-        network_update_book: str,
-        achievementTracking: List[str],
-        achievementPoints: int,
-        currentGadget: str,
-        channel: str,
-        mostRecentGameType: str,
-        level: int,
-    ) -> None:
-        """Init object.
 
-        Args:
-            _id (str): id of player.
-            uuid (str): uuid of player.
-            firstLogin (datetime.datetime): date of first login.
-            playername (str): in game username.
-            lastLogin (datetime.datetime): most recent login.
-            displayname (str): player display name.
-            knownAliases (List[str]): known usernames.
-            knownAliasesLower (List[str]): known usernames lower case.
-            achievementsOneTime (List[str]): achievements.
-            mcVersionRp (str): mcVersionRp.
-            networkExp (int): networkExp.
-            karma (int): karma.
-            spec_always_flying (bool): spec_always_flying.
-            lastAdsenseGenerateTime (datetime.datetime): LastAdsenseGenerateTime.
-            lastClaimedReward (int): lastClaimedReward.
-            totalRewards (int): totalRewards.
-            totalDailyRewards (int): totalDailyRewards.
-            rewardStreak (int): rewardStreak.
-            rewardScore (int): rewardScore.
-            rewardHighScore (int): rewardHighScore.
-            lastLogout (datetime.datetime): lastLogout.
-            friendRequestsUuid (List[str]): friendRequestsUuid.
-            network_update_book (str): network_update_book.
-            achievementTracking (List[str]): achievementTracking.
-            achievementPoints (int): achievementPoints.
-            currentGadget (str): currentGadget.
-            channel (str): channel.
-            mostRecentGameType (str): mostRecentGameType.
-            level (int): level.
-        """
-        self.id = _id
-        self.uuid = uuid
-        self.firstLogin = firstLogin
-        self.playername = playername
-        self.lastLogin = lastLogin
-        self.displayname = displayname
-        self.knownAliases = knownAliases
-        self.knownAliasesLower = knownAliasesLower
-        self.achievementsOneTime = achievementsOneTime
-        self.mcVersionRp = mcVersionRp
-        self.networkExp = networkExp
-        self.karma = karma
-        self.spec_always_flying = spec_always_flying
-        self.lastAdsenseGenerateTime = lastAdsenseGenerateTime
-        self.lastClaimedReward = lastClaimedReward
-        self.totalRewards = totalRewards
-        self.totalDailyRewards = totalDailyRewards
-        self.rewardStreak = rewardStreak
-        self.rewardScore = rewardScore
-        self.rewardHighScore = rewardHighScore
-        self.lastLogout = lastLogout
-        self.friendRequestsUuid = friendRequestsUuid
-        self.network_update_book = network_update_book
-        self.achievementTracking = achievementTracking
-        self.achievementsPoints = achievementPoints
-        self.currentGadget = currentGadget
-        self.channel = channel
-        self.mostRecentGameType = mostRecentGameType
-        self.level = level
+class Player(BaseModel):
+    """Player object.
+
+    Args:
+        id (str): ID of the player.
+        uuid (UUID): UUID of the player.
+        first_login (datetime): Datetime of the players first login.
+        playername (str): The players name.
+        last_login (datetime): Datetime of the players last login.
+        displayname (str): Display name of the player.
+        known_aliases (List[str]): List of the players known aliases.
+        known_aliases_lower (List[str]): List of the players known
+            aliases in lower case.
+        achievements_one_time (List[str]): Players achievements.
+        mc_version_rp (str): Minecraft version of the player.
+        network_exp (float): Experience points on the network.
+        karma (int): Total karama.
+        spec_always_flying (bool): If the player is always flying when in spectator.
+        last_adsense_generate_time (datetime): Datetime of the last
+            daily claimed reward.
+        last_claimed_reward (int): Last claimed reward.
+        total_rewards (int): Total amount of rewards the player has.
+        total_daily_rewards (int): Total amount of dialy rewards the player has.
+        reward_streak (int): Streak of how long a player has opened daily rewards for.
+        reward_score (int): Current score of the players daily reward.
+        reward_high_score (int): Highest score of the players daily reward.
+        last_logout (datetime): Datetime of the last time the player logged out.
+        friend_requests_uuid (List[UUID]): UUID list of the players friend requests.
+        network_update_book (str):
+        achievement_tracking (List[str]): List of the players tracked achievements.
+        achievement_points (Int): Points the player achieved from doing achievements.
+        current_gadget (str): The players currently selected gadget.
+        channel (str): The players channel.
+        most_recent_game_type (gametype): The players most recently played game.
+        level (float): Current level on hypixel.
+    """
+
+    id: str
+    uuid: uuid.UUID
+    first_login: datetime.datetime
+    playername: str
+    last_login: datetime.datetime
+    displayname: str
+    known_aliases: List[str]
+    known_aliases_lower: List[str]
+    achievements_one_time: List[str]
+    mc_version_rp: str
+    network_exp: float
+    karma: int
+    spec_always_flying: bool
+    last_adsense_generate_time: datetime.datetime
+    last_claimed_reward: int
+    total_rewards: int
+    total_daily_rewards: int
+    reward_streak: int
+    reward_score: int
+    reward_high_score: int
+    last_logout: datetime.datetime
+    friend_requests_uuid: List[uuid.UUID]  # type: ignore[name-defined]
+    network_update_book: str
+    achievement_tracking: List[str]
+    achievement_points: int
+    current_gadget: str
+    channel: str
+    most_recent_game_type: gametype
+    level: float

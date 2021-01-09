@@ -1,27 +1,21 @@
 """Data object for player friends."""
-
 import datetime
+import uuid
+
+from pydantic import BaseModel
 
 
-class Friend:
-    """Friend object."""
+class Friend(BaseModel):
+    """Friend object.
 
-    def __init__(
-        self,
-        _id: str,
-        uuidSender: str,
-        uuidReceiver: str,
-        started: datetime.datetime,
-    ) -> None:
-        """Initialises object.
+    Args:
+        id (bool): Id of friend.
+        uuid_sender (uuid.UUID): UUID of player sending friend request.
+        uuid_receiver (uuid.UUID): UUID of player receiving friend request.
+        started (datetime.datetime): Time players started being friends.
+    """
 
-        Args:
-            _id (str): id of friend.
-            uuidSender (str): sender of friend request.
-            uuidReceiver (str): receiver of friend request.
-            started (datetime.datetime): start of friendship.
-        """
-        self._id = _id
-        self.uuidSender = uuidSender
-        self.uuidReceiver = uuidReceiver
-        self.started = started
+    id: str
+    uuid_sender: uuid.UUID
+    uuid_receiver: uuid.UUID
+    started: datetime.datetime

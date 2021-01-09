@@ -1,13 +1,21 @@
 Reference
 =========
 
-.. contents::
-    :local:
-    :backlinks: none
 
+Client
+-------------------
 
-asyncpixel
---------------------------
+.. autoclass:: asyncpixel.Hypixel
+   :members:
 
-.. automodule:: asyncpixel
+Exceptions
+-------------------
+
+.. automodule:: asyncpixel.exceptions
+   :members:
+
+Models
+-------------------
+
+.. automodule:: asyncpixel.models
    :members:

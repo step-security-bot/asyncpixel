@@ -1,54 +1,45 @@
 """Data objects for boosters."""
-
 import datetime
+import uuid
 from typing import List
+from typing import Union
+
+from pydantic import BaseModel
+
+from .game_type import gametype
 
 
-class Booster:
-    """Main booster class."""
+class Booster(BaseModel):
+    """Main booster class.
 
-    def __init__(
-        self,
-        _id: str,
-        purchaserUuid: str,
-        amount: int,
-        originalLength: int,
-        length: int,
-        gameType: int,
-        dateActivated: datetime.datetime,
-        stacked: bool = False,
-    ) -> None:
-        """Class for a booster.
+    Args:
+        id (str): ID
+        purchaser_uuid (uuid.UUID): UUID of booster.
+        amount (int): Amount of boosters.
+        original_length (int): Original length of booster.
+        length (int): Length of booster.
+        game_type (int): Game type.
+        date_activated (datetime.datetime): Date boost activated.
+        stacked (Union[List[uuid.UUID], bool]): Wether boosters stacked.
+    """
 
-        Args:
-            _id (str): id of booster.
-            purchaserUuid (str): purchaser uuid.
-            amount (int): amount of boosters.
-            originalLength (int): original lenth.
-            length (int): length.
-            gameType (int): type of game applied to.
-            dateActivated (datetime.datetime): date activated.
-            stacked (bool, optional): wether stacked]. Defaults to False.
-        """
-        self._id = _id
-        self.purchaserUuid = purchaserUuid
-        self.amount = amount
-        self.originalLength = originalLength
-        self.length = length
-        self.gameType = gameType
-        self.dateActivated = dateActivated
-        self.stacked = stacked
+    id: str
+    purchaser_uuid: uuid.UUID
+    amount: float
+    original_length: int
+    length: int
+    game_type: gametype
+    date_activated: datetime.datetime
+    stacked: Union[List[uuid.UUID], bool]
 
 
-class Boosters:
-    """Object containing boosters."""
+class Boosters(BaseModel):
+    """Object containing boosters.
 
-    def __init__(self, boosterStatedecrementing: bool, boosters: List[Booster]) -> None:
-        """Init object.
+    Args:
+        booster_state_decrementing (bool): Wether booster state decrementing.
+        boosters (List[Booster]): List of boosters online.
+    """
 
-        Args:
-            boosterStatedecrementing (bool): wether boosters stacked.
-            boosters (List[Booster]): list of boosters.
-        """
-        self.boosterStatedecrementing = boosterStatedecrementing
-        self.boosters = boosters
+    booster_state_decrementing: bool
+    boosters: List[Booster]

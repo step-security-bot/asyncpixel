@@ -1,76 +1,119 @@
 """Guild objects."""
-
 import datetime
-from typing import Dict, List
+import uuid
+from typing import Dict
+from typing import List
+from typing import Optional
+
+from pydantic import BaseModel
 
 
-class Guild:
-    """Guild object."""
+class Pattern(BaseModel):
+    """Pattern."""
 
-    def __init__(
-        self,
-        _id: str,
-        created: datetime.datetime,
-        name: str,
-        name_lower: str,
-        description: str,
-        tag: str,
-        tagColor: str,
-        exp: int,
-        members: List,
-        achievements: Dict,
-        ranks: List,
-        joinable: bool,
-        legacyRanking: int,
-        publiclyListed: bool,
-        hideGmTag: bool,
-        preferredGames: List[str],
-        chatMute: datetime.datetime,
-        guildExpByGameType: Dict,
-        banner: Dict,
-    ) -> None:
-        """Init object.
+    color: int
+    pattern: str
 
-        Args:
-            _id (str): Guild ID.
-            created (datetime.datetime): Timestamp the guild was created.
-            name (str): Name of the guild.
-            name_lower (str): Name of the guild in lower case.
-            description (str): Description of the guild.
-            tag (str): Guild tags.
-            tagColor (str): Color of the guilds tag.
-            exp (int): Guild EXP.
-            members (List): List of members in the guild.
-            achievements (Dict): Dict of guild achievements earned.
-            ranks (List): List of guild ranks.
-            joinable (bool): If this guild can be joined using /g join.
-            legacyRanking (int): Ranking of the guild coins in the.
-                legacy guild system.
-            publiclyListed (bool): If this guild is publicly listed.
-            hideGmTag (bool): If the guild master tag is hidden in guild chat.
-            preferredGames (List[str]): List of the guild's preferred games.
-            chatMute (datetime.datetime): dateTime the guild chat will be
-                unmuted at, 0 if not currently muted.
-            guildExpByGameType (Dict): Dict of the EXP for this guild by
-                which game it was earned in
-            banner (Dict): Dict of this guild's Minecraft banner.
-        """
-        self._id = _id
-        self.created = created
-        self.name = name
-        self.name_lower = name_lower
-        self.description = description
-        self.tag = tag
-        self.tagColour = tagColor
-        self.exp = exp
-        self.members = members
-        self.achievements = achievements
-        self.ranks = ranks
-        self.joinable = joinable
-        self.legacyRanking = legacyRanking
-        self.publiclyListed = publiclyListed
-        self.hideGmTag = hideGmTag
-        self.prefferedGames = preferredGames
-        self.chatMute = chatMute
-        self.guildExpByGameTYpe = guildExpByGameType
-        self.banner = banner
+
+class Banner(BaseModel):
+    """Banner for the guild.
+
+    Args:
+        Base (int): Base Colour.
+        Patterns (List[Dict[str, Union[int, str]]]): Object with colour
+            details of banner.
+    """
+
+    base: int
+    patterns: List[Pattern]
+
+
+class GuildMembers(BaseModel):
+    """Members in a guild.
+
+    Args:
+        uuid (uuid.UUID): UUID of player.
+        rank (str): Rank of player.
+        joined (datetime.datetime): Time player joined guild.
+        exp_history (Dict[str, int]): Exp history of player.
+        quest_participation (int): How many quests the player has participated in.
+        muted_till (Optional[datetime.datetime]): Time player unmuted. Defaults to None.
+    """
+
+    uuid: uuid.UUID
+    rank: str
+    joined: datetime.datetime
+    exp_history: Dict[str, int]
+    quest_participation: int
+    muted_till: Optional[datetime.datetime] = None
+
+
+class Rank(BaseModel):
+    """Rank.
+
+    Args:
+        name (str): Name of rank.
+        default (bool): wether its the default.
+        created (int): Created.
+        priority (int): Priority of role.
+        tag (str): Tag of role.
+    """
+
+    name: str
+    default: bool
+    created: int
+    priority: int
+    tag: str
+
+
+class Guild(BaseModel):
+    """Guild object.
+
+    Args:
+        id (str): Guild ID.
+        created (datetime.datetime): Timestamp this guild was created at.
+        name (str): Name of guild.
+        name_lower (str: Priority of role.
+        description (str): Description of this guild that appears in the
+            guild list and /g info.
+        tag (str): Tag of guild.
+        exp (int): Exp or guild.
+        members (List[Guild_Members]): Array of guild members.
+        achievements (Dict[str, int]): Guild achievements earned and
+            the current progress.
+        ranks (List[Rank]): Array of guild ranks.
+        joinable (bool): Whether this guild can be joined using /g join.
+        legacy_ranking (int): Ranking in the number of guild coins owned in
+            the legacy guild system (0-indexed).
+        publicly_listed (bool): Whether this guild is listed in the Guild Finder.
+        hide_gm_tag (bool): Whether guild master tag is hidden in guild chat.
+        preferred_games (List[str]): This guild's set preferred games.
+        chat_mute (datetime.datetime): Timestamp guild chat will be unmuted at,
+            or 0 if guild chat is not muted.
+        guild_exp_by_game_type (Dict[str, str]): Amount of EXP earned for this guild
+            by which game it was earned in.
+        banner (Banner):This guild's Minecraft banner - Displayed on the H
+            ypixel forums page. See https://minecraft.gamepedia.com/Banner/Patterns
+            for pattern IDs.
+        tag_color (Optional[str]): Color of this guild's tag, if set. Defaults to None.
+    """
+
+    id: str
+    created: datetime.datetime
+    name: str
+    name_lower: str
+    description: str
+    tag: str
+    exp: int
+    members: List[GuildMembers]
+    achievements: Dict[str, int]
+    ranks: List[Rank]
+    joinable: bool
+    legacy_ranking: int
+    publicly_listed: bool
+    hide_gm_tag: bool
+    preferred_games: List[str]
+    chat_mute: datetime.datetime
+    guild_exp_by_game_type: Dict[str, int]
+    banner: Banner
+    tag_color: Optional[str] = None

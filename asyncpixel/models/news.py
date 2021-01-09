@@ -1,19 +1,32 @@
 """News related objects."""
+from typing import Optional
+
+from pydantic import BaseModel
 
 
-class News:
-    """News object."""
+class Item(BaseModel):
+    """News Item.
 
-    def __init__(self, material: str, link: str, text: str, title: str) -> None:
-        """Init news.
+    Args:
+        material (str): Material of article.
+        data (Optional[int]): Data.
+    """
 
-        Args:
-            material (str): material.
-            link (str): link to artivle.
-            text (str): text.
-            title (str): title.
-        """
-        self.material = material
-        self.link = link
-        self.text = text
-        self.title = title
+    material: str
+    data: Optional[int]
+
+
+class News(BaseModel):
+    """News object.
+
+    Args:
+        item (Item): News item.
+        link (str): Link to article.
+        text (text): Text of news.
+        title (str): Title of news article.
+    """
+
+    item: Item
+    link: str
+    text: str
+    title: str
