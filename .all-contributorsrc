@@ -1,0 +1,24 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "AjayACST",
+      "name": "AjayACST",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/35202521?v=4",
+      "profile": "https://quirky.codes/",
+      "contributions": [
+        "maintenance"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "asyncpixel",
+  "projectOwner": "Obsidion-dev",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
