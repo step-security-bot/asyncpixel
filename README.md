@@ -118,6 +118,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="https://quirky.codes/"><img src="https://avatars2.githubusercontent.com/u/35202521?v=4?s=100" width="100px;" alt=""/><br /><sub><b>AjayACST</b></sub></a><br /><a href="#maintenance-AjayACST" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://github.com/aiexz"><img src="https://avatars3.githubusercontent.com/u/42418433?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alex</b></sub></a><br /><a href="https://github.com/Obsidion-dev/asyncpixel/commits?author=aiexz" title="Code">💻</a> <a href="https://github.com/Obsidion-dev/asyncpixel/issues?q=author%3Aaiexz" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 

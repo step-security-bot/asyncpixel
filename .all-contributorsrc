@@ -13,6 +13,16 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "aiexz",
+      "name": "Alex",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/42418433?v=4",
+      "profile": "https://github.com/aiexz",
+      "contributions": [
+        "code",
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
