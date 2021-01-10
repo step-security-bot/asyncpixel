@@ -536,6 +536,7 @@ class Hypixel:
                 if game.TypeName == data["player"]["mostRecentGameType"]
             ][0],
             level=self._calc_player_level(data["player"]["networkExp"]),
+            raw=data,
         )
 
     @staticmethod
@@ -883,8 +884,9 @@ class Hypixel:
 
         return Profile(
             profile_id=data["profile_id"],
-            cute_name=data["cute_name"],
+            cute_name=data["cute_name"] if "cute_name" in data else None,
             members=member_dict,
+            raw=data,
         )
 
     async def profile(self, profile: str) -> Profile:
@@ -899,7 +901,7 @@ class Hypixel:
         """
         params = {"profile": profile}
         data = await self._get("skyblock/profile", params=params)
-        profiles: Profile = self._fill_profile(data)
+        profiles: Profile = self._fill_profile(data["profile"])
         return profiles
 
     async def profiles(self, uuid: Union[uuid.UUID, str]) -> Dict[str, Profile]:

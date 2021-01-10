@@ -100,10 +100,12 @@ class Profile(BaseModel):
 
     Args:
         profile_id (str): Id of profile
-        cute_name (str): Cute name of profile
+        cute_name (Optional[str]): Cute name of profile
         members (Dict[str, Members]): Dict of all members in profile.
+        raw (Dict[str, Any]): Raw response.
     """
 
     profile_id: uuid.UUID
-    cute_name: str
+    cute_name: Optional[str]
     members: Dict[str, Members]
+    raw: Dict[str, Any]

@@ -1,6 +1,8 @@
 """Player objects."""
 import datetime
 import uuid
+from typing import Any
+from typing import Dict
 from typing import List
 
 from pydantic import BaseModel
@@ -43,6 +45,7 @@ class Player(BaseModel):
         channel (str): The players channel.
         most_recent_game_type (gametype): The players most recently played game.
         level (float): Current level on hypixel.
+        raw (Dict[str, Any]): Raw response.
     """
 
     id: str
@@ -74,3 +77,4 @@ class Player(BaseModel):
     channel: str
     most_recent_game_type: gametype
     level: float
+    raw: Dict[str, Any]
