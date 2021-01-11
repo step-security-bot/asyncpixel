@@ -27,7 +27,6 @@ class Player(BaseModel):
         mc_version_rp (str): Minecraft version of the player.
         network_exp (float): Experience points on the network.
         karma (int): Total karama.
-        spec_always_flying (bool): If the player is always flying when in spectator.
         last_adsense_generate_time (datetime): Datetime of the last
             daily claimed reward.
         last_claimed_reward (int): Last claimed reward.
@@ -38,7 +37,6 @@ class Player(BaseModel):
         reward_high_score (int): Highest score of the players daily reward.
         last_logout (datetime): Datetime of the last time the player logged out.
         friend_requests_uuid (List[UUID]): UUID list of the players friend requests.
-        network_update_book (str):
         achievement_tracking (List[str]): List of the players tracked achievements.
         achievement_points (Int): Points the player achieved from doing achievements.
         current_gadget (str): The players currently selected gadget.
@@ -60,7 +58,6 @@ class Player(BaseModel):
     mc_version_rp: str
     network_exp: float
     karma: int
-    spec_always_flying: bool
     last_adsense_generate_time: datetime.datetime
     last_claimed_reward: int
     total_rewards: int
@@ -70,7 +67,6 @@ class Player(BaseModel):
     reward_high_score: int
     last_logout: datetime.datetime
     friend_requests_uuid: List[uuid.UUID]  # type: ignore[name-defined]
-    network_update_book: str
     achievement_tracking: List[str]
     achievement_points: int
     current_gadget: str

@@ -1589,7 +1589,6 @@ async def test_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         assert data.mc_version_rp == "1.15.2"
         assert data.network_exp == 514642.0
         assert data.karma == 975
-        assert data.spec_always_flying is True
         assert data.last_adsense_generate_time == datetime.datetime.fromtimestamp(
             1607152278.977, tz=datetime.timezone.utc
         )
@@ -1603,7 +1602,6 @@ async def test_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
             1608016811.099, tz=datetime.timezone.utc
         )
         assert data.friend_requests_uuid == []  # type== ignore[name-defined]
-        assert data.network_update_book == "v0.73"
         assert data.achievement_tracking == []
         assert data.achievement_points == 640
         assert data.current_gadget == "FORTUNE_COOKIE"
