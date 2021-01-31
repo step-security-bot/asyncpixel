@@ -2,5 +2,3 @@ sphinx==3.4.3
 sphinx-rtd-theme==0.5.1
 recommonmark==0.7.1
 sphinx-autodoc-typehints==1.11.1
-aiohttp==3.6.2
-pydantic==1.7.3
