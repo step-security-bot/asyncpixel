@@ -91,6 +91,21 @@ async def test_safe_ratelimit() -> None:
 
 
 @pytest.mark.asyncio
+async def test_no_hader() -> None:
+    """Test get method."""
+    key = generate_key()
+    with aioresponses() as m:
+        m.get(
+            f"https://api.hypixel.net/test?key={str(key)}",
+            status=200,
+            payload={"success": True, "Test_value": "Random string"},
+        )
+        client = asyncpixel.Hypixel(api_key=str(key))
+        await client._get("test")
+        await client.close()
+
+
+@pytest.mark.asyncio
 async def test_saved_rate_max() -> None:
     """Test get method."""
     key = generate_key()

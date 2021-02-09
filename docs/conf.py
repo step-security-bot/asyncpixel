@@ -39,7 +39,6 @@ extensions = [
     "sphinx.ext.intersphinx",
     "recommonmark",
     "sphinx_autodoc_typehints",
-    "autodoc_mock_imports",
 ]
 
 autodoc_mock_imports = ["pydantic", "aiohttp"]
