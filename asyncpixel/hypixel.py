@@ -177,12 +177,13 @@ class Hypixel:
             raise ApiNoSuccess(path)
 
         elif key_required:
-            if self.total_requests == 0:
-                self.total_requests = int(response.headers["RateLimit-Limit"])
-            self.requests_remaining = int(response.headers["RateLimit-Remaining"])
-            self._ratelimit_reset = datetime.datetime.now() + datetime.timedelta(
-                seconds=int(response.headers["RateLimit-Reset"])
-            )
+            if "RateLimit-Limit" in response.headers:
+                if self.total_requests == 0:
+                    self.total_requests = int(response.headers["RateLimit-Limit"])
+                self.requests_remaining = int(response.headers["RateLimit-Remaining"])
+                self._ratelimit_reset = datetime.datetime.now() + datetime.timedelta(
+                    seconds=int(response.headers["RateLimit-Reset"])
+                )
 
         data: Dict[str, Any] = await response.json()
 
