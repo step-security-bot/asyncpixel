@@ -86,7 +86,7 @@ class Members(BaseModel):
     quests: Dict[str, Quests]
     coin_purse: float
     last_death: int
-    crafted_generators: List[str]
+    crafted_generators: Optional[List[str]]
     visited_zones: List[str]
     fairy_souls_collected: int
     fairy_souls: int

@@ -871,7 +871,9 @@ class Hypixel:
                 quests=quests_dict,
                 coin_purse=member_data["coin_purse"],
                 last_death=member_data["last_death"],
-                crafted_generators=member_data["crafted_generators"],
+                crafted_generators=member_data["crafted_generators"]
+                if "crafted_generators" in member_data
+                else None,
                 visited_zones=member_data["visited_zones"],
                 fairy_souls_collected=member_data["fairy_souls_collected"],
                 fairy_souls=member_data["fairy_souls"],
