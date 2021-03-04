@@ -23,6 +23,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "magicaltoast",
+      "name": "Damian Grzanka",
+      "avatar_url": "https://avatars.githubusercontent.com/u/68669235?v=4",
+      "profile": "https://github.com/magicaltoast",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
