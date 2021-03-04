@@ -49,8 +49,8 @@ class AuctionItem(BaseModel):
         highest_bid_amount (int): Highest amount bidded.
         bids (List[Bids]): List of bids on auction.
         id (str): Id of auction.
+        bin (bool): Wether the auction is BIN (Buy instantly)
     """
-
     uuid: uuid.UUID  # type: ignore[name-defined]
     auctioneer: uuid.UUID  # type: ignore[name-defined]
     profile_id: uuid.UUID  # type: ignore[name-defined]
@@ -69,6 +69,7 @@ class AuctionItem(BaseModel):
     highest_bid_amount: int
     bids: List[Bids]
     id: Optional[str] = None
+    bin: bool
 
 
 class Auction(BaseModel):

@@ -67,6 +67,7 @@ async def test_auction_from_uuid(hypixel_client: Hypixel, key: uuid.UUID) -> Non
 
         assert len(data) == 1
 
+        assert not data[0].bin
         assert data[0].id == "5dcdaf2244f4f4f350c02bf3"
         assert data[0].uuid == uuid.UUID("409a1e0f261a49849493278d6cd9305a")
         assert data[0].auctioneer == uuid.UUID("347ef6c1daac45ed9d1fa02818cf0fb6")
@@ -151,6 +152,7 @@ async def test_auction_from_profiile(hypixel_client: Hypixel, key: uuid.UUID) ->
                             + "gAP05Qaqhk+8AVIrd2eoAAAAA==",
                         },
                         "claimed": True,
+                        "bin": True,
                         "claimed_bidders": [],
                         "highest_bid_amount": 7607533,
                         "bids": [
@@ -170,6 +172,7 @@ async def test_auction_from_profiile(hypixel_client: Hypixel, key: uuid.UUID) ->
         data = await client.auction_from_profile("347ef6c1daac45ed9d1fa02818cf0fb6")
         assert len(data) == 1
 
+        assert data[0].bin
         assert data[0].id == "5dcdaf2244f4f4f350c02bf3"
         assert data[0].uuid == uuid.UUID("409a1e0f261a49849493278d6cd9305a")
         assert data[0].auctioneer == uuid.UUID("347ef6c1daac45ed9d1fa02818cf0fb6")
@@ -272,6 +275,7 @@ async def test_auction_from_player(hypixel_client: Hypixel, key: uuid.UUID) -> N
         data = await client.auction_from_player("bc581ce675e94a0c88ac9deae06090f0")
         assert len(data) == 1
 
+        assert not data[0].bin
         assert data[0].id == "5dcdaf2244f4f4f350c02bf3"
         assert data[0].uuid == uuid.UUID("409a1e0f261a49849493278d6cd9305a")
         assert data[0].auctioneer == uuid.UUID("347ef6c1daac45ed9d1fa02818cf0fb6")

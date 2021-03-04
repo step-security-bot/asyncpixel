@@ -46,6 +46,7 @@ async def test_auctions(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                         "claimed": False,
                         "claimed_bidders": [],
                         "highest_bid_amount": 256,
+                        "bin": True,
                         "bids": [
                             {
                                 "auction_id": "bc581ce675e94a0c88ac9deae06090f0",
@@ -70,6 +71,7 @@ async def test_auctions(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         )
         assert len(data.auctions) == 1
 
+        assert data.auctions[0].bin
         assert data.auctions[0].uuid == uuid.UUID("bc581ce675e94a0c88ac9deae06090f0")
         assert data.auctions[0].auctioneer == uuid.UUID(
             "96a7c06732f54c1382ab6a2515dbb960"

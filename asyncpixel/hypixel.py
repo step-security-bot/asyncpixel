@@ -437,6 +437,7 @@ class Hypixel:
                     claimed_bidders=auc["claimed_bidders"],
                     highest_bid_amount=auc["highest_bid_amount"],
                     bids=auc["bids"],
+                    bin=auc.get("bin", False),
                 )
             )
         return Auction(
@@ -715,6 +716,7 @@ class Hypixel:
                     claimed_bidders=auc["claimed_bidders"],
                     highest_bid_amount=auc["highest_bid_amount"],
                     bids=auc["bids"],
+                    bin=auc.get("bin", False),
                 )
             )
         return auction_list
