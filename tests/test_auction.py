@@ -172,6 +172,9 @@ async def test_auction_from_profiile(hypixel_client: Hypixel, key: uuid.UUID) ->
         data = await client.auction_from_profile("347ef6c1daac45ed9d1fa02818cf0fb6")
         assert len(data) == 1
 
+        assert not data[0].active()
+        assert data[0].lowest_possible_bid() == 8748662
+
         assert data[0].bin
         assert data[0].id == "5dcdaf2244f4f4f350c02bf3"
         assert data[0].uuid == uuid.UUID("409a1e0f261a49849493278d6cd9305a")
@@ -239,7 +242,7 @@ async def test_auction_from_player(hypixel_client: Hypixel, key: uuid.UUID) -> N
                         "profile_id": "347ef6c1daac45ed9d1fa02818cf0fb6",
                         "coop": ["347ef6c1daac45ed9d1fa02818cf0fb6"],
                         "start": 1573760802637,
-                        "end": 1573761102637,
+                        "end": 2530081735,
                         "item_name": "Azure Bluet",
                         "item_lore": "§f§lCOMMON",
                         "extra": "Azure Bluet Red Rose",
@@ -255,9 +258,9 @@ async def test_auction_from_player(hypixel_client: Hypixel, key: uuid.UUID) -> N
                             + "E8dsZXu20YwuJZfa0hmJrjbo6y134f8pTll5O5Tnbb"
                             + "gAP05Qaqhk+8AVIrd2eoAAAAA==",
                         },
-                        "claimed": True,
+                        "claimed": False,
                         "claimed_bidders": [],
-                        "highest_bid_amount": 7607533,
+                        "highest_bid_amount": 1,
                         "bids": [
                             {
                                 "auction_id": "409a1e0f261a49849493278d6cd9305a",
@@ -275,6 +278,9 @@ async def test_auction_from_player(hypixel_client: Hypixel, key: uuid.UUID) -> N
         data = await client.auction_from_player("bc581ce675e94a0c88ac9deae06090f0")
         assert len(data) == 1
 
+        assert data[0].active()
+        assert data[0].lowest_possible_bid() == 2
+
         assert not data[0].bin
         assert data[0].id == "5dcdaf2244f4f4f350c02bf3"
         assert data[0].uuid == uuid.UUID("409a1e0f261a49849493278d6cd9305a")
@@ -286,7 +292,7 @@ async def test_auction_from_player(hypixel_client: Hypixel, key: uuid.UUID) -> N
             1573760802.637, tz=datetime.timezone.utc
         )
         assert data[0].end == datetime.datetime.fromtimestamp(
-            1573761102.637, tz=datetime.timezone.utc
+            2530081735, tz=datetime.timezone.utc
         )
         assert data[0].item_name == "Azure Bluet"
         assert data[0].item_lore == "§f§lCOMMON"
@@ -302,9 +308,9 @@ async def test_auction_from_player(hypixel_client: Hypixel, key: uuid.UUID) -> N
             + "5XhYhgoIaxmKE8dsZXu20YwuJZfa0hmJrjbo6y134f8pTll5O"
             + "5TnbbgAP05Qaqhk+8AVIrd2eoAAAAA==",
         }
-        assert data[0].claimed is True
+        assert data[0].claimed is False
         assert len(data[0].claimed_bidders) == 0
-        assert data[0].highest_bid_amount == 7607533
+        assert data[0].highest_bid_amount == 1
         assert len(data[0].bids) == 1
         assert data[0].bids[0].auction_id == uuid.UUID(
             "409a1e0f261a49849493278d6cd9305a"

@@ -71,6 +71,9 @@ async def test_auctions(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         )
         assert len(data.auctions) == 1
 
+        assert not data.auctions[0].active()
+        assert data.auctions[0].lowest_possible_bid() == 294
+
         assert data.auctions[0].bin
         assert data.auctions[0].uuid == uuid.UUID("bc581ce675e94a0c88ac9deae06090f0")
         assert data.auctions[0].auctioneer == uuid.UUID(
