@@ -256,7 +256,7 @@ class Hypixel:
                         game for game in GAMETYPES if game.id == boost["gameType"]
                     ][0],
                     date_activated=boost["dateActivated"],
-                    stacked=boost["stacked"] if "stacked" in boost else True,
+                    stacked=boost.get("stacked", None),
                 )
             )
         return Boosters(
@@ -878,7 +878,7 @@ class Hypixel:
                 else None,
                 visited_zones=member_data["visited_zones"],
                 fairy_souls_collected=member_data["fairy_souls_collected"],
-                fairy_souls=member_data["fairy_souls"],
+                fairy_souls=member_data.get("fairy_souls", None),
                 death_count=member_data["death_count"],
                 slayer_bosses=member_data["slayer_bosses"],
                 pets=member_data["pets"],
@@ -887,7 +887,7 @@ class Hypixel:
 
         return Profile(
             profile_id=data["profile_id"],
-            cute_name=data["cute_name"] if "cute_name" in data else None,
+            cute_name=data.get("cute_name", None),
             members=member_dict,
             raw=data,
         )

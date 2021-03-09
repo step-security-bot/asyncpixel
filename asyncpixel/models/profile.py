@@ -70,7 +70,7 @@ class Members(BaseModel):
         crafted_generators (List[str]): Crafted generators.
         visited_zones (List[str]): Visited zones.
         fairy_souls_collected (int): Souls collected.
-        fairy_souls (int): Fairy souls.
+        fairy_souls (Optional[int]): Fairy souls.
         death_count (type): death count.
         slayer_bosses (Dict[str, Dict[str, Any]]): Slayer bosses.
         pets (List[Any]): Pets.
@@ -89,7 +89,7 @@ class Members(BaseModel):
     crafted_generators: Optional[List[str]]
     visited_zones: List[str]
     fairy_souls_collected: int
-    fairy_souls: int
+    fairy_souls: Optional[int]
     death_count: int
     slayer_bosses: Dict[str, Dict[str, Any]]
     pets: List[Any]
