@@ -842,6 +842,8 @@ class Hypixel:
         member_dict = {}
         for member in data["members"]:
             member_data = data["members"][member]
+            if "quests" not in member_data:
+                break
             quests_dict = {}
             for quest in member_data["quests"]:
                 quests_dict[quest] = Quests(
