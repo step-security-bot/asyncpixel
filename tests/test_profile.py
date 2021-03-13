@@ -401,7 +401,8 @@ async def test_profiles(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                                     },
                                     "dungeon_journal": {},
                                 },
-                            }
+                            },
+                            "4282b7f0b36f479d976af4924eec6e11":{"coop_invitation": {"timestamp": 1578734194541, "invited_by": "b876ec32e396476ba1158438d83c67d4", "confirmed": False}}
                         },
                         "cute_name": "Strawberry",
                     }
