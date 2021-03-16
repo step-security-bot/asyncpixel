@@ -567,7 +567,7 @@ tox_to_nox = ["jinja2", "tox"]
 
 [[package]]
 name = "nox-poetry"
-version = "0.8.3"
+version = "0.8.4"
 description = "nox-poetry"
 category = "dev"
 optional = false
@@ -1170,7 +1170,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "e9b1673d2767b0608fd847eb8e9cec95f9168d99a03e81f9d45213059d35a068"
+content-hash = "03fc93a079e84a57e714811a40b26b9d72a2707bf24abbf8ade3f174bffeb2d8"
 
 [metadata.files]
 aiohttp = [
@@ -1563,8 +1563,8 @@ nox = [
     {file = "nox-2020.12.31.tar.gz", hash = "sha256:58a662070767ed4786beb46ce3a789fca6f1e689ed3ac15c73c4d0094e4f9dc4"},
 ]
 nox-poetry = [
-    {file = "nox-poetry-0.8.3.tar.gz", hash = "sha256:2b8dc89f8eb3049d5c733d1a54ad48f8dc7716978f2aea87b0e90758c306923e"},
-    {file = "nox_poetry-0.8.3-py3-none-any.whl", hash = "sha256:cbc3c9e2b6ce04a9d1f9148c2d0e9c0f39da66c55f23b85173bdfc52dbacce05"},
+    {file = "nox-poetry-0.8.4.tar.gz", hash = "sha256:880536a3f7949c22adc77889165f9222a7c60cc5f81ee8c20a2f22eef4a382b2"},
+    {file = "nox_poetry-0.8.4-py3-none-any.whl", hash = "sha256:d56980487e85fd006f0db5f440781d963be782731158766d2a7551612574417d"},
 ]
 packaging = [
     {file = "packaging-20.9-py2.py3-none-any.whl", hash = "sha256:67714da7f7bc052e064859c05c595155bd1ee9f69f76557e21f051443c20947a"},
