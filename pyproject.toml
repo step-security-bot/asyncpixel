@@ -1,8 +1,9 @@
 [tool.poetry]
 authors = ["Darkflame72 <leon@bowie-co.nz>"]
 classifiers = [
-  "Development Status :: 4 - Beta",
+  "Development Status :: 5 - Production/Stable",
   "Natural Language :: English",
+  "Framework :: AsyncIO",
   "Operating System :: OS Independent",
   "Topic :: Games/Entertainment",
   "Topic :: Software Development :: Libraries",
