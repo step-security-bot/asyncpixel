@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://obsidion-dev.com.com">
-    <img alt="Obsidion-dev" src="https://obsidion-dev.com/img/Bot%20Profile.png" width="60" />
+    <img alt="Obsidion-dev" src="https://discord.obsidion-dev.com/img/Bot%20Profile.png" width="60" />
   </a>
 </p>
 <h1 align="center">
@@ -43,7 +43,7 @@
   <span> · </span>
   Support: <a href="https://github.com/Obsidion-dev/asyncpixel/discussions">Discussions</a>
   <span> & </span>
-  <a href="https://discord.gg/rnAtymZnzH">Discord</a>
+  <a href="https://discord.gg/fWxtKFVmaW">Discord</a>
 </h3>
 
 ## ✨ Features
