@@ -103,7 +103,12 @@ def safety(session: Session) -> None:
     session.install("safety")
     # Ignore some issues in some dev dependencies
     session.run(
-        "safety", "check", "--ignore=39525", "--ignore=39611", f"--file={requirements}", "--bare"
+        "safety",
+        "check",
+        "--ignore=39525",
+        "--ignore=39611",
+        f"--file={requirements}",
+        "--bare",
     )
 
 
