@@ -256,7 +256,7 @@ class Hypixel:
                         game for game in GAMETYPES if game.id == boost["gameType"]
                     ][0],
                     date_activated=boost["dateActivated"],
-                    stacked=boost.get("stacked", None),
+                    stacked=boost.get("stacked", False),
                 )
             )
         return Boosters(

@@ -1,5 +1,6 @@
 """Test boosters."""
 import datetime
+from uuid import UUID
 
 import pytest
 from aioresponses import aioresponses
@@ -9,11 +10,11 @@ from tests.utils import generate_key
 
 
 @pytest.mark.asyncio
-async def test_boosters() -> None:
+async def test_boosters(hypixel_client: Hypixel, key: UUID) -> None:
     """Test to check the boosters method returns correct data."""
-    key = generate_key()
     purchaseruuid1 = generate_key()
     purchaseruuid2 = generate_key()
+    purchaseruuid3 = generate_key()
     stacked1 = generate_key()
     stacked2 = generate_key()
     with aioresponses() as m:
@@ -51,14 +52,22 @@ async def test_boosters() -> None:
                             str(stacked2),
                         ],
                     },
+                    {
+                        "_id": "6de1bf590cf2544cd01a7e04",
+                        "purchaserUuid": str(purchaseruuid3),
+                        "amount": 2.2,
+                        "originalLength": 3600,
+                        "length": 2074,
+                        "gameType": 13,
+                        "dateActivated": 1590842991659,
+                    },
                 ],
                 "boosterState": {"decrementing": True},
             },
         )
-        client = Hypixel(api_key=str(key))
-        data = await client.boosters()
+        data = await hypixel_client.boosters()
 
-        assert len(data.boosters) == 2
+        assert len(data.boosters) == 3
         assert data.booster_state_decrementing is True
 
         assert data.boosters[0].id == "5c197fadc8f245280926413d"
@@ -89,4 +98,16 @@ async def test_boosters() -> None:
             stacked1,
             stacked2,
         ]
-        await client.close()
+
+        assert data.boosters[2].id == "6de1bf590cf2544cd01a7e04"
+        assert data.boosters[2].purchaser_uuid == purchaseruuid3
+        assert data.boosters[2].amount == 2.2
+        assert data.boosters[2].original_length == 3600
+        assert data.boosters[2].length == 2074
+        assert data.boosters[2].game_type == gametype(
+            "WALLS3", "Walls3", "Mega Walls", 13
+        )
+        assert data.boosters[2].date_activated == datetime.datetime.fromtimestamp(
+            1590842991.659, tz=datetime.timezone.utc
+        )
+        assert data.boosters[2].stacked is False
