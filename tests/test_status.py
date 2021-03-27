@@ -26,7 +26,6 @@ async def test_online_status(hypixel_client: Hypixel, key: UUID) -> None:
                     "online": True,
                     "gameType": "SKYWARS",
                     "mode": "ranked_normal",
-                    "map": "Agni Temple",
                 },
             },
         )
@@ -36,7 +35,6 @@ async def test_online_status(hypixel_client: Hypixel, key: UUID) -> None:
         assert data.online is True
         assert data.game_type == gametype("SKYWARS", "SkyWars", "SkyWars", 51)
         assert data.mode == "ranked_normal"
-        assert data.map == "Agni Temple"
 
 
 @pytest.mark.asyncio
