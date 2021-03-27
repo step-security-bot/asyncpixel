@@ -319,7 +319,6 @@ class Hypixel:
                     if game.TypeName == data["session"]["gameType"]
                 ][0],
                 mode=data["session"]["mode"],
-                map=data["session"]["map"],
             )
         return Status(online=False)
 
