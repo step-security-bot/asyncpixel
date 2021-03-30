@@ -511,8 +511,8 @@ async def test_guild_by_id_no_mute_quest(hypixel_client: Hypixel, key: uuid.UUID
             1390770716.373, tz=datetime.timezone.utc
         )
         assert data.members[0].exp_history == {"2020-05-25": 108, "2020-05-24": 404}
-        assert data.members[0].quest_participation == None
-        assert data.members[0].muted_till == None
+        assert data.members[0].quest_participation is None
+        assert data.members[0].muted_till is None
         assert data.achievements == {
             "ONLINE_PLAYERS": 4,
             "EXPERIENCE_KINGS": 40062,
@@ -616,8 +616,8 @@ async def test_guild_by_name_no_mute_quest(hypixel_client: Hypixel, key: uuid.UU
             1390770716.373, tz=datetime.timezone.utc
         )
         assert data.members[0].exp_history == {"2020-05-25": 108, "2020-05-24": 404}
-        assert data.members[0].quest_participation == None
-        assert data.members[0].muted_till == None
+        assert data.members[0].quest_participation is None
+        assert data.members[0].muted_till is None
         assert data.achievements == {
             "ONLINE_PLAYERS": 4,
             "EXPERIENCE_KINGS": 40062,
@@ -721,8 +721,8 @@ async def test_guild_by_player_no_mute_quest(hypixel_client: Hypixel, key: uuid.
             1390770716.373, tz=datetime.timezone.utc
         )
         assert data.members[0].exp_history == {"2020-05-25": 108, "2020-05-24": 404}
-        assert data.members[0].quest_participation == None
-        assert data.members[0].muted_till == None
+        assert data.members[0].quest_participation is None
+        assert data.members[0].muted_till is None
         assert data.achievements == {
             "ONLINE_PLAYERS": 4,
             "EXPERIENCE_KINGS": 40062,
@@ -769,8 +769,6 @@ async def test_guild_create_object_no_mute_quest(hypixel_client: Hypixel) -> Non
                         "rank": "GUILDMASTER",
                         "joined": 1390770716373,
                         "expHistory": {"2020-05-25": 108, "2020-05-24": 404},
-                        "questParticipation": 4,
-                        "mutedTill": 1399507406038,
                     }
                 ],
                 "achievements": {
@@ -819,8 +817,8 @@ async def test_guild_create_object_no_mute_quest(hypixel_client: Hypixel) -> Non
         1390770716.373, tz=datetime.timezone.utc
     )
     assert data.members[0].exp_history == {"2020-05-25": 108, "2020-05-24": 404}
-    assert data.members[0].quest_participation == None
-    assert data.members[0].muted_till == None
+    assert data.members[0].quest_participation is None
+    assert data.members[0].muted_till is None
     assert data.achievements == {
         "ONLINE_PLAYERS": 4,
         "EXPERIENCE_KINGS": 40062,
