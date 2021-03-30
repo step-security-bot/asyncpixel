@@ -28,7 +28,6 @@ from .exceptions import InvalidApiKey
 from .exceptions import RateLimitError
 from .models import Auction
 from .models import AuctionItem
-from .models import Banner
 from .models import Bazaar
 from .models import BazaarItem
 from .models import BazaarQuickStatus
@@ -605,20 +604,26 @@ class Hypixel:
         guild = data["guild"]
         members = []
         for member in data["guild"]["members"]:
+            if "mutedTill" in member:
+                mutedtill = member["mutedTill"]
+            else:
+                mutedtill = 0
+            
+            if "questParticipation" in member:
+                questparticipation = member["questParticipation"]
+            else:
+                questparticipation = 0
+                
             members.append(
                 GuildMembers(
                     uuid=member["uuid"],
                     rank=member["rank"],
                     joined=member["joined"],
                     exp_history=member["expHistory"],
-                    quest_participation=member["questParticipation"],
-                    muted_till=member["mutedTill"],
+                    quest_participation=questparticipation,
+                    muted_till=mutedtill,
                 )
             )
-        patterns = []
-        for pattern in guild["banner"]["Patterns"]:
-            patterns.append(Pattern(color=pattern["Color"], pattern=pattern["Pattern"]))
-        banner = Banner(base=guild["banner"]["Base"], patterns=patterns)
         return Guild(
             id=guild["_id"],
             created=guild["created"],
@@ -634,11 +639,9 @@ class Hypixel:
             joinable=guild["joinable"],
             legacy_ranking=guild["legacyRanking"],
             publicly_listed=guild["publiclyListed"],
-            hide_gm_tag=guild["hideGmTag"],
             preferred_games=guild["preferredGames"],
             chat_mute=guild["chatMute"],
             guild_exp_by_game_type=guild["guildExpByGameType"],
-            banner=banner,
         )
 
     async def auction_from_uuid(self, uuid: Union[uuid.UUID, str]) -> List[AuctionItem]:
