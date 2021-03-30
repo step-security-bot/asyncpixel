@@ -31,7 +31,7 @@ class GuildMembers(BaseModel):
     rank: str
     joined: datetime.datetime
     exp_history: Dict[str, int]
-    quest_participation: int
+    quest_participation: Optional[int] = None
     muted_till: Optional[datetime.datetime] = None
 
 

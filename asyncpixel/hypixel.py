@@ -607,12 +607,12 @@ class Hypixel:
             if "mutedTill" in member:
                 mutedtill = member["mutedTill"]
             else:
-                mutedtill = 0
+                mutedtill = None
             
             if "questParticipation" in member:
                 questparticipation = member["questParticipation"]
             else:
-                questparticipation = 0
+                questparticipation = None
                 
             members.append(
                 GuildMembers(
