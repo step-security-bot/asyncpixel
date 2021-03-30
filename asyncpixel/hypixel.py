@@ -48,7 +48,6 @@ from .models import Leaderboards
 from .models import Members
 from .models import News
 from .models import Objective
-from .models import Pattern
 from .models import Player
 from .models import Profile
 from .models import Quests
@@ -608,12 +607,12 @@ class Hypixel:
                 mutedtill = member["mutedTill"]
             else:
                 mutedtill = None
-            
+
             if "questParticipation" in member:
                 questparticipation = member["questParticipation"]
             else:
                 questparticipation = None
-                
+
             members.append(
                 GuildMembers(
                     uuid=member["uuid"],

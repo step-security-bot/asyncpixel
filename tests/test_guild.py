@@ -224,6 +224,7 @@ async def test_guild_by_name(hypixel_client: Hypixel, key: uuid.UUID) -> None:
             "ARCADE": 10285,
         }
 
+
 @pytest.mark.asyncio
 async def test_guild_by_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
     """Test to check the guild_by_player method returns correct data."""
@@ -433,8 +434,11 @@ async def test_guild_create_object(hypixel_client: Hypixel) -> None:
         "ARCADE": 10285,
     }
 
+
 @pytest.mark.asyncio
-async def test_guild_by_id_no_mute_quest(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_guild_by_id_no_mute_quest(
+    hypixel_client: Hypixel, key: uuid.UUID
+) -> None:
     """Test to check the guild_by_id method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -539,7 +543,9 @@ async def test_guild_by_id_no_mute_quest(hypixel_client: Hypixel, key: uuid.UUID
 
 
 @pytest.mark.asyncio
-async def test_guild_by_name_no_mute_quest(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_guild_by_name_no_mute_quest(
+    hypixel_client: Hypixel, key: uuid.UUID
+) -> None:
     """Test to check the guild_by_name method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -642,8 +648,11 @@ async def test_guild_by_name_no_mute_quest(hypixel_client: Hypixel, key: uuid.UU
             "ARCADE": 10285,
         }
 
+
 @pytest.mark.asyncio
-async def test_guild_by_player_no_mute_quest(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_guild_by_player_no_mute_quest(
+    hypixel_client: Hypixel, key: uuid.UUID
+) -> None:
     """Test to check the guild_by_player method returns correct data."""
     with aioresponses() as m:
         m.get(
