@@ -13,7 +13,6 @@ from .game_count import GameCounts
 from .game_count import GameCountsGame
 from .game_type import gametype
 from .games import Game
-from .guild import Banner
 from .guild import Guild
 from .guild import GuildMembers
 from .guild import Pattern

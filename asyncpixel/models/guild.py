@@ -15,19 +15,6 @@ class Pattern(BaseModel):
     pattern: str
 
 
-class Banner(BaseModel):
-    """Banner for the guild.
-
-    Args:
-        Base (int): Base Colour.
-        Patterns (List[Dict[str, Union[int, str]]]): Object with colour
-            details of banner.
-    """
-
-    base: int
-    patterns: List[Pattern]
-
-
 class GuildMembers(BaseModel):
     """Members in a guild.
 
@@ -44,7 +31,7 @@ class GuildMembers(BaseModel):
     rank: str
     joined: datetime.datetime
     exp_history: Dict[str, int]
-    quest_participation: int
+    quest_participation: Optional[int] = None
     muted_till: Optional[datetime.datetime] = None
 
 
@@ -63,7 +50,7 @@ class Rank(BaseModel):
     default: bool
     created: int
     priority: int
-    tag: str
+    tag: Optional[str] = None
 
 
 class Guild(BaseModel):
@@ -78,7 +65,7 @@ class Guild(BaseModel):
             guild list and /g info.
         tag (str): Tag of guild.
         exp (int): Exp or guild.
-        members (List[Guild_Members]): Array of guild members.
+        members (List[GuildMembers]): Array of guild members.
         achievements (Dict[str, int]): Guild achievements earned and
             the current progress.
         ranks (List[Rank]): Array of guild ranks.
@@ -86,15 +73,11 @@ class Guild(BaseModel):
         legacy_ranking (int): Ranking in the number of guild coins owned in
             the legacy guild system (0-indexed).
         publicly_listed (bool): Whether this guild is listed in the Guild Finder.
-        hide_gm_tag (bool): Whether guild master tag is hidden in guild chat.
         preferred_games (List[str]): This guild's set preferred games.
         chat_mute (datetime.datetime): Timestamp guild chat will be unmuted at,
             or 0 if guild chat is not muted.
         guild_exp_by_game_type (Dict[str, str]): Amount of EXP earned for this guild
             by which game it was earned in.
-        banner (Banner):This guild's Minecraft banner - Displayed on the H
-            ypixel forums page. See https://minecraft.gamepedia.com/Banner/Patterns
-            for pattern IDs.
         tag_color (Optional[str]): Color of this guild's tag, if set. Defaults to None.
     """
 
@@ -111,9 +94,7 @@ class Guild(BaseModel):
     joinable: bool
     legacy_ranking: int
     publicly_listed: bool
-    hide_gm_tag: bool
     preferred_games: List[str]
     chat_mute: datetime.datetime
     guild_exp_by_game_type: Dict[str, int]
-    banner: Banner
     tag_color: Optional[str] = None
