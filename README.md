@@ -120,6 +120,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://quirky.codes/"><img src="https://avatars2.githubusercontent.com/u/35202521?v=4?s=100" width="100px;" alt=""/><br /><sub><b>AjayACST</b></sub></a><br /><a href="#maintenance-AjayACST" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://github.com/aiexz"><img src="https://avatars3.githubusercontent.com/u/42418433?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alex</b></sub></a><br /><a href="https://github.com/Obsidion-dev/asyncpixel/commits?author=aiexz" title="Code">💻</a> <a href="https://github.com/Obsidion-dev/asyncpixel/issues?q=author%3Aaiexz" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/magicaltoast"><img src="https://avatars.githubusercontent.com/u/68669235?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Damian Grzanka</b></sub></a><br /><a href="https://github.com/Obsidion-dev/asyncpixel/commits?author=magicaltoast" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/satyamedh"><img src="https://avatars.githubusercontent.com/u/47636284?v=4?s=100" width="100px;" alt=""/><br /><sub><b>satyamedh hulyalkar</b></sub></a><br /><a href="https://github.com/Obsidion-dev/asyncpixel/issues?q=author%3Asatyamedh" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
