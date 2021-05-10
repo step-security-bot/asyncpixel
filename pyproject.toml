@@ -33,7 +33,7 @@ aioresponses = "^0.7.2"
 black = "^21.5b0"
 coverage = {extras = ["toml"], version = "^5.5"}
 darglint = "^1.8.0"
-flake8 = "^3.9.1"
+flake8 = "^3.9.2"
 flake8-annotations = "^2.6.2"
 flake8-bandit = "^2.1.2"
 flake8-black = "^0.2.1"
