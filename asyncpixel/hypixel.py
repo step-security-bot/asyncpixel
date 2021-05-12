@@ -402,17 +402,23 @@ class Hypixel:
             bazaar_items=bazaar_items,
         )
 
-    async def auctions(self, page: Optional[int] = 0) -> Auction:
+    async def auctions(self, page: Optional[int] = 0, retry: int = 3) -> Auction:
         """Get the auctions available.
 
         Args:
             page (int, optional): Page of auction list you want. Defaults to 0.
+            retry (int): Amount of retries to get the data from the api Defaults to 3.
 
         Returns:
             Auction: Auction object.
         """
         params = {"page": page}
-        data = await self._get("skyblock/auctions", params=params)
+        for _ in range(retry):  # pragma: no cover
+            try:
+                data = await self._get("skyblock/auctions", params=params)
+                break
+            except aiohttp.ServerTimeoutError:
+                pass
         auction_list = []
         for auc in data["auctions"]:
             auction_list.append(
