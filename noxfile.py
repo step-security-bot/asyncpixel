@@ -105,6 +105,10 @@ def safety(session: Session) -> None:
     session.run(
         "safety",
         "check",
+        "--ignore=39525",
+        "--ignore=39611",
+        "--ignore=40014",
+        "--ignore=40291",
         f"--file={requirements}",
         "--bare",
     )
