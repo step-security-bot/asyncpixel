@@ -50,11 +50,11 @@
 
 - **Asyncronous.** Unlike other libraries Asyncpixel is fully asyncronous. This makes it perfect to use in your next discord bot or powerful website without having to worry about blocking.
 
-- **100% API coverage.** Asyncpixel is currently the only python library with full coverage of the hypixel API meaning that no endpoints are left untouched and outof your reach.
+- **100% API coverage.** Asyncpixel is currently the only python library with full coverage of the hypixel API meaning that no endpoints are left untouched and out of your reach.
 
 - **Pydantic models.** All models are checked and validated by [Pydantic](https://github.com/samuelcolvin/pydantic) meaning that the data is always in the correct format perfect for you to use.
 
-- **Available on pypi.** Asyncpixel is available on pypi meaning no building from source just use `pip install asyncpixel` to use it in your project.
+- **Available on pypi.** Asyncpixel is available on pypi meaning no building from source, just use `pip install asyncpixel` to use it in your project.
 
 ## 🏁 Getting Started with Asyncpixel
 
@@ -90,7 +90,7 @@ Obsidion-dev is dedicated to providing a welcoming, diverse, and harrassment-fre
 
 ## 🙌 Contributing to Asyncpixel
 
-From opening a bug report to creating a pull request: every contribution is appreciated and welcomed. If you're planning to implement a new feature or change the library please create an issue first. This way we can ensure your work is not in vain.
+From opening a bug report to creating a pull request: every contribution is appreciated and welcomed. If you are planning to implement a new feature or change the library please create an issue first. This way we can ensure your work is not in vain.
 
 ### Not Sure Where to Start?
 
@@ -130,4 +130,4 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind are welcome!
