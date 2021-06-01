@@ -41,6 +41,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "duhby",
+      "name": "dubs",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59372145?v=4",
+      "profile": "https://dubs.rip",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
