@@ -532,7 +532,7 @@ class Hypixel:
             friend_requests_uuid=data["player"]["friendRequestsUuid"],
             achievement_tracking=data["player"]["achievementTracking"],
             achievement_points=data["player"]["achievementPoints"],
-            current_gadget=data["player"]["currentGadget"],
+            current_gadget=data["player"].get("currentGadget", None),
             channel=data["player"]["channel"],
             most_recent_game_type=[
                 game

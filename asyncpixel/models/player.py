@@ -4,6 +4,7 @@ import uuid
 from typing import Any
 from typing import Dict
 from typing import List
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -39,7 +40,7 @@ class Player(BaseModel):
         friend_requests_uuid (List[UUID]): UUID list of the players friend requests.
         achievement_tracking (List[str]): List of the players tracked achievements.
         achievement_points (Int): Points the player achieved from doing achievements.
-        current_gadget (str): The players currently selected gadget.
+        current_gadget (Optional[str]): The players currently selected gadget.
         channel (str): The players channel.
         most_recent_game_type (gametype): The players most recently played game.
         level (float): Current level on hypixel.
@@ -69,7 +70,7 @@ class Player(BaseModel):
     friend_requests_uuid: List[uuid.UUID]  # type: ignore[name-defined]
     achievement_tracking: List[str]
     achievement_points: int
-    current_gadget: str
+    current_gadget: Optional[str]
     channel: str
     most_recent_game_type: gametype
     level: float
