@@ -152,6 +152,8 @@ class Hypixel:
         if params is None:
             params = {}
         if key_required:
+            if self.api_key is None:
+                raise InvalidApiKey("No API key provided")
             params["key"] = str(self.api_key)
 
         response: aiohttp.ClientResponse = await self._session.get(
@@ -168,20 +170,19 @@ class Hypixel:
                 + datetime.timedelta(seconds=int(response.headers["Retry-After"]))
             )
 
-        elif response.status == 400:
+        elif response.status == 403:
             raise InvalidApiKey()
 
         elif response.status != 200:
             raise ApiNoSuccess(path)
 
-        elif key_required:
-            if "RateLimit-Limit" in response.headers:
-                if self.total_requests == 0:
-                    self.total_requests = int(response.headers["RateLimit-Limit"])
-                self.requests_remaining = int(response.headers["RateLimit-Remaining"])
-                self._ratelimit_reset = datetime.datetime.now() + datetime.timedelta(
-                    seconds=int(response.headers["RateLimit-Reset"])
-                )
+        elif key_required and "RateLimit-Limit" in response.headers:
+            if self.total_requests == 0:
+                self.total_requests = int(response.headers["RateLimit-Limit"])
+            self.requests_remaining = int(response.headers["RateLimit-Remaining"])
+            self._ratelimit_reset = datetime.datetime.now() + datetime.timedelta(
+                seconds=int(response.headers["RateLimit-Reset"])
+            )
 
         data: Dict[str, Any] = await response.json()
 

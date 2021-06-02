@@ -35,7 +35,7 @@ async def test_invalid_key() -> None:
     with aioresponses() as m:
         m.get(
             f"https://api.hypixel.net/test?key={str(key)}",
-            status=400,
+            status=403,
             payload={"success": False, "cause": "Invalid API key"},
         )
         client = Hypixel(api_key=str(key))

@@ -45,9 +45,13 @@ class ApiNoSuccess(Exception):
 class InvalidApiKey(Exception):
     """Exception raised when the API key is invalid."""
 
-    def __init__(self) -> None:
-        """Create error."""
-        self.message = "Entered API key is not valid"
+    def __init__(self, message: str = "Entered API key is not valid") -> None:
+        """API key not valid..
+
+        Args:
+            message (str): error message. Defaults to "Entered API key is not valid".
+        """
+        self.message = message
         super().__init__(self.message)
 
     def __str__(self) -> str:
