@@ -1,5 +1,6 @@
 """Game Count related objects."""
 from typing import Dict
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -9,11 +10,11 @@ class GameCountsGame(BaseModel):
 
     Args:
         players (int): Number of players in a game.
-        uuid_sender (Dict[str, int]): Dict of game modes and people in them.
+        uuid_sender (Optional[Dict[str, int]]): Dict of game modes and people in them.
     """
 
     players: int
-    modes: Dict[str, int]
+    modes: Optional[Dict[str, int]]
 
 
 class GameCounts(BaseModel):

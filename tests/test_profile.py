@@ -509,7 +509,7 @@ async def test_profiles(hypixel_client: Hypixel, key: uuid.UUID) -> None:
 
 @pytest.mark.asyncio
 async def test_profile(hypixel_client: Hypixel, key: uuid.UUID) -> None:
-    """Test auctions."""
+    """Test porfile."""
     with aioresponses() as m:
         m.get(
             "https://api.hypixel.net/skyblock/profile?"
@@ -900,13 +900,14 @@ async def test_profile(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                                 },
                                 "dungeon_journal": {},
                             },
-                        }
+                        },
                     },
                 },
             },
         )
         data = await hypixel_client.profile("405dcf08b80f4e23b97d943ad93d14fd")
 
+        assert data is not None
         assert data.profile_id == uuid.UUID("405dcf08b80f4e23b97d943ad93d14fd")
         assert len(data.members) == 1
         assert "405dcf08b80f4e23b97d943ad93d14fd" in data.members
@@ -991,8 +992,31 @@ async def test_profile(hypixel_client: Hypixel, key: uuid.UUID) -> None:
 
 
 @pytest.mark.asyncio
+async def test_no_profile(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+    """Test no problem."""
+    with aioresponses() as m:
+        m.get(
+            "https://api.hypixel.net/skyblock/profile?"
+            f"key={str(key)}&profile=405dcf08-b80f-4e23-b97d-943ad93d14fd",
+            status=200,
+            headers={
+                "RateLimit-Limit": "120",
+                "RateLimit-Remaining": "119",
+                "RateLimit-Reset": "8",
+            },
+            payload={
+                "success": True,
+                "profile": None,
+            },
+        )
+        data = await hypixel_client.profile("405dcf08-b80f-4e23-b97d-943ad93d14fd")
+
+        assert data is None
+
+
+@pytest.mark.asyncio
 async def test_fill_profile(hypixel_client: Hypixel, key: uuid.UUID) -> None:
-    """Test auctions."""
+    """Test fill profile."""
     data = hypixel_client._fill_profile(
         {
             "profile_id": "405dcf08b80f4e23b97d943ad93d14fd",

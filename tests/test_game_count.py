@@ -35,16 +35,17 @@ async def test_game_count(hypixel_client: Hypixel, key: UUID) -> None:
                             "combat_3": 2350,
                             "dynamic": 15888,
                         },
-                    }
+                    },
+                    "BEDWARS": {"players": 30323},
                 },
                 "playerCount": 77238,
             },
         )
-        client = hypixel_client
-        data = await client.game_count()
+        data = await hypixel_client.game_count()
 
         assert data.player_count == 77238
         assert data.games["SKYBLOCK"].players == 30522
+        assert data.games["SKYBLOCK"].modes is not None
         assert data.games["SKYBLOCK"].modes["combat_1"] == 690
         assert data.games["SKYBLOCK"].modes["foraging_1"] == 1456
         assert data.games["SKYBLOCK"].modes["hub"] == 8049
@@ -55,3 +56,4 @@ async def test_game_count(hypixel_client: Hypixel, key: UUID) -> None:
         assert data.games["SKYBLOCK"].modes["farming_1"] == 204
         assert data.games["SKYBLOCK"].modes["combat_3"] == 2350
         assert data.games["SKYBLOCK"].modes["dynamic"] == 15888
+        assert data.games["BEDWARS"].players == 30323

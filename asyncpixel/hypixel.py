@@ -641,11 +641,11 @@ class Hypixel:
             members=members,
             achievements=guild["achievements"],
             ranks=guild["ranks"],
-            joinable=guild["joinable"],
-            legacy_ranking=guild["legacyRanking"],
+            joinable=guild.get("joinable", False),
+            legacy_ranking=guild.get("legacyRanking", None),
             publicly_listed=guild["publiclyListed"],
             preferred_games=guild["preferredGames"],
-            chat_mute=guild["chatMute"],
+            chat_mute=guild.get("chatMute", None),
             guild_exp_by_game_type=guild["guildExpByGameType"],
         )
 
@@ -737,9 +737,13 @@ class Hypixel:
         data = await self._get("gameCounts")
         games = {}
         for key in data["games"]:
-            games[key] = GameCountsGame(
-                players=data["games"][key]["players"], modes=data["games"][key]["modes"]
-            )
+            if "modes" in data["games"][key]:
+                games[key] = GameCountsGame(
+                    players=data["games"][key]["players"],
+                    modes=data["games"][key]["modes"],
+                )
+            else:
+                games[key] = GameCountsGame(players=data["games"][key]["players"])
         return GameCounts(games=games, player_count=data["playerCount"])
 
     async def leaderboards(self) -> Dict[str, List[Leaderboards]]:
@@ -875,20 +879,18 @@ class Hypixel:
                 last_save=member_data["last_save"],
                 inv_armor=invarmor,
                 first_join=member_data["first_join"],
-                first_join_hub=member_data["first_join_hub"],
+                first_join_hub=member_data.get("first_join_hub", None),
                 stats=member_data["stats"],
                 objectives=objective_dict,
                 tutorial=member_data["tutorial"],
                 quests=quests_dict,
-                coin_purse=member_data["coin_purse"],
+                coin_purse=member_data.get("coin_purse", None),
                 last_death=member_data["last_death"],
-                crafted_generators=member_data["crafted_generators"]
-                if "crafted_generators" in member_data
-                else None,
-                visited_zones=member_data["visited_zones"],
+                crafted_generators=member_data.get("crafted_generators", None),
+                visited_zones=member_data.get("visited_zones", None),
                 fairy_souls_collected=member_data["fairy_souls_collected"],
                 fairy_souls=member_data.get("fairy_souls", None),
-                death_count=member_data["death_count"],
+                death_count=member_data.get("death_count", None),
                 slayer_bosses=member_data["slayer_bosses"],
                 pets=member_data["pets"],
             )
@@ -901,7 +903,7 @@ class Hypixel:
             raw=data,
         )
 
-    async def profile(self, profile: str) -> Profile:
+    async def profile(self, profile: str) -> Union[Profile, None]:
         """Get profile info of a skyblock player.
 
         Args:
@@ -909,10 +911,12 @@ class Hypixel:
                             running profiles.
 
         Returns:
-            Profile: Profile.
+            Union[Profile, None]: Profile if it exists
         """
         params = {"profile": profile}
         data = await self._get("skyblock/profile", params=params)
+        if data["profile"] is None:
+            return None
         profiles: Profile = self._fill_profile(data["profile"])
         return profiles
 

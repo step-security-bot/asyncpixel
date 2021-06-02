@@ -60,18 +60,18 @@ class Members(BaseModel):
         last_save (datetime.datetime):Time last saved.
         inv_armor (InvArmor): Armor.
         first_join (datetime.datetime): Time first joined.
-        first_join_hub (datetime.datetime): first joined hub.
+        first_join_hub (Optional[datetime.datetime]): first joined hub.
         stats (Dict[str, int]): Member stats.
         objectives (Dict[str, Objective]): Objectives.
         tutorial (List[str]): Tutorial.
         quests (Dict[str, Quests]): Quests done.
-        coin_purse (int): Amount of coins in purse.
+        coin_purse (Optional[int]): Amount of coins in purse.
         last_death (datetime.datetime): Time last died.
         crafted_generators (List[str]): Crafted generators.
-        visited_zones (List[str]): Visited zones.
+        visited_zones (Optional[List[str]]): Visited zones.
         fairy_souls_collected (int): Souls collected.
         fairy_souls (Optional[int]): Fairy souls.
-        death_count (type): death count.
+        death_count (Optional[int]): death count.
         slayer_bosses (Dict[str, Dict[str, Any]]): Slayer bosses.
         pets (List[Any]): Pets.
     """
@@ -79,18 +79,18 @@ class Members(BaseModel):
     last_save: datetime.datetime
     inv_armor: InvArmor
     first_join: datetime.datetime
-    first_join_hub: int
+    first_join_hub: Optional[int]
     stats: Dict[str, float]
     objectives: Dict[str, Objective]
     tutorial: List[str]
     quests: Dict[str, Quests]
-    coin_purse: float
+    coin_purse: Optional[float]
     last_death: int
     crafted_generators: Optional[List[str]]
-    visited_zones: List[str]
+    visited_zones: Optional[List[str]]
     fairy_souls_collected: int
     fairy_souls: Optional[int]
-    death_count: int
+    death_count: Optional[int]
     slayer_bosses: Dict[str, Dict[str, Any]]
     pets: List[Any]
 

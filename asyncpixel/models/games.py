@@ -13,13 +13,13 @@ class Game(BaseModel):
     Args:
         date (datetime.datetime): Time game started.
         game_type (str): Game Type.
-        mode (str): Game mode.
-        map (str): Map the game is on.
+        mode (Optional[str]): Game mode.
+        map (Optional[str]): Map the game is on.
         ended (Optional[datetime.datetime]): Time game ended. Defaults to None.
     """
 
     date: datetime.datetime
     game_type: gametype
-    mode: str
-    map: str
+    mode: Optional[str]
+    map: Optional[str]
     ended: Optional[datetime.datetime] = None

@@ -92,9 +92,9 @@ class Guild(BaseModel):
     achievements: Dict[str, int]
     ranks: List[Rank]
     joinable: bool
-    legacy_ranking: int
+    legacy_ranking: Optional[int] = None
     publicly_listed: bool
     preferred_games: List[str]
-    chat_mute: datetime.datetime
+    chat_mute: Optional[datetime.datetime] = None
     guild_exp_by_game_type: Dict[str, int]
     tag_color: Optional[str] = None
