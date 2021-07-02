@@ -16,7 +16,6 @@ nox.options.sessions = (
     "safety",
     "mypy",
     "tests",
-    "typeguard",
     "docs-build",
 )
 
@@ -155,14 +154,6 @@ def coverage(session: Session) -> None:
     session.run("coverage", *args)
 
 
-@session(python=python_versions)
-def typeguard(session: Session) -> None:
-    """Runtime type checking using Typeguard."""
-    session.install(".")
-    session.install("pytest", "typeguard", "pygments", "aioresponses", "pytest-asyncio")
-    session.run("pytest", f"--typeguard-packages={package}", *session.posargs)
-
-
 @session(name="docs-build", python="3.9")
 def docs_build(session: Session) -> None:
     """Build the documentation."""
@@ -173,6 +164,7 @@ def docs_build(session: Session) -> None:
         "sphinx-rtd-theme",
         "recommonmark",
         "sphinx_autodoc_typehints",
+        "autodoc_pydantic",
     )
 
     build_dir = Path("docs", "_build")
@@ -193,6 +185,7 @@ def docs(session: Session) -> None:
         "sphinx-rtd-theme",
         "recommonmark",
         "sphinx_autodoc_typehints",
+        "autodoc_pydantic",
     )
 
     build_dir = Path("docs", "_build")

@@ -22,6 +22,8 @@ from typing import Tuple
 from typing import Union
 
 import aiohttp
+from pydantic import parse_obj_as
+from pydantic import UUID4
 
 from .exceptions import ApiNoSuccess
 from .exceptions import InvalidApiKey
@@ -30,64 +32,23 @@ from .models import Auction
 from .models import AuctionItem
 from .models import Bazaar
 from .models import BazaarItem
-from .models import BazaarQuickStatus
-from .models import BazaarSummary
-from .models import Booster
 from .models import Boosters
 from .models import Friend
 from .models import Game
 from .models import GameCounts
-from .models import GameCountsGame
-from .models import gametype
 from .models import Guild
-from .models import GuildMembers
-from .models import InvArmor
-from .models import Item
 from .models import Key
 from .models import Leaderboards
-from .models import Members
 from .models import News
-from .models import Objective
 from .models import Player
 from .models import Profile
-from .models import Quests
 from .models import Status
 from .models import WatchDog
+from .utils import calc_player_level
 
 __all__ = ["Hypixel"]
 
 BASE_URL = "https://api.hypixel.net/"
-
-GAMETYPES = (
-    gametype("QUAKECRAFT", "Quake", "Quake", 2),
-    gametype("WALLS", "Walls", "Walls", 3),
-    gametype("PAINTBALL", "Paintball", "Paintball", 4),
-    gametype("SURVIVAL_GAMES", "HungerGames", "Blitz Survival Games", 5),
-    gametype("TNTGAMES", "TNTGames", "TNT Games", 6),
-    gametype("VAMPIREZ", "VampireZ", "VampireZ", 7),
-    gametype("WALLS3", "Walls3", "Mega Walls", 13),
-    gametype("ARCADE", "Arcade", "Arcade", 14),
-    gametype("ARENA", "Arena", "Arena", 17),
-    gametype("UHC", "UHC", "UHC Champions", 20),
-    gametype("MCGO", "MCGO", "Cops and Crims", 21),
-    gametype("BATTLEGROUND", "Battleground", "Warlords", 23),
-    gametype("SUPER_SMASH", "SuperSmash", "Smash Heroes", 24),
-    gametype("GINGERBREAD", "GingerBread", "Turbo Kart Racers", 25),
-    gametype("HOUSING", "Housing", "Housing", 26),
-    gametype("SKYWARS", "SkyWars", "SkyWars", 51),
-    gametype("TRUE_COMBAT", "TrueCombat", "Crazy Walls", 52),
-    gametype("SPEED_UHC", "SpeedUHC", "Speed UHC", 54),
-    gametype("SKYCLASH", "SkyClash", "SkyClash", 55),
-    gametype("LEGACY", "Legacy", "Classic Games", 56),
-    gametype("PROTOTYPE", "Prototype", "Prototype", 57),
-    gametype("BEDWARS", "Bedwars", "Bed Wars", 58),
-    gametype("MURDER_MYSTERY", "Quake", "Quake", 59),
-    gametype("QUAKECRAFT", "MurderMystery", "Murder Mystery", 60),
-    gametype("BUILD_BATTLE", "BuildBattle", "Build Battle", 61),
-    gametype("DUELS", "Duels", "Duels", 62),
-    gametype("SKYBLOCK", "SkyBlock", "SkyBlock", 63),
-    gametype("PIT", "Pit", "Pit", 64),
-)
 
 
 class Hypixel:
@@ -95,7 +56,7 @@ class Hypixel:
 
     def __init__(
         self,
-        api_key: Optional[Union[str, uuid.UUID]] = None,
+        api_key: Optional[Union[str, UUID4]] = None,
     ) -> None:
         """Initialise client object.
 
@@ -110,9 +71,10 @@ class Hypixel:
         self.total_requests: int = 0
         self._ratelimit_reset: datetime.datetime = datetime.datetime(1998, 1, 1)
         self.retry_after: datetime.datetime = datetime.datetime(1998, 1, 1)
+        self._calc_player_level = calc_player_level
 
     async def close(self) -> None:
-        """Used for safe client cleanup and stuff."""
+        """Used for safe client cleanup."""
         await self._session.close()
 
     async def _get(
@@ -196,13 +158,7 @@ class Hypixel:
         """
         data = await self._get("watchdogstats")
 
-        return WatchDog(
-            watchdog_last_minute=data["watchdog_lastMinute"],
-            staff_rolling_daily=data["staff_rollingDaily"],
-            watchdog_total=data["watchdog_total"],
-            watchdog_rolling_daily=data["watchdog_rollingDaily"],
-            staff_total=data["staff_total"],
-        )
+        return WatchDog.parse_obj(data)
 
     async def key_data(self, key: Optional[str] = None) -> Key:
         """Get information about an api key.
@@ -224,15 +180,9 @@ class Hypixel:
 
         params = {"key": key}
 
-        data = await self._get("key", params=params, key_required=False)
+        data = (await self._get("key", params=params, key_required=False))["record"]
 
-        return Key(
-            key=data["record"]["key"],
-            owner=data["record"]["owner"],
-            limit=data["record"]["limit"],
-            queries_in_past_min=data["record"]["queriesInPastMin"],
-            total_queries=data["record"]["totalQueries"],
-        )
+        return Key.parse_obj(data)
 
     async def boosters(self) -> Boosters:
         """Get the current online boosters.
@@ -241,27 +191,8 @@ class Hypixel:
             Boosters: object containing boosters.
         """
         data = await self._get("boosters")
-        boosterlist = []
-
-        for boost in data["boosters"]:
-            boosterlist.append(
-                Booster(
-                    id=boost["_id"],
-                    purchaser_uuid=boost["purchaserUuid"],
-                    amount=boost["amount"],
-                    original_length=boost["originalLength"],
-                    length=boost["length"],
-                    game_type=[
-                        game for game in GAMETYPES if game.id == boost["gameType"]
-                    ][0],
-                    date_activated=boost["dateActivated"],
-                    stacked=boost.get("stacked", False),
-                )
-            )
-        return Boosters(
-            booster_state_decrementing=data["boosterState"]["decrementing"],
-            boosters=boosterlist,
-        )
+        data["decrementing"] = data["boosterState"]["decrementing"]
+        return Boosters.parse_obj(data)
 
     async def player_count(self) -> int:
         """Get the current amount of players online.
@@ -280,26 +211,10 @@ class Hypixel:
             List[News]: List of news objects.
         """
         data = await self._get("skyblock/news")
-        news_list = []
-        for item in data["items"]:
-            if "data" in item["item"]:
-                _item = Item(
-                    material=item["item"]["material"], data=item["item"]["data"]
-                )
-            else:
-                _item = Item(material=item["item"]["material"])
-            news_list.append(
-                News(
-                    item=_item,
-                    link=item["link"],
-                    text=item["text"],
-                    title=item["title"],
-                )
-            )
 
-        return news_list
+        return parse_obj_as(List[News], data["items"])
 
-    async def player_status(self, uuid: Union[uuid.UUID, str]) -> Status:
+    async def player_status(self, uuid: Union[UUID4, str]) -> Optional[Status]:
         """Get current online status about a player.
 
         Args:
@@ -309,19 +224,11 @@ class Hypixel:
             Status: Status object of player.
         """
         data = await self._get("status", params={"uuid": str(uuid)})
-        if data["session"]["online"]:
-            return Status(
-                online=True,
-                game_type=[
-                    game
-                    for game in GAMETYPES
-                    if game.TypeName == data["session"]["gameType"]
-                ][0],
-                mode=data["session"]["mode"],
-            )
-        return Status(online=False)
+        if data["session"] is None:
+            return None
+        return Status.parse_obj(data["session"])
 
-    async def player_friends(self, uuid: Union[uuid.UUID, str]) -> List[Friend]:
+    async def player_friends(self, uuid: Union[UUID4, str]) -> Optional[List[Friend]]:
         """Get a list of a players friends.
 
         Args:
@@ -332,19 +239,10 @@ class Hypixel:
         """
         params = {"uuid": str(uuid)}
         data = await self._get("friends", params=params)
+        if data["records"] is None:
+            return None
 
-        friend_list = []
-        for friend in data["records"]:
-            friend_list.append(
-                Friend(
-                    id=friend["_id"],
-                    uuid_sender=friend["uuidSender"],
-                    uuid_receiver=friend["uuidReceiver"],
-                    started=friend["started"],
-                )
-            )
-
-        return friend_list
+        return parse_obj_as(List[Friend], data["records"])
 
     async def bazaar(self) -> Bazaar:
         """Get info of the items in the bazaar.
@@ -358,48 +256,11 @@ class Hypixel:
 
         for name in data["products"]:
             elements = data["products"][name]
-            sell_summary = []
-            buy_summary = []
-            for sell in elements["sell_summary"]:
-                sell_summary.append(
-                    BazaarSummary(
-                        amount=sell["amount"],
-                        price_per_unit=sell["pricePerUnit"],
-                        orders=sell["orders"],
-                    )
-                )
-            for buy in elements["buy_summary"]:
-                buy_summary.append(
-                    BazaarSummary(
-                        amount=buy["amount"],
-                        price_per_unit=buy["pricePerUnit"],
-                        orders=buy["orders"],
-                    )
-                )
-            quick = elements["quick_status"]
-            bazaar_quick_status = BazaarQuickStatus(
-                product_id=quick["productId"],
-                sell_price=quick["sellPrice"],
-                sell_volume=quick["sellVolume"],
-                sell_moving_week=quick["sellMovingWeek"],
-                sell_orders=quick["sellOrders"],
-                buy_price=quick["buyPrice"],
-                buy_volume=quick["buyVolume"],
-                buy_moving_week=quick["buyMovingWeek"],
-                buy_orders=quick["buyOrders"],
-            )
-            bazaar_items.append(
-                BazaarItem(
-                    name=name,
-                    product_id=elements["product_id"],
-                    sell_summary=sell_summary,
-                    buy_summary=buy_summary,
-                    quick_status=bazaar_quick_status,
-                )
-            )
+            elements["name"] = name
+            bazaar_items.append(BazaarItem.parse_obj(elements))
 
         return Bazaar(
-            last_updated=1590854517479,
+            last_updated=data["lastUpdated"],
             bazaar_items=bazaar_items,
         )
 
@@ -420,39 +281,9 @@ class Hypixel:
                 break
             except aiohttp.ServerTimeoutError:
                 pass
-        auction_list = []
-        for auc in data["auctions"]:
-            auction_list.append(
-                AuctionItem(
-                    uuid=auc["uuid"],
-                    auctioneer=auc["auctioneer"],
-                    profile_id=auc["profile_id"],
-                    coop=auc["coop"],
-                    start=auc["start"],
-                    end=auc["end"],
-                    item_name=auc["item_name"],
-                    item_lore=auc["item_lore"],
-                    extra=auc["extra"],
-                    category=auc["category"],
-                    tier=auc["tier"],
-                    starting_bid=auc["starting_bid"],
-                    item_bytes=auc["item_bytes"],
-                    claimed=auc["claimed"],
-                    claimed_bidders=auc["claimed_bidders"],
-                    highest_bid_amount=auc["highest_bid_amount"],
-                    bids=auc["bids"],
-                    bin=auc.get("bin", False),
-                )
-            )
-        return Auction(
-            page=data["page"],
-            total_pages=data["totalPages"],
-            total_auctions=data["totalAuctions"],
-            last_updated=data["lastUpdated"],
-            auctions=auction_list,
-        )
+        return Auction.parse_obj(data)
 
-    async def recent_games(self, uuid: Union[uuid.UUID, str]) -> List[Game]:
+    async def recent_games(self, uuid: Union[UUID4, str]) -> Optional[List[Game]]:
         """Get recent games of a player.
 
         Args:
@@ -463,99 +294,27 @@ class Hypixel:
         """
         params = {"uuid": str(uuid)}
         data = await self._get("recentGames", params=params)
+        if data["games"] is None:
+            return None
 
-        games_list = []
-        for game in data["games"]:
-            if "ended" in game:
-                games_list.append(
-                    Game(
-                        date=game["date"],
-                        game_type=[
-                            _game
-                            for _game in GAMETYPES
-                            if _game.TypeName == game["gameType"]
-                        ][0],
-                        mode=game["mode"],
-                        map=game["map"],
-                        ended=game["ended"],
-                    )
-                )
-            else:
-                games_list.append(
-                    Game(
-                        date=game["date"],
-                        game_type=[
-                            _game
-                            for _game in GAMETYPES
-                            if _game.TypeName == game["gameType"]
-                        ][0],
-                        mode=game["mode"],
-                        map=game["map"],
-                    )
-                )
+        return parse_obj_as(List[Game], data["games"])
 
-        return games_list
-
-    async def player(self, uuid: Union[uuid.UUID, str]) -> Player:
+    async def player(self, uuid: Union[UUID4, str]) -> Optional[Player]:
         """Get information about a player from their uuid.
 
         Args:
-            uuid (uuid.UUID): uuid of player.
+            uuid (UUID4): uuid of player.
 
         Returns:
             Player: player object.
         """
         params = {"uuid": str(uuid)}
         data = await self._get("player", params=params)
+        if data["player"] is None:
+            return None
+        return Player.parse_obj(data["player"])
 
-        return Player(
-            id=data["player"]["_id"],
-            uuid=data["player"]["uuid"],
-            first_login=data["player"]["firstLogin"],
-            playername=data["player"]["playername"],
-            last_login=data["player"]["lastLogin"],
-            displayname=data["player"]["displayname"],
-            known_aliases=data["player"]["knownAliases"],
-            known_aliases_lower=data["player"]["knownAliasesLower"],
-            achievements_one_time=data["player"]["achievementsOneTime"],
-            mc_version_rp=data["player"]["mcVersionRp"],
-            network_exp=data["player"]["networkExp"],
-            karma=data["player"]["karma"],
-            last_adsense_generate_time=data["player"]["lastAdsenseGenerateTime"],
-            last_claimed_reward=data["player"]["lastClaimedReward"],
-            total_rewards=data["player"]["totalRewards"],
-            total_daily_rewards=data["player"]["totalDailyRewards"],
-            reward_streak=data["player"]["rewardStreak"],
-            reward_score=data["player"]["rewardScore"],
-            reward_high_score=data["player"]["rewardHighScore"],
-            last_logout=data["player"]["lastLogout"],
-            friend_requests_uuid=data["player"]["friendRequestsUuid"],
-            achievement_tracking=data["player"]["achievementTracking"],
-            achievement_points=data["player"]["achievementPoints"],
-            current_gadget=data["player"].get("currentGadget", None),
-            channel=data["player"]["channel"],
-            most_recent_game_type=[
-                game
-                for game in GAMETYPES
-                if game.TypeName == data["player"]["mostRecentGameType"]
-            ][0],
-            level=self._calc_player_level(data["player"]["networkExp"]),
-            raw=data,
-        )
-
-    @staticmethod
-    def _calc_player_level(xp: Union[float, int]) -> float:
-        """Calculate player level from xp.
-
-        Args:
-            xp (int): amount of xp a player has.
-
-        Returns:
-            float: current level of player.
-        """
-        return 1 + (-8750.0 + (8750 ** 2 + 5000 * xp) ** 0.5) / 2500
-
-    async def guild_by_name(self, guild_name: str) -> Guild:
+    async def guild_by_name(self, guild_name: str) -> Optional[Guild]:
         """Get guild by name.
 
         Args:
@@ -566,10 +325,11 @@ class Hypixel:
         """
         params = {"name": guild_name}
         data = await self._get("guild", params=params)
-        guild_object = self._create_guild_object(data)
-        return guild_object
+        if data["guild"] is None:
+            return None
+        return Guild.parse_obj(data["guild"])
 
-    async def guild_by_id(self, guild_id: str) -> Guild:
+    async def guild_by_id(self, guild_id: str) -> Optional[Guild]:
         """Get guild by id.
 
         Args:
@@ -580,10 +340,11 @@ class Hypixel:
         """
         params = {"id": guild_id}
         data = await self._get("guild", params=params)
-        guild_object = self._create_guild_object(data)
-        return guild_object
+        if data["guild"] is None:
+            return None
+        return Guild.parse_obj(data["guild"])
 
-    async def guild_by_player(self, player_uuid: Union[uuid.UUID, str]) -> Guild:
+    async def guild_by_player(self, player_uuid: Union[UUID4, str]) -> Optional[Guild]:
         """Get guild by player.
 
         Args:
@@ -594,63 +355,13 @@ class Hypixel:
         """
         params = {"player": str(player_uuid)}
         data = await self._get("guild", params=params)
-        guild_object = self._create_guild_object(data)
-        return guild_object
+        if data["guild"] is None:
+            return None
+        return Guild.parse_obj(data["guild"])
 
-    @staticmethod
-    def _create_guild_object(data: Dict[str, Any]) -> Guild:
-        """Create guild object from json.
-
-        Args:
-            data (dict): json.
-
-        Returns:
-            Guild: guild object.
-        """
-        guild = data["guild"]
-        members = []
-        for member in data["guild"]["members"]:
-            if "mutedTill" in member:
-                mutedtill = member["mutedTill"]
-            else:
-                mutedtill = None
-
-            if "questParticipation" in member:
-                questparticipation = member["questParticipation"]
-            else:
-                questparticipation = None
-
-            members.append(
-                GuildMembers(
-                    uuid=member["uuid"],
-                    rank=member["rank"],
-                    joined=member["joined"],
-                    exp_history=member["expHistory"],
-                    quest_participation=questparticipation,
-                    muted_till=mutedtill,
-                )
-            )
-        return Guild(
-            id=guild["_id"],
-            created=guild["created"],
-            name=guild["name"],
-            name_lower=guild["name_lower"],
-            description=guild["description"],
-            tag=guild["tag"],
-            tag_color=guild["tagColor"],
-            exp=guild["exp"],
-            members=members,
-            achievements=guild["achievements"],
-            ranks=guild["ranks"],
-            joinable=guild.get("joinable", False),
-            legacy_ranking=guild.get("legacyRanking", None),
-            publicly_listed=guild["publiclyListed"],
-            preferred_games=guild["preferredGames"],
-            chat_mute=guild.get("chatMute", None),
-            guild_exp_by_game_type=guild["guildExpByGameType"],
-        )
-
-    async def auction_from_uuid(self, uuid: Union[uuid.UUID, str]) -> List[AuctionItem]:
+    async def auction_from_uuid(
+        self, uuid: Union[UUID4, str]
+    ) -> Optional[List[AuctionItem]]:
         """Get auction from uuid.
 
         Args:
@@ -661,10 +372,11 @@ class Hypixel:
         """
         params = {"uuid": str(uuid)}
         data = await self._get("skyblock/auction", params=params)
-        auction_items = self._create_auction_object(data)
-        return auction_items
+        if data["auctions"] is None:
+            return None
+        return parse_obj_as(List[AuctionItem], data["auctions"])
 
-    async def auction_from_player(self, player: str) -> List[AuctionItem]:
+    async def auction_from_player(self, player: str) -> Optional[List[AuctionItem]]:
         """Get auction data from player.
 
         Args:
@@ -675,10 +387,13 @@ class Hypixel:
         """
         params = {"player": player}
         data = await self._get("skyblock/auction", params=params)
-        auction_items = self._create_auction_object(data)
-        return auction_items
+        if data["auctions"] is None:
+            return None
+        return parse_obj_as(List[AuctionItem], data["auctions"])
 
-    async def auction_from_profile(self, profile_id: str) -> List[AuctionItem]:
+    async def auction_from_profile(
+        self, profile_id: str
+    ) -> Optional[List[AuctionItem]]:
         """Get auction data from profile.
 
         Args:
@@ -689,45 +404,9 @@ class Hypixel:
         """
         params = {"profile": profile_id}
         data = await self._get("skyblock/auction", params=params)
-        auction_items = self._create_auction_object(data)
-        return auction_items
-
-    @staticmethod
-    def _create_auction_object(data: Dict[str, Any]) -> List[AuctionItem]:
-        """Create auction object.
-
-        Args:
-            data (Dict): json input.
-
-        Returns:
-            List[AuctionItem]: auction object list.
-        """
-        auction_list = []
-        for auc in data["auctions"]:
-            auction_list.append(
-                AuctionItem(
-                    id=auc["_id"],
-                    uuid=auc["uuid"],
-                    auctioneer=auc["auctioneer"],
-                    profile_id=auc["profile_id"],
-                    coop=auc["coop"],
-                    start=auc["start"],
-                    end=auc["end"],
-                    item_name=auc["item_name"],
-                    item_lore=auc["item_lore"],
-                    extra=auc["extra"],
-                    category=auc["category"],
-                    tier=auc["tier"],
-                    starting_bid=auc["starting_bid"],
-                    item_bytes=auc["item_bytes"],
-                    claimed=auc["claimed"],
-                    claimed_bidders=auc["claimed_bidders"],
-                    highest_bid_amount=auc["highest_bid_amount"],
-                    bids=auc["bids"],
-                    bin=auc.get("bin", False),
-                )
-            )
-        return auction_list
+        if data["auctions"] is None:
+            return None
+        return parse_obj_as(List[AuctionItem], data["auctions"])
 
     async def game_count(self) -> GameCounts:
         """Gets number of players per game.
@@ -736,16 +415,7 @@ class Hypixel:
             GameCounts: game counts.
         """
         data = await self._get("gameCounts")
-        games = {}
-        for key in data["games"]:
-            if "modes" in data["games"][key]:
-                games[key] = GameCountsGame(
-                    players=data["games"][key]["players"],
-                    modes=data["games"][key]["modes"],
-                )
-            else:
-                games[key] = GameCountsGame(players=data["games"][key]["players"])
-        return GameCounts(games=games, player_count=data["playerCount"])
+        return GameCounts.parse_obj(data)
 
     async def leaderboards(self) -> Dict[str, List[Leaderboards]]:
         """Get the current leaderboards.
@@ -841,70 +511,7 @@ class Hypixel:
         data = await self._get("resources/skyblock/skills", key_required=False)
         return data
 
-    @staticmethod
-    def _fill_profile(data: Dict[str, Any]) -> Profile:
-        """Generate profile.
-
-        Args:
-            data (Dict[str, Any]): profile dict.
-
-        Returns:
-            Profile: profile class.
-        """
-        member_dict = {}
-        for member in data["members"]:
-            member_data = data["members"][member]
-            if "quests" not in member_data:
-                break
-            quests_dict = {}
-            for quest in member_data["quests"]:
-                quests_dict[quest] = Quests(
-                    status=member_data["quests"][quest]["status"],
-                    activated_at=member_data["quests"][quest]["activated_at"],
-                    activated_at_sb=member_data["quests"][quest]["activated_at_sb"],
-                    completed_at=member_data["quests"][quest]["completed_at"],
-                    completed_at_sb=member_data["quests"][quest]["completed_at_sb"],
-                )
-            objective_dict = {}
-            for objective in member_data["objectives"]:
-                objective_dict[objective] = Objective(
-                    status=member_data["objectives"][objective]["status"],
-                    progress=member_data["objectives"][objective]["progress"],
-                    completed_at=member_data["objectives"][objective]["completed_at"],
-                )
-            invarmor = InvArmor(
-                type=member_data["inv_armor"]["type"],
-                data=member_data["inv_armor"]["data"],
-            )
-            members = Members(
-                last_save=member_data["last_save"],
-                inv_armor=invarmor,
-                first_join=member_data["first_join"],
-                first_join_hub=member_data.get("first_join_hub", None),
-                stats=member_data["stats"],
-                objectives=objective_dict,
-                tutorial=member_data["tutorial"],
-                quests=quests_dict,
-                coin_purse=member_data.get("coin_purse", None),
-                last_death=member_data["last_death"],
-                crafted_generators=member_data.get("crafted_generators", None),
-                visited_zones=member_data.get("visited_zones", None),
-                fairy_souls_collected=member_data["fairy_souls_collected"],
-                fairy_souls=member_data.get("fairy_souls", None),
-                death_count=member_data.get("death_count", None),
-                slayer_bosses=member_data["slayer_bosses"],
-                pets=member_data["pets"],
-            )
-            member_dict[member] = members
-
-        return Profile(
-            profile_id=data["profile_id"],
-            cute_name=data.get("cute_name", None),
-            members=member_dict,
-            raw=data,
-        )
-
-    async def profile(self, profile: str) -> Union[Profile, None]:
+    async def profile(self, profile: str) -> Optional[Profile]:
         """Get profile info of a skyblock player.
 
         Args:
@@ -918,10 +525,9 @@ class Hypixel:
         data = await self._get("skyblock/profile", params=params)
         if data["profile"] is None:
             return None
-        profiles: Profile = self._fill_profile(data["profile"])
-        return profiles
+        return Profile.parse_obj(data["profile"])
 
-    async def profiles(self, uuid: Union[uuid.UUID, str]) -> Dict[str, Profile]:
+    async def profiles(self, uuid: Union[UUID4, str]) -> Optional[Dict[str, Profile]]:
         """Get info on a profile.
 
         Args:
@@ -932,10 +538,28 @@ class Hypixel:
         """
         params = {"uuid": str(uuid)}
         data = await self._get("skyblock/profiles", params=params)
+        if data["profiles"] is None:
+            return None
         profiles = data["profiles"]
         profile_dict = {}
         for profile in profiles:
             _id = profile["profile_id"]
-            profile_dict[_id] = self._fill_profile(profile)
-
+            profile_dict[_id] = Profile.parse_obj(profile)
         return profile_dict
+
+    async def uuid_from_name(self, username: str) -> Optional[UUID4]:
+        """Helper method to get uuid from username.
+
+        Args:
+            username (str): username of player
+
+        Returns:
+            UUID4: uuid of player
+        """
+        async with self._session.get(
+            "https://api.mojang.com/users/profiles/minecraft/" f"{username}"
+        ) as response:
+            if response.status != 200:
+                return None
+            else:
+                return uuid.UUID((await response.json())["id"])

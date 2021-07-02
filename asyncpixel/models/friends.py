@@ -1,8 +1,11 @@
 """Data object for player friends."""
 import datetime
-import uuid
 
 from pydantic import BaseModel
+from pydantic import Field
+from pydantic.types import UUID4
+
+from .utils import to_camel
 
 
 class Friend(BaseModel):
@@ -10,12 +13,17 @@ class Friend(BaseModel):
 
     Args:
         id (bool): Id of friend.
-        uuid_sender (uuid.UUID): UUID of player sending friend request.
-        uuid_receiver (uuid.UUID): UUID of player receiving friend request.
+        uuid_sender (UUID4): UUID of player sending friend request.
+        uuid_receiver (UUID4): UUID of player receiving friend request.
         started (datetime.datetime): Time players started being friends.
     """
 
-    id: str
-    uuid_sender: uuid.UUID
-    uuid_receiver: uuid.UUID
+    id: str = Field(alias="_id")
+    uuid_sender: UUID4
+    uuid_receiver: UUID4
     started: datetime.datetime
+
+    class Config:
+        """Config."""
+
+        alias_generator = to_camel

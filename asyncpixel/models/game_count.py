@@ -4,6 +4,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from .utils import to_camel
+
 
 class GameCountsGame(BaseModel):
     """Game count game.
@@ -27,3 +29,8 @@ class GameCounts(BaseModel):
 
     games: Dict[str, GameCountsGame]
     player_count: int
+
+    class Config:
+        """Config."""
+
+        alias_generator = to_camel

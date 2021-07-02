@@ -5,7 +5,7 @@ from uuid import UUID
 import pytest
 from aioresponses import aioresponses
 from asyncpixel import Hypixel
-from asyncpixel.models import gametype
+from asyncpixel.models import GameType
 from tests.utils import generate_key
 
 
@@ -75,8 +75,13 @@ async def test_boosters(hypixel_client: Hypixel, key: UUID) -> None:
         assert data.boosters[0].amount == 2.0
         assert data.boosters[0].original_length == 3600
         assert data.boosters[0].length == 3595
-        assert data.boosters[0].game_type == gametype(
-            "SUPER_SMASH", "SuperSmash", "Smash Heroes", 24
+        assert data.boosters[0].game_type == GameType(
+            id=24,
+            type_name="SUPER_SMASH",
+            database_name="SuperSmash",
+            lobby_name="smash",
+            clean_name="Smash Heroes",
+            standard_name="Smash",
         )
         assert data.boosters[0].date_activated == datetime.datetime.fromtimestamp(
             1545244519.133, tz=datetime.timezone.utc
@@ -88,9 +93,15 @@ async def test_boosters(hypixel_client: Hypixel, key: UUID) -> None:
         assert data.boosters[1].amount == 2.2
         assert data.boosters[1].original_length == 3600
         assert data.boosters[1].length == 2074
-        assert data.boosters[1].game_type == gametype(
-            "WALLS3", "Walls3", "Mega Walls", 13
+        assert data.boosters[1].game_type == GameType(
+            id=13,
+            type_name="WALLS3",
+            database_name="Walls3",
+            lobby_name="megawalls",
+            clean_name="Mega Walls",
+            standard_name="MegaWalls",
         )
+
         assert data.boosters[1].date_activated == datetime.datetime.fromtimestamp(
             1590842991.659, tz=datetime.timezone.utc
         )
@@ -104,8 +115,13 @@ async def test_boosters(hypixel_client: Hypixel, key: UUID) -> None:
         assert data.boosters[2].amount == 2.2
         assert data.boosters[2].original_length == 3600
         assert data.boosters[2].length == 2074
-        assert data.boosters[2].game_type == gametype(
-            "WALLS3", "Walls3", "Mega Walls", 13
+        assert data.boosters[2].game_type == GameType(
+            id=13,
+            type_name="WALLS3",
+            database_name="Walls3",
+            lobby_name="megawalls",
+            clean_name="Mega Walls",
+            standard_name="MegaWalls",
         )
         assert data.boosters[2].date_activated == datetime.datetime.fromtimestamp(
             1590842991.659, tz=datetime.timezone.utc

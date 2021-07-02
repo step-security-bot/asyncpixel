@@ -5,11 +5,18 @@ from typing import Dict
 from typing import List
 from typing import Optional
 
+from asyncpixel.models.utils import to_camel
 from pydantic import BaseModel
+from pydantic.fields import Field
 
 
 class Pattern(BaseModel):
-    """Pattern."""
+    """Pattern.
+
+    Args:
+        color (int): colour.
+        pattern (str): pattern.
+    """
 
     color: int
     pattern: str
@@ -30,9 +37,14 @@ class GuildMembers(BaseModel):
     uuid: uuid.UUID
     rank: str
     joined: datetime.datetime
-    exp_history: Dict[str, int]
+    exp_history: Optional[Dict[str, int]]
     quest_participation: Optional[int] = None
     muted_till: Optional[datetime.datetime] = None
+
+    class Config:
+        """Config."""
+
+        alias_generator = to_camel
 
 
 class Rank(BaseModel):
@@ -81,20 +93,25 @@ class Guild(BaseModel):
         tag_color (Optional[str]): Color of this guild's tag, if set. Defaults to None.
     """
 
-    id: str
+    id: str = Field(alias="_id")
     created: datetime.datetime
     name: str
-    name_lower: str
-    description: str
-    tag: str
+    name_lower: str = Field(alias="name_lower")
+    description: Optional[str]
+    tag: Optional[str]
     exp: int
     members: List[GuildMembers]
     achievements: Dict[str, int]
-    ranks: List[Rank]
-    joinable: bool
+    ranks: Optional[List[Rank]]
+    joinable: bool = False
     legacy_ranking: Optional[int] = None
-    publicly_listed: bool
-    preferred_games: List[str]
+    publicly_listed: Optional[bool]
+    preferred_games: Optional[List[str]]
     chat_mute: Optional[datetime.datetime] = None
-    guild_exp_by_game_type: Dict[str, int]
-    tag_color: Optional[str] = None
+    guild_exp_by_game_type: Optional[Dict[str, int]]
+    tag_color: Optional[str]
+
+    class Config:
+        """Config."""
+
+        alias_generator = to_camel

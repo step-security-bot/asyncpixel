@@ -5,13 +5,15 @@ import uuid
 import pytest
 from aioresponses import aioresponses
 from asyncpixel import Hypixel
-from asyncpixel.models import gametype
+from asyncpixel.utils import calc_player_level
+
+# from asyncpixel.models import gametype
 
 
 @pytest.mark.asyncio
 async def test_player_level_calc() -> None:
     """Test player level calc."""
-    level = Hypixel()._calc_player_level(514642.0)
+    level = calc_player_level(514642.0)
 
     assert level == 18.090376392868585
 
@@ -1510,6 +1512,7 @@ async def test_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         )
         data = await hypixel_client.player("405dcf08-b80f-4e23-b97d-943ad93d14fd")
 
+        assert data is not None
         assert data.id == "55e96b45de314c0f0424dc9a"
         assert data.uuid == uuid.UUID("405dcf08-b80f-4e23-b97d-943ad93d14fd")
         assert data.first_login == datetime.datetime.fromtimestamp(
@@ -1601,12 +1604,32 @@ async def test_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         assert data.last_logout == datetime.datetime.fromtimestamp(
             1608016811.099, tz=datetime.timezone.utc
         )
-        assert data.friend_requests_uuid == []  # type== ignore[name-defined]
+        assert data.friend_requests_uuid == []
         assert data.achievement_tracking == []
         assert data.achievement_points == 640
         assert data.current_gadget == "FORTUNE_COOKIE"
         assert data.channel == "ALL"
-        assert data.most_recent_game_type == gametype(
-            "BEDWARS", "Bedwars", "Bed Wars", 58
-        )
+        # assert data.most_recent_game_type == gametype(
+        #     "BEDWARS", "Bedwars", "Bed Wars", 58
+        # )
         assert data.level == 18.090376392868585
+
+
+@pytest.mark.asyncio
+async def test_player_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+    """Test to check the player method returns correct data when not found."""
+    with aioresponses() as m:
+        m.get(
+            f"https://api.hypixel.net/player?key={str(key)}"
+            + "&uuid=405dcf08-b80f-4e23-b97d-943ad93d14fd",
+            status=200,
+            headers={
+                "RateLimit-Limit": "120",
+                "RateLimit-Remaining": "119",
+                "RateLimit-Reset": "8",
+            },
+            payload={"success": True, "player": None},
+        )
+        data = await hypixel_client.player("405dcf08-b80f-4e23-b97d-943ad93d14fd")
+
+        assert data is None

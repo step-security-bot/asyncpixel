@@ -1,77 +1,245 @@
 """Player objects."""
 import datetime
-import uuid
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
+from typing import Union
 
+from asyncpixel import utils
+from asyncpixel.constants import get_game_types
 from pydantic import BaseModel
+from pydantic import Field
+from pydantic import validator
+from pydantic.class_validators import root_validator
+from pydantic.types import UUID4
 
-from .game_type import gametype
+from .game_type import GameType
+from .players import Arcade
+from .players import Arena
+from .players import Battleground
+from .players import Bedwars
+from .players import BuildBattle
+from .players import Duels
+from .players import GingerBread
+from .players import Housing
+from .players import HungerGames
+from .players import Legacy
+from .players import MCGO
+from .players import Paintball
+from .players import Pit
+from .players import Quake
+from .players import SkyClash
+from .players import Skywars
+from .players import TNTGames
+from .players import UHC
+from .players import VampireZ
+from .players import Walls
+from .players import Walls3
+from .utils import to_camel
+
+
+class Stats(BaseModel):
+    """Game Stats.
+
+    Args:
+        bedwars (Optional[Bedwars]): bedwars stats.
+        arcade (Optional[Arcade]): Arcade stats.
+        build_battle (Optional[BuildBattle]): Build Battle stats.
+        duels (Optional[Duels]): Duels stats.
+        battleground (Optional[Battleground]): Battleground stats.
+        hunger_games (Optional[HungerGames]): Hunger Games stats.
+        ginger_bread (Optional[GingerBread]): Ginger Bread stats.
+        paintball (Optional[Paintball]): Paintball stats.
+        quake (Optional[Quake]): Quake stats.
+        vampirez (Optional[VampireZ]): VampireZ stats.
+        tnt_games (Optional[TNTGames]): TNT Games stats.
+        uhc (Optional[UHC]): UHC stats.
+        mcgo (Optional[MCGO]): MCGO stats.
+        walls3 (Optional[Walls3]): Walls3 stats.
+        walls (Optional[Walls]): Walls stats.
+        arena (Optional[Arena]): Arena stats.
+        sky_clash (Optional[SkyClash]): SkyClash stats.
+        pit (Optional[Pit]): Pit stats.
+        housing (Optional[Housing]): Housing stats.
+        legacy (Optional[Legacy]): Legacy stats.
+    """
+
+    bedwars: Optional[Bedwars] = Field(alias="Bedwars")
+    arcade: Optional[Arcade] = Field(alias="Arcade")
+    build_battle: Optional[BuildBattle] = Field(alias="BuildBattle")
+    duels: Optional[Duels] = Field(alias="Duels")
+    battleground: Optional[Battleground] = Field(alias="Battleground")
+    hunger_games: Optional[HungerGames] = Field(alias="HungerGames")
+    ginger_bread: Optional[GingerBread] = Field(alias="GingerBread")
+    paintball: Optional[Paintball] = Field(alias="Paintball")
+    quake: Optional[Quake] = Field(alias="Quake")
+    vampirez: Optional[VampireZ] = Field(alias="VampireZ")
+    tnt_games: Optional[TNTGames] = Field(alias="TNTGames")
+    uhc: Optional[UHC] = Field(alias="UHC")
+    mcgo: Optional[MCGO] = Field(alias="MCGO")
+    walls3: Optional[Walls3] = Field(alias="Walls3")
+    walls: Optional[Walls] = Field(alias="Walls")
+    arena: Optional[Arena] = Field(alias="Arena")
+    sky_clash: Optional[SkyClash] = Field(alias="SkyClash")
+    pit: Optional[Pit] = Field(alias="Pit")
+    housing: Optional[Housing] = Field(alias="Housing")
+    legacy: Optional[Legacy] = Field(alias="Legacy")
+    skywars: Optional[Skywars] = Field(alias="SkyWars")
+
+    # true_combat: Optional[TrueCombat] = Field(alias="TrueCombat")
+    # speed_uhc: Optional[SpeedUHC]= Field(alias="SpeedUHC")
+    # sky_block: Optional[SkyBlock]= Field(alias="SkyBlock")
+    # super_smash: Optional[SuperSmash] = Field(alias="SuperSmash")
+
+
+class Social(BaseModel):
+    """Social accounts.
+
+    Args:
+        twitter (Optional[str]): Twitter.
+        youtube (Optional[str]): YouTube.
+        instagram (Optional[str]): Instagram.
+        twitch (Optional[str]): Twitch.
+        discord (Optional[str]): Discord.
+        hypixel_forums (Optional[str]): Hypixel Forums.
+    """
+
+    twitter: Optional[str]
+    youtube: Optional[str]
+    instagram: Optional[str]
+    twitch: Optional[str]
+    discord: Optional[str]
+    hypixel_forums: Optional[str]
+
+    @root_validator(pre=True)
+    def get_social_media(  # noqa: D102
+        cls, values: Dict[str, Any]  # noqa: B902, N805, D102
+    ) -> Dict[str, Any]:
+        out = values.copy()
+        for k, v in out["links"].items():
+            out[k.lower()] = v
+        return out
 
 
 class Player(BaseModel):
-    """Player object.
+    """Player.
 
     Args:
-        id (str): ID of the player.
-        uuid (UUID): UUID of the player.
-        first_login (datetime): Datetime of the players first login.
-        playername (str): The players name.
-        last_login (datetime): Datetime of the players last login.
-        displayname (str): Display name of the player.
-        known_aliases (List[str]): List of the players known aliases.
-        known_aliases_lower (List[str]): List of the players known
-            aliases in lower case.
-        achievements_one_time (List[str]): Players achievements.
-        mc_version_rp (str): Minecraft version of the player.
-        network_exp (float): Experience points on the network.
-        karma (int): Total karama.
-        last_adsense_generate_time (datetime): Datetime of the last
-            daily claimed reward.
-        last_claimed_reward (int): Last claimed reward.
-        total_rewards (int): Total amount of rewards the player has.
-        total_daily_rewards (int): Total amount of dialy rewards the player has.
-        reward_streak (int): Streak of how long a player has opened daily rewards for.
-        reward_score (int): Current score of the players daily reward.
-        reward_high_score (int): Highest score of the players daily reward.
-        last_logout (datetime): Datetime of the last time the player logged out.
-        friend_requests_uuid (List[UUID]): UUID list of the players friend requests.
-        achievement_tracking (List[str]): List of the players tracked achievements.
-        achievement_points (Int): Points the player achieved from doing achievements.
-        current_gadget (Optional[str]): The players currently selected gadget.
-        channel (str): The players channel.
-        most_recent_game_type (gametype): The players most recently played game.
-        level (float): Current level on hypixel.
-        raw (Dict[str, Any]): Raw response.
+        uuid (UUID4): uuid of user.
+        displayname (Optional[str]): Display name of user.
+        rank (Optional[str]): Rank of user
+        first_login (datetime.datetime): First login date.
+        last_login (Optional[datetime.datetime]): Most recent login date.
+        last_logout (Optional[datetime.datetime]): Last logout.
+        stats (Stats): Stats for various game types.
+        social_media (Optional[Social]): Social media accounts.
+        id (Optional[str]): id of user.
+        playername (Optional[str]): Playername.
+        known_aliases (Optional[List[str]]): known aliases.
+        known_aliases_lower (Optional[List[str]]): known aliases in lowercase.
+        achievements_one_time (Optional[List[str]]): Achievements.
+        mc_version_rp (Optional[str]): Minecraft version.
+        network_exp (Optional[float]): Network experience.
+        karma (Optional[int]): Player karma.
+        last_adsense_generate_time (Optional[datetime.datetime]): Last generate
+            time for adsense.
+        last_claimed_reward (Optional[int]): Last claimed reward.
+        total_rewards (Optional[int]): Total rewards.
+        total_daily_rewards (Optional[int]): Total daily awards.
+        reward_streak (Optional[int]): Current reward streak.
+        reward_score (Optional[int]): Reward score.
+        reward_high_score (Optional[int]): High score for rewards.
+        friend_requests_uuid (Optional[List[UUID4]]): UUID of friend requests.
+        achievement_tracking (Optional[List[str]]): Achievement tracking.
+        achievement_points (Optional[int]): achievement points.
+        current_gadget (Optional[str]): Current equipped gadget.
+        channel (Optional[str]): Channel.
+        most_recent_game_type (Optional[GameType]): Most recent Game Type that
+            has been played.
+        level (Optional[float]): Level of user.
+        raw (Dict[str, Any]): raw data
     """
 
-    id: str
-    uuid: uuid.UUID
+    uuid: UUID4
+    displayname: Optional[str]
+    rank: Optional[str]
+
+    @root_validator(pre=True)
+    def create_rank(  # noqa: D102
+        cls, values: Dict[str, Any]  # noqa: B902, N805, D102
+    ) -> Dict[str, Any]:
+        out = values.copy()
+        rank = utils.get_rank(
+            values.get("rank"),
+            values.get("prefix"),
+            values.get("monthlyPackageRank"),
+            values.get("newPackageRank"),
+            values.get("packageRank"),
+        )
+        out["rank"] = rank
+        return out
+
     first_login: datetime.datetime
-    playername: str
-    last_login: datetime.datetime
-    displayname: str
-    known_aliases: List[str]
-    known_aliases_lower: List[str]
-    achievements_one_time: List[str]
-    mc_version_rp: str
-    network_exp: float
-    karma: int
-    last_adsense_generate_time: datetime.datetime
-    last_claimed_reward: int
-    total_rewards: int
-    total_daily_rewards: int
-    reward_streak: int
-    reward_score: int
-    reward_high_score: int
-    last_logout: datetime.datetime
-    friend_requests_uuid: List[uuid.UUID]  # type: ignore[name-defined]
-    achievement_tracking: List[str]
-    achievement_points: int
+    last_login: Optional[datetime.datetime]
+    last_logout: Optional[datetime.datetime]
+    stats: Stats
+    social_media: Optional[Social]
+
+    id: Optional[str] = Field(alias="_id")
+    playername: Optional[str]
+    known_aliases: Optional[List[str]]
+    known_aliases_lower: Optional[List[str]]
+    achievements_one_time: Optional[List[str]]
+    mc_version_rp: Optional[str]
+    network_exp: Optional[float]
+    karma: Optional[int]
+    last_adsense_generate_time: Optional[datetime.datetime]
+    last_claimed_reward: Optional[int]
+    total_rewards: Optional[int]
+    total_daily_rewards: Optional[int]
+    reward_streak: Optional[int]
+    reward_score: Optional[int]
+    reward_high_score: Optional[int]
+    friend_requests_uuid: Optional[List[UUID4]]
+    achievement_tracking: Optional[List[str]]
+    achievement_points: Optional[int]
     current_gadget: Optional[str]
-    channel: str
-    most_recent_game_type: gametype
+    channel: Optional[str]
+    most_recent_game_type: Optional[GameType]
+
+    @validator("most_recent_game_type", pre=True)
+    def validate_game_type(  # noqa: D102
+        cls, v: Union[str, int]  # noqa: B902, N805
+    ) -> GameType:
+        try:
+            game_type = [game for game in get_game_types() if game.id == v][0]
+        except Exception:
+            game_type = [game for game in get_game_types() if game.type_name == v][0]
+        return game_type
+
     level: float
+
+    @root_validator(pre=True)
+    def create_level(  # noqa: D102
+        cls, values: Dict[str, Any]  # noqa: B902, N805, D102
+    ) -> Dict[str, Any]:
+        out = values.copy()
+        exp = float(out.get("networkExp"))  # type: ignore
+        out["level"] = utils.calc_player_level(exp)
+        return out
+
     raw: Dict[str, Any]
+
+    @root_validator(pre=True)
+    def create_raw(  # noqa: D102
+        cls, values: Dict[str, Any]  # noqa: B902, N805, D102
+    ) -> Dict[str, Any]:
+        out = values.copy()
+        out["raw"] = out
+        return out
+
+    class Config:
+        """Config."""
+
+        alias_generator = to_camel

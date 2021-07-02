@@ -22,6 +22,7 @@ except ImportError:  # pragma: no cover
     from importlib_metadata import version, PackageNotFoundError  # type: ignore
 
 from .hypixel import Hypixel
+from . import utils
 
 try:
     __version__ = version(__name__)
@@ -50,4 +51,5 @@ __all__ = [
     "__author__",
     "__license__",
     "Hypixel",
+    "utils",
 ]

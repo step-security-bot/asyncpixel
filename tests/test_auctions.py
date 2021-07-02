@@ -103,8 +103,10 @@ async def test_auctions(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         assert data.auctions[0].starting_bid == 256
         assert data.auctions[0].item_bytes == "..."
         assert data.auctions[0].claimed is False
+        assert data.auctions[0].claimed_bidders is not None
         assert len(data.auctions[0].claimed_bidders) == 0
         assert data.auctions[0].highest_bid_amount == 256
+        assert data.auctions[0].bids is not None
         assert len(data.auctions[0].bids) == 1
         assert data.auctions[0].bids[0].auction_id == uuid.UUID(
             "bc581ce675e94a0c88ac9deae06090f0"

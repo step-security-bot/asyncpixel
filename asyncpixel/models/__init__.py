@@ -11,16 +11,19 @@ from .booster import Boosters
 from .friends import Friend
 from .game_count import GameCounts
 from .game_count import GameCountsGame
-from .game_type import gametype
+from .game_type import GameType
 from .games import Game
 from .guild import Guild
 from .guild import GuildMembers
 from .guild import Pattern
+from .guild import Rank
 from .key import Key
 from .leaderboards import Leaderboards
 from .news import Item
 from .news import News
 from .player import Player
+from .player import Social
+from .player import Stats
 from .profile import InvArmor
 from .profile import Members
 from .profile import Objective
@@ -59,5 +62,8 @@ __all__ = [
     "GuildMembers",
     "Banner",
     "Pattern",
-    "gametype",
+    "GameType",
+    "Stats",
+    "Social",
+    "Rank",
 ]

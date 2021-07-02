@@ -23,7 +23,7 @@ author = "Leon Bowie"
 copyright = f"{datetime.now().year}, {author}"
 
 # The full version, including alpha/beta/rc tags
-release = "1.0.10"
+release = "1.1.0"
 
 
 # -- General configuration ---------------------------------------------------
@@ -48,6 +48,7 @@ intersphinx_mapping = {
     "aiohttp": ("https://aiohttp.readthedocs.io/en/latest/", None),
 }
 
+autodoc_default_options = {"exclude-members": "Config"}
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 

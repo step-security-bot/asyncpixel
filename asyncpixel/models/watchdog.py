@@ -1,5 +1,8 @@
 """Watchdog objects."""
 from pydantic import BaseModel
+from pydantic import Field
+
+from .utils import to_camel
 
 
 class WatchDog(BaseModel):
@@ -13,8 +16,13 @@ class WatchDog(BaseModel):
         staff_total (int): Staff total bans.
     """
 
-    watchdog_last_minute: int
-    staff_rolling_daily: int
-    watchdog_total: int
-    watchdog_rolling_daily: int
-    staff_total: int
+    watchdog_last_minute: int = Field(alias="watchdog_lastMinute")
+    staff_rolling_daily: int = Field(alias="staff_rollingDaily")
+    watchdog_total: int = Field(alias="watchdog_total")
+    watchdog_rolling_daily: int = Field(alias="watchdog_rollingDaily")
+    staff_total: int = Field(alias="staff_total")
+
+    class Config:
+        """Config."""
+
+        alias_generator = to_camel

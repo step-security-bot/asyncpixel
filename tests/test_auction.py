@@ -65,6 +65,7 @@ async def test_auction_from_uuid(hypixel_client: Hypixel, key: uuid.UUID) -> Non
         client = hypixel_client
         data = await client.auction_from_uuid("409a1e0f261a49849493278d6cd9305a")
 
+        assert data is not None
         assert len(data) == 1
 
         assert not data[0].bin
@@ -96,6 +97,7 @@ async def test_auction_from_uuid(hypixel_client: Hypixel, key: uuid.UUID) -> Non
             + "gAP05Qaqhk+8AVIrd2eoAAAAA==",
         }
         assert data[0].claimed is True
+        assert data[0].claimed_bidders is not None
         assert len(data[0].claimed_bidders) == 0
         assert data[0].highest_bid_amount == 7607533
         assert len(data[0].bids) == 1
@@ -110,6 +112,27 @@ async def test_auction_from_uuid(hypixel_client: Hypixel, key: uuid.UUID) -> Non
         assert data[0].bids[0].timestamp == datetime.datetime.fromtimestamp(
             1573760824.844, tz=datetime.timezone.utc
         )
+
+
+@pytest.mark.asyncio
+async def test_auction_from_uuid_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+    """Test to check the auction_from_uuid method returns correct data."""
+    with aioresponses() as m:
+        m.get(
+            f"https://api.hypixel.net/skyblock/auction?key={str(key)}"
+            + "&uuid=409a1e0f261a49849493278d6cd9305a",
+            headers={
+                "RateLimit-Limit": "120",
+                "RateLimit-Remaining": "119",
+                "RateLimit-Reset": "8",
+            },
+            status=200,
+            payload={"success": True, "auctions": None},
+        )
+        client = hypixel_client
+        data = await client.auction_from_uuid("409a1e0f261a49849493278d6cd9305a")
+
+        assert data is None
 
 
 @pytest.mark.asyncio
@@ -170,6 +193,7 @@ async def test_auction_from_profiile(hypixel_client: Hypixel, key: uuid.UUID) ->
         )
         client = hypixel_client
         data = await client.auction_from_profile("347ef6c1daac45ed9d1fa02818cf0fb6")
+        assert data is not None
         assert len(data) == 1
 
         assert not data[0].active()
@@ -203,6 +227,7 @@ async def test_auction_from_profiile(hypixel_client: Hypixel, key: uuid.UUID) ->
             + "5TnbbgAP05Qaqhk+8AVIrd2eoAAAAA==",
         }
         assert data[0].claimed is True
+        assert data[0].claimed_bidders is not None
         assert len(data[0].claimed_bidders) == 0
         assert data[0].highest_bid_amount == 7607533
         assert len(data[0].bids) == 1
@@ -217,6 +242,29 @@ async def test_auction_from_profiile(hypixel_client: Hypixel, key: uuid.UUID) ->
         assert data[0].bids[0].timestamp == datetime.datetime.fromtimestamp(
             1573760824.844, tz=datetime.timezone.utc
         )
+
+
+@pytest.mark.asyncio
+async def test_auction_from_profiile_none(
+    hypixel_client: Hypixel, key: uuid.UUID
+) -> None:
+    """Test to check the auction_from_profile method returns correct data."""
+    with aioresponses() as m:
+        m.get(
+            f"https://api.hypixel.net/skyblock/auction?key={str(key)}"
+            + "&profile=347ef6c1daac45ed9d1fa02818cf0fb6",
+            status=200,
+            headers={
+                "RateLimit-Limit": "120",
+                "RateLimit-Remaining": "119",
+                "RateLimit-Reset": "8",
+            },
+            payload={"success": True, "auctions": None},
+        )
+        client = hypixel_client
+        data = await client.auction_from_profile("347ef6c1daac45ed9d1fa02818cf0fb6")
+
+        assert data is None
 
 
 @pytest.mark.asyncio
@@ -276,6 +324,7 @@ async def test_auction_from_player(hypixel_client: Hypixel, key: uuid.UUID) -> N
         )
         client = hypixel_client
         data = await client.auction_from_player("bc581ce675e94a0c88ac9deae06090f0")
+        assert data is not None
         assert len(data) == 1
 
         assert data[0].active()
@@ -309,6 +358,7 @@ async def test_auction_from_player(hypixel_client: Hypixel, key: uuid.UUID) -> N
             + "5TnbbgAP05Qaqhk+8AVIrd2eoAAAAA==",
         }
         assert data[0].claimed is False
+        assert data[0].claimed_bidders is not None
         assert len(data[0].claimed_bidders) == 0
         assert data[0].highest_bid_amount == 1
         assert len(data[0].bids) == 1
@@ -323,3 +373,26 @@ async def test_auction_from_player(hypixel_client: Hypixel, key: uuid.UUID) -> N
         assert data[0].bids[0].timestamp == datetime.datetime.fromtimestamp(
             1573760824.844, tz=datetime.timezone.utc
         )
+
+
+@pytest.mark.asyncio
+async def test_auction_from_player_none(
+    hypixel_client: Hypixel, key: uuid.UUID
+) -> None:
+    """Test to check the auction_from_player method."""
+    with aioresponses() as m:
+        m.get(
+            f"https://api.hypixel.net/skyblock/auction?key={str(key)}"
+            + "&player=bc581ce675e94a0c88ac9deae06090f0",
+            status=200,
+            headers={
+                "RateLimit-Limit": "120",
+                "RateLimit-Remaining": "119",
+                "RateLimit-Reset": "8",
+            },
+            payload={"success": True, "auctions": None},
+        )
+        client = hypixel_client
+        data = await client.auction_from_player("bc581ce675e94a0c88ac9deae06090f0")
+
+        assert data is None

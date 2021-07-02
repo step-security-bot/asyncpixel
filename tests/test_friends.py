@@ -35,6 +35,7 @@ async def test_friends(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         client = hypixel_client
         data = await client.player_friends("7486aa03aca5470e888dde8a43eb8c10")
 
+        assert data is not None
         assert len(data) == 1
         assert data[0].id == "5eb97d170cf22f431e8d6170"
         assert data[0].uuid_sender == uuid.UUID("20934ef9488c465180a78f861586b4cf")
@@ -42,3 +43,24 @@ async def test_friends(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         assert data[0].started == datetime.datetime.fromtimestamp(
             1589214487.454, tz=datetime.timezone.utc
         )
+
+
+@pytest.mark.asyncio
+async def test_friends_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+    """Test to check the friends method returns correct data."""
+    with aioresponses() as m:
+        m.get(
+            f"https://api.hypixel.net/friends?key={str(key)}&uuid=74"
+            + "86aa03aca5470e888dde8a43eb8c10",
+            status=200,
+            headers={
+                "RateLimit-Limit": "120",
+                "RateLimit-Remaining": "119",
+                "RateLimit-Reset": "8",
+            },
+            payload={"success": True, "records": None},
+        )
+        client = hypixel_client
+        data = await client.player_friends("7486aa03aca5470e888dde8a43eb8c10")
+
+        assert data is None

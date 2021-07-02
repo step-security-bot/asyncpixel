@@ -1,5 +1,6 @@
 """Profile objects."""
 import datetime
+import math
 import uuid
 from typing import Any
 from typing import Dict
@@ -76,23 +77,67 @@ class Members(BaseModel):
         pets (List[Any]): Pets.
     """
 
-    last_save: datetime.datetime
-    inv_armor: InvArmor
-    first_join: datetime.datetime
+    # last_save: Optional[datetime.datetime]
+    # first_join: Optional[datetime.datetime]
+    # pets = [],
+    # stats = {}
+    # coin_purse: int = 0
+    # crafted_generators = []
+    # slayer_bosses = {}
+    # unlocked_coll_tiers = []
+    # collection = {}
+    # # Inventories
+    # inv_armor: Optional[]
+    # inv_contents = {}
+    # fishing_bag = {}
+    # potion_bag = {}
+    # talisman_bag = {}
+    # quiver = {}
+    # ender_chest_contents = {}
+    # candy_inventory_contents = {}
+    # wardrobe_contents = {}
+    # personal_vault_contents = {}
+    # backpack_contents = {}
+    # backpack_icons = {}
+    # # Fairy souls
+    # fairy_souls_collected: int = 0
+    # fairy_souls: int = 0
+    # fairy_exchanges: int = 0
+
+    last_save: Optional[datetime.datetime]
+    first_join: Optional[datetime.datetime]
+    coin_purse: float = 0
+    fairy_souls_collected: int = 0
+    fairy_souls: int = 0
+    fairy_exchanges: int = 0
+    pets: List[Any] = []
+    collection: Dict[str, Any] = {}
+    collections_unlocked: int = 0
+
+    inv_armor: Optional[InvArmor]
     first_join_hub: Optional[int]
-    stats: Dict[str, float]
-    objectives: Dict[str, Objective]
-    tutorial: List[str]
-    quests: Dict[str, Quests]
-    coin_purse: Optional[float]
-    last_death: int
-    crafted_generators: Optional[List[str]]
-    visited_zones: Optional[List[str]]
-    fairy_souls_collected: int
-    fairy_souls: Optional[int]
-    death_count: Optional[int]
-    slayer_bosses: Dict[str, Dict[str, Any]]
-    pets: List[Any]
+    stats: Optional[Dict[str, float]]
+    tutorial: List[str] = []
+    last_death: Optional[int]
+    crafted_generators: List[str] = []
+    visited_zones: List[str] = []
+    death_count: int = 0
+
+    @property
+    def fairy_bonus(self) -> Dict[str, int]:
+        """Bonus from fairy.
+
+        Returns:
+            Dict[str, int]: Fairy bonus.
+        """
+        bonus = {"speed": 0, "strength": 0, "defense": 0, "health": 0}
+        bonus["speed"] = math.floor(self.fairy_exchanges / 10)
+
+        for i in range(self.fairy_exchanges):
+            bonus["strength"] += 2 if (i + 1) % 5 == 0 else 1
+            bonus["defense"] += 2 if (i + 1) % 5 == 0 else 1
+            bonus["health"] += 3 + math.floor(i / 2)
+        return bonus
 
 
 class Profile(BaseModel):
@@ -102,10 +147,10 @@ class Profile(BaseModel):
         profile_id (str): Id of profile
         cute_name (Optional[str]): Cute name of profile
         members (Dict[str, Members]): Dict of all members in profile.
-        raw (Dict[str, Any]): Raw response.
     """
 
     profile_id: uuid.UUID
     cute_name: Optional[str]
     members: Dict[str, Members]
-    raw: Dict[str, Any]
+    banking: Optional[Dict[str, Any]]
+    community_upgrades: Optional[Dict[str, Any]]

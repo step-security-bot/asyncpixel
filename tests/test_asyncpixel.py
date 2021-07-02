@@ -1,4 +1,6 @@
 """Main tests."""
+from uuid import UUID
+
 import asyncpixel
 import pytest
 from aioresponses import aioresponses
@@ -8,7 +10,7 @@ from .utils import generate_key
 
 def test_version() -> None:
     """Mock version."""
-    assert asyncpixel.__version__ == "1.0.10"
+    assert asyncpixel.__version__ == "1.1.0"
 
 
 def test_author() -> None:
@@ -143,4 +145,19 @@ async def test_saved_rate_max() -> None:
         )
         await client._get("test")
         assert client.total_requests == 120
+        await client.close()
+
+
+@pytest.mark.asyncio
+async def test_get_uuid() -> None:
+    """Test get uuid."""
+    with aioresponses() as m:
+        m.get(
+            "https://api.mojang.com/users/profiles/minecraft/Technoblade",
+            status=200,
+            payload={"name": "Technoblade", "id": "b876ec32e396476ba1158438d83c67d4"},
+        )
+        client = asyncpixel.Hypixel()
+        uuid = await client.uuid_from_name("Technoblade")
+        assert uuid == UUID("b876ec32e396476ba1158438d83c67d4")
         await client.close()

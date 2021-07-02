@@ -8,10 +8,10 @@
 </h1>
 
 <h3 align="center">
-  Easily access hypixel's api
+  Easily access Hypixel's api
 </h3>
 <p align="center">
-  Asyncpixel is an open source asyncronous python wrapper for the hypixel api with 100% of all endpoints.
+  Asyncpixel is an open source asynchronous python wrapper for the Hypixel api with 100% of all endpoints.
 </p>
 
 <h3 align="center">
@@ -48,9 +48,9 @@
 
 ## ✨ Features
 
-- **Asyncronous.** Unlike other libraries Asyncpixel is fully asyncronous. This makes it perfect to use in your next discord bot or powerful website without having to worry about blocking.
+- **Asyncronous.** Unlike other libraries Asyncpixel is fully asynchronous. This makes it perfect to use in your next discord bot or powerful website without having to worry about blocking.
 
-- **100% API coverage.** Asyncpixel is currently the only python library with full coverage of the hypixel API meaning that no endpoints are left untouched and out of your reach.
+- **100% API coverage.** Asyncpixel is currently the only python library with full coverage of the Hypixel API meaning that no endpoints are left untouched and out of your reach.
 
 - **Pydantic models.** All models are checked and validated by [Pydantic](https://github.com/samuelcolvin/pydantic) meaning that the data is always in the correct format perfect for you to use.
 
@@ -75,10 +75,10 @@ import asyncpixel
 import asyncio
 
 async def main():
-    hypixel = asyncpixel.Hypixel("hypixel_api_key")
-    profile = await hypixel.profile("405dcf08b80f4e23b97d943ad93d14fd")
-    print(profile)
-    await hypixel.close()
+  hypixel = asyncpixel.Hypixel("hypixel_api_key")
+  player = await hypixel.player("405dcf08b80f4e23b97d943ad93d14fd")
+  print(player.stats.bedwars)
+  await hypixel.close()
 
 
 asyncio.run(main())
@@ -86,7 +86,7 @@ asyncio.run(main())
 
 ## ❗ Code of Conduct
 
-Obsidion-dev is dedicated to providing a welcoming, diverse, and harrassment-free experience for everyone. We expect everyone in the Obsidion-dev community to abide by our [**Code of Conduct**](https://github.com/Obsidion-dev/asyncpixel/blob/master/CODE_OF_CONDUCT.rst). Please read it.
+Obsidion-dev is dedicated to providing a welcoming, diverse, and harassment-free experience for everyone. We expect everyone in the Obsidion-dev community to abide by our [**Code of Conduct**](https://github.com/Obsidion-dev/asyncpixel/blob/master/CODE_OF_CONDUCT.rst). Please read it.
 
 ## 🙌 Contributing to Asyncpixel
 
