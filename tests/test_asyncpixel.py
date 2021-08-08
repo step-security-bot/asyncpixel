@@ -96,7 +96,7 @@ async def test_safe_ratelimit() -> None:
 async def test_safe_no_key() -> None:
     """Test no key method."""
     client = asyncpixel.Hypixel()
-    with pytest.raises(asyncpixel.exceptions.InvalidApiKey):
+    with pytest.raises(asyncpixel.exceptions.InvalidApiKeyError):
         await client._get("test")
     await client.close()
 

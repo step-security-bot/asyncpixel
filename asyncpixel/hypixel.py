@@ -25,8 +25,8 @@ import aiohttp
 from pydantic import parse_obj_as
 from pydantic import UUID4
 
-from .exceptions import ApiNoSuccess
-from .exceptions import InvalidApiKey
+from .exceptions import ApiNoSuccessError
+from .exceptions import InvalidApiKeyError
 from .exceptions import RateLimitError
 from .models import Auction
 from .models import AuctionItem
@@ -94,8 +94,8 @@ class Hypixel:
 
         Raises:
             RateLimitError: error if ratelimit has been reached.
-            InvalidApiKey: error if api key is invalid.
-            ApiNoSuccess: error if api throughs an error.
+            InvalidApiKeyError: error if api key is invalid.
+            ApiNoSuccessError: error if api throughs an error.
 
         Returns:
             dict: returns a dictionary of the json response.
@@ -115,7 +115,7 @@ class Hypixel:
             params = {}
         if key_required:
             if self.api_key is None:
-                raise InvalidApiKey("No API key provided")
+                raise InvalidApiKeyError("No API key provided")
             params["key"] = str(self.api_key)
 
         response: aiohttp.ClientResponse = await self._session.get(
@@ -133,10 +133,10 @@ class Hypixel:
             )
 
         elif response.status == 403:
-            raise InvalidApiKey()
+            raise InvalidApiKeyError()
 
         elif response.status != 200:
-            raise ApiNoSuccess(path)
+            raise ApiNoSuccessError(path)
 
         elif key_required and "RateLimit-Limit" in response.headers:
             if self.total_requests == 0:
@@ -167,7 +167,7 @@ class Hypixel:
             key (str, optional): api key. Defaults token provided in class.
 
         Raises:
-            InvalidApiKey: No api key available.
+            InvalidApiKeyError: No api key available.
 
         Returns:
             Key: Key object.
@@ -176,7 +176,7 @@ class Hypixel:
             key = str(self.api_key)
 
         if key == "None":
-            raise InvalidApiKey()
+            raise InvalidApiKeyError()
 
         params = {"key": key}
 

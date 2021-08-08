@@ -22,7 +22,7 @@ class RateLimitError(Exception):
         return self.message
 
 
-class ApiNoSuccess(Exception):
+class ApiNoSuccessError(Exception):  # noqa: N8181
     """Exception raised when api has an error."""
 
     def __init__(
@@ -42,7 +42,7 @@ class ApiNoSuccess(Exception):
         return self.message
 
 
-class InvalidApiKey(Exception):
+class InvalidApiKeyError(Exception):
     """Exception raised when the API key is invalid."""
 
     def __init__(self, message: str = "Entered API key is not valid") -> None:

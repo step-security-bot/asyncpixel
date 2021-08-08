@@ -4,7 +4,7 @@ import uuid
 import pytest
 from aioresponses import aioresponses
 from asyncpixel import Hypixel
-from asyncpixel.exceptions import InvalidApiKey
+from asyncpixel.exceptions.exceptions import InvalidApiKeyError
 from tests.utils import generate_key
 
 
@@ -82,6 +82,6 @@ async def test_added_key() -> None:
 async def test_no_key() -> None:
     """Test no key."""
     client = Hypixel()
-    with pytest.raises(InvalidApiKey):
+    with pytest.raises(InvalidApiKeyError):
         await client.key_data()
     await client.close()

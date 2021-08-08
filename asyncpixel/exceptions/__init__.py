@@ -1,6 +1,6 @@
 """Custom exceptions for asyncpixel."""
-from .exceptions import ApiNoSuccess
-from .exceptions import InvalidApiKey
+from .exceptions import ApiNoSuccessError
+from .exceptions import InvalidApiKeyError
 from .exceptions import RateLimitError
 
-__all__ = ["ApiNoSuccess", "InvalidApiKey", "RateLimitError"]
+__all__ = ["ApiNoSuccessError", "InvalidApiKeyError", "RateLimitError"]

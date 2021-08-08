@@ -4,9 +4,9 @@ import datetime
 import pytest
 from aioresponses import aioresponses
 from asyncpixel import Hypixel
-from asyncpixel.exceptions import ApiNoSuccess
-from asyncpixel.exceptions import InvalidApiKey
 from asyncpixel.exceptions import RateLimitError
+from asyncpixel.exceptions.exceptions import ApiNoSuccessError
+from asyncpixel.exceptions.exceptions import InvalidApiKeyError
 from tests.utils import generate_key
 
 
@@ -39,7 +39,7 @@ async def test_invalid_key() -> None:
             payload={"success": False, "cause": "Invalid API key"},
         )
         client = Hypixel(api_key=str(key))
-        with pytest.raises(InvalidApiKey) as e:
+        with pytest.raises(InvalidApiKeyError) as e:
             await client._get("test")
             assert str(e) == "The hypixel API ratelimit was reached!"
         await client.close()
@@ -56,7 +56,7 @@ async def test_api_error() -> None:
             payload={"success": False, "cause": "Error"},
         )
         client = Hypixel(api_key=str(key))
-        with pytest.raises(ApiNoSuccess) as e:
+        with pytest.raises(ApiNoSuccessError) as e:
             await client._get("test")
             assert str(e) == "The test endpoint encounted an error on the hypixel side."
         await client.close()
@@ -64,13 +64,13 @@ async def test_api_error() -> None:
 
 def test_str_api_error() -> None:
     """Check api error."""
-    e = ApiNoSuccess("test")
+    e = ApiNoSuccessError("test")
     assert str(e) == e.__str__()
 
 
 def test_str_invalid_key() -> None:
     """Check api error."""
-    e = InvalidApiKey()
+    e = InvalidApiKeyError()
     assert str(e) == e.__str__()
 
 
