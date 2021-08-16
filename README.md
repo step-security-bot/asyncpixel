@@ -43,7 +43,7 @@
   <span> · </span>
   Support: <a href="https://github.com/Obsidion-dev/asyncpixel/discussions">Discussions</a>
   <span> & </span>
-  <a href="https://discord.gg/fWxtKFVmaW">Discord</a>
+  <a href="https://discord.gg/nV8psrHhYc">Discord</a>
 </h3>
 
 ## ✨ Features
@@ -104,7 +104,7 @@ Asyncpixel is open-source. The library is licensed [GPL v3](https://www.gnu.org/
 
 If you have a question or would like to talk with other Asyncpixel users, please hop over to [Github discussions](https://github.com/Obsidion-dev/asyncpixel/discussions) or join our Discord server:
 
-[Discord chatroom](https://discord.gg/rnAtymZnzH)
+[Discord chatroom](https://discord.gg/nV8psrHhYc)
 
 ![Discord Shield](https://discordapp.com/api/guilds/695008516590534758/widget.png?style=shield)
 
