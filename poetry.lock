@@ -1182,7 +1182,7 @@ test = ["pytest", "typing-extensions", "mypy"]
 
 [[package]]
 name = "types-deprecated"
-version = "1.2.0"
+version = "1.2.1"
 description = "Typing stubs for Deprecated"
 category = "dev"
 optional = false
@@ -1265,7 +1265,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "91474662645519bbd02e2612cbf5278554a29c03a6f9d654935be0284b9ab681"
+content-hash = "50eeb247f508135a8d8c39cfa0aa44e57fb69858b266df6f4c0883a9bd77a6c0"
 
 [metadata.files]
 aiohttp = [
@@ -2031,8 +2031,8 @@ typeguard = [
     {file = "typeguard-2.12.1.tar.gz", hash = "sha256:c2af8b9bdd7657f4bd27b45336e7930171aead796711bc4cfc99b4731bb9d051"},
 ]
 types-deprecated = [
-    {file = "types-Deprecated-1.2.0.tar.gz", hash = "sha256:9082f21f4561e2b73986350d8297e8b74dae43326d3c7de95d96690ee2534265"},
-    {file = "types_Deprecated-1.2.0-py3-none-any.whl", hash = "sha256:3e7a1f9727808887ba582b5eb691c9364ef13271539f240e69c13232e3373423"},
+    {file = "types-Deprecated-1.2.1.tar.gz", hash = "sha256:748df744322b5337811604d62a6b0ec76b9b3db0b740075ab15c43f35a46b587"},
+    {file = "types_Deprecated-1.2.1-py3-none-any.whl", hash = "sha256:e51bdf4b295de12b794f6e893d3d941191b33ff4282918c9a4ec52f568c7f485"},
 ]
 typing-extensions = [
     {file = "typing_extensions-3.10.0.0-py2-none-any.whl", hash = "sha256:0ac0f89795dd19de6b97debb0c6af1c70987fd80a2d62d1958f7e56fcc31b497"},
