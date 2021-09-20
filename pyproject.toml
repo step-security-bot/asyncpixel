@@ -31,7 +31,7 @@ Deprecated = "^1.2.12"
 [tool.poetry.dev-dependencies]
 Pygments = "^2.10.0"
 aioresponses = "^0.7.2"
-black = "^21.8b0"
+black = "^21.9b0"
 coverage = {extras = ["toml"], version = "^5.5"}
 darglint = "^1.8.0"
 flake8 = "^3.9.2"
