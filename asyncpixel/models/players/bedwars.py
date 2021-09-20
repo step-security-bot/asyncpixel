@@ -74,7 +74,7 @@ class BedwarsGame(BaseModel):
         Returns:
             float: ratio between game wins and game losses.
         """
-        if self.final_deaths == 0:
+        if self.losses == 0:
             return 0.0
         return self.wins / self.losses
 
@@ -281,7 +281,7 @@ class Bedwars(BaseModel):
         Returns:
             float: ratio between beds broken and beds lost.
         """
-        if self.final_deaths == 0:
+        if self.beds_lost == 0:
             return 0.0
         return self.beds_broken / self.beds_lost
 
@@ -292,7 +292,7 @@ class Bedwars(BaseModel):
         Returns:
             float: ratio between game wins and game losses.
         """
-        if self.final_deaths == 0:
+        if self.losses == 0:
             return 0.0
         return self.wins / self.losses
 
