@@ -23,7 +23,6 @@ from typing import Union
 
 import aiohttp
 from pydantic import parse_obj_as
-from pydantic import UUID4
 
 from .exceptions import ApiNoSuccessError
 from .exceptions import InvalidApiKeyError
@@ -50,18 +49,20 @@ __all__ = ["Hypixel"]
 
 BASE_URL = "https://api.hypixel.net/"
 
+UUID = Union[str, uuid.UUID]
+
 
 class Hypixel:
     """Client class for hypixel wrapper."""
 
     def __init__(
         self,
-        api_key: Optional[Union[str, UUID4]] = None,
+        api_key: Optional[UUID] = None,
     ) -> None:
         """Initialise client object.
 
         Args:
-            api_key (Optional[str], optional): hypixel api key. Defaults to None.
+            api_key (Optional[UUID], optional): hypixel api key. Defaults to None.
         """
         if isinstance(api_key, str) and api_key is not None:
             api_key = uuid.UUID(api_key)
@@ -81,7 +82,7 @@ class Hypixel:
         self,
         path: str,
         params: Optional[Dict[str, Any]] = None,
-        key_required: Optional[bool] = True,
+        key_required: bool = True,
     ) -> Dict[str, Any]:
         """Base function to get raw data from hypixel.
 
@@ -90,7 +91,7 @@ class Hypixel:
                 path that you wish to request from.
             params (Dict, optional):
                 parameters to pass into request defaults to empty dictionary.
-            key_required (bool, optional): Wether key is needed
+            key_required (bool): Whether an api key is needed
 
         Raises:
             RateLimitError: error if ratelimit has been reached.
@@ -214,11 +215,11 @@ class Hypixel:
 
         return parse_obj_as(List[News], data["items"])
 
-    async def player_status(self, uuid: Union[UUID4, str]) -> Optional[Status]:
+    async def player_status(self, uuid: UUID) -> Optional[Status]:
         """Get current online status about a player.
 
         Args:
-            uuid (Union[UUID4, str]): uuid of player.
+            uuid (UUID): uuid of player.
 
         Returns:
             Status: Status object of player.
@@ -228,11 +229,11 @@ class Hypixel:
             return None
         return Status.parse_obj(data["session"])
 
-    async def player_friends(self, uuid: Union[UUID4, str]) -> Optional[List[Friend]]:
+    async def player_friends(self, uuid: UUID) -> Optional[List[Friend]]:
         """Get a list of a players friends.
 
         Args:
-            uuid (Union[UUID4, str]): the uuid of the player.
+            uuid (UUID): the uuid of the player you wish to get friends from.
 
         Returns:
             List[Friend]: returns a list of friend elements.
@@ -264,11 +265,11 @@ class Hypixel:
             bazaar_items=bazaar_items,
         )
 
-    async def auctions(self, page: Optional[int] = 0, retry: int = 3) -> Auction:
+    async def auctions(self, page: int = 0, retry: int = 3) -> Auction:
         """Get the auctions available.
 
         Args:
-            page (int, optional): Page of auction list you want. Defaults to 0.
+            page (int): Page of auction list you want. Defaults to 0.
             retry (int): Amount of retries to get the data from the api Defaults to 3.
 
         Returns:
@@ -283,11 +284,11 @@ class Hypixel:
                 pass
         return Auction.parse_obj(data)
 
-    async def recent_games(self, uuid: Union[UUID4, str]) -> Optional[List[Game]]:
+    async def recent_games(self, uuid: UUID) -> Optional[List[Game]]:
         """Get recent games of a player.
 
         Args:
-            uuid (Union[UUID4, str]): uuid of player.
+            uuid (UUID): uuid of player.
 
         Returns:
             List[Game]: list of recent games.
@@ -299,11 +300,11 @@ class Hypixel:
 
         return parse_obj_as(List[Game], data["games"])
 
-    async def player(self, uuid: Union[UUID4, str]) -> Optional[Player]:
+    async def player(self, uuid: UUID) -> Optional[Player]:
         """Get information about a player from their uuid.
 
         Args:
-            uuid (UUID4): uuid of player.
+            uuid (UUID): uuid of player.
 
         Returns:
             Player: player object.
@@ -344,11 +345,11 @@ class Hypixel:
             return None
         return Guild.parse_obj(data["guild"])
 
-    async def guild_by_player(self, player_uuid: Union[UUID4, str]) -> Optional[Guild]:
+    async def guild_by_player(self, player_uuid: UUID) -> Optional[Guild]:
         """Get guild by player.
 
         Args:
-            player_uuid (Union[UUID4, str]): uuid of a player in the guild.
+            player_uuid (UUID): uuid of a player in the guild.
 
         Returns:
             Guild: guild object.
@@ -359,13 +360,11 @@ class Hypixel:
             return None
         return Guild.parse_obj(data["guild"])
 
-    async def auction_from_uuid(
-        self, uuid: Union[UUID4, str]
-    ) -> Optional[List[AuctionItem]]:
+    async def auction_from_uuid(self, uuid: UUID) -> Optional[List[AuctionItem]]:
         """Get auction from uuid.
 
         Args:
-            uuid (Union[UUID4, str]): minecraft uuid.
+            uuid (UUID): minecraft uuid.
 
         Returns:
             List[AuctionItem]: list of auctions.
@@ -527,11 +526,11 @@ class Hypixel:
             return None
         return Profile.parse_obj(data["profile"])
 
-    async def profiles(self, uuid: Union[UUID4, str]) -> Optional[Dict[str, Profile]]:
+    async def profiles(self, uuid: UUID) -> Optional[Dict[str, Profile]]:
         """Get info on a profile.
 
         Args:
-            uuid (Union[UUID4, str]): uuid of player.
+            uuid (UUID): uuid of player.
 
         Returns:
             Dict[str, Profile]: json response.
@@ -547,7 +546,7 @@ class Hypixel:
             profile_dict[_id] = Profile.parse_obj(profile)
         return profile_dict
 
-    async def uuid_from_name(self, username: str) -> Optional[UUID4]:
+    async def uuid_from_name(self, username: str) -> Optional[uuid.UUID]:
         """Helper method to get uuid from username.
 
         Args:

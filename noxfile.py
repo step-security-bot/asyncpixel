@@ -158,10 +158,12 @@ def docs_build(session: Session) -> None:
     session.install(".")
     session.install(
         "sphinx",
-        "sphinx-rtd-theme",
-        "recommonmark",
+        "furo",
         "sphinx_autodoc_typehints",
         "autodoc_pydantic",
+        "sphinx-copybutton",
+        "sphinxext-opengraph",
+        "sphinxcontrib-trio",
     )
 
     build_dir = Path("docs", "_build")
@@ -179,10 +181,12 @@ def docs(session: Session) -> None:
     session.install(
         "sphinx",
         "sphinx-autobuild",
-        "sphinx-rtd-theme",
-        "recommonmark",
+        "furo",
         "sphinx_autodoc_typehints",
         "autodoc_pydantic",
+        "sphinx-copybutton",
+        "sphinxext-opengraph",
+        "sphinxcontrib-trio",
     )
 
     build_dir = Path("docs", "_build")

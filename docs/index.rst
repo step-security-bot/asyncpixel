@@ -1,14 +1,27 @@
 Welcome to asyncpixel's documentation!
 ======================================
 
+Asyncpixel is a modern, easy to use, feature-rich, and async ready API wrapper
+for Hypixel.
+
+**Features:**
+
+- Modern Pythonic API using ``async``\/``await`` syntax
+- Easy to use with an object oriented design
+
 .. _Contributor Guide: contributing.html
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
 
-   intro
-   reference
-   contributing
-   codeofconduct
-   license
+.. toctree::
+  :hidden:
+
+  intro
+  api/index.rst
+
+.. toctree::
+  :hidden:
+  :caption: Meta
+
+  contributing
+  codeofconduct
+  license

@@ -26,7 +26,6 @@ aiohttp = "^3.6.2"
 importlib_metadata = {version = ">=2,<5", python = "<3.8"}
 pydantic = "^1.7.3"
 python = "^3.7"
-Deprecated = "^1.2.12"
 
 [tool.poetry.dev-dependencies]
 Pygments = "^2.10.0"
@@ -56,9 +55,11 @@ safety = "^1.10.3"
 sphinx = "^4.2.0"
 sphinx-autobuild = "^2021.3.14"
 sphinx-autodoc-typehints = "^1.12.0"
-sphinx-rtd-theme = "^1.0.0"
 typeguard = "^2.12.1"
-types-Deprecated = "^1.2.1"
+furo = "^2021.9.8"
+sphinx-copybutton = "^0.4.0"
+sphinxext-opengraph = "^0.4.2"
+sphinxcontrib-trio = "^1.1.2"
 
 [tool.coverage.paths]
 source = ["asyncpixel"]
