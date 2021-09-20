@@ -218,7 +218,7 @@ class Hypixel:
         """Get current online status about a player.
 
         Args:
-            uuid (str): uuid of player.
+            uuid (Union[UUID4, str]): uuid of player.
 
         Returns:
             Status: Status object of player.
@@ -232,7 +232,7 @@ class Hypixel:
         """Get a list of a players friends.
 
         Args:
-            uuid (str): the uuid of the player you wish to get friends from.
+            uuid (Union[UUID4, str]): the uuid of the player you wish to get friends from.
 
         Returns:
             List[Friend]: returns a list of friend elements.
@@ -275,7 +275,7 @@ class Hypixel:
             Auction: Auction object.
         """
         params = {"page": page}
-        for _ in range(retry):  # pragma: no cover
+        for _ in range(retry):
             try:
                 data = await self._get("skyblock/auctions", params=params)
                 break
@@ -287,7 +287,7 @@ class Hypixel:
         """Get recent games of a player.
 
         Args:
-            uuid (str): uuid of player.
+            uuid (Union[UUID4, str]): uuid of player.
 
         Returns:
             List[Game]: list of recent games.
@@ -348,7 +348,7 @@ class Hypixel:
         """Get guild by player.
 
         Args:
-            player_uuid (str): uuid of a player in the guild.
+            player_uuid (Union[UUID4, str]): uuid of a player in the guild.
 
         Returns:
             Guild: guild object.
@@ -365,7 +365,7 @@ class Hypixel:
         """Get auction from uuid.
 
         Args:
-            uuid (str): minecraft uuid.
+            uuid (Union[UUID4, str]): minecraft uuid.
 
         Returns:
             List[AuctionItem]: list of auctions.
@@ -531,7 +531,7 @@ class Hypixel:
         """Get info on a profile.
 
         Args:
-            uuid (str): uuid of player.
+            uuid (Union[UUID4, str]): uuid of player.
 
         Returns:
             Dict[str, Profile]: json response.
