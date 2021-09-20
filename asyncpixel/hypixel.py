@@ -232,7 +232,7 @@ class Hypixel:
         """Get a list of a players friends.
 
         Args:
-            uuid (Union[UUID4, str]): the uuid of the player you wish to get friends from.
+            uuid (Union[UUID4, str]): the uuid of the player.
 
         Returns:
             List[Friend]: returns a list of friend elements.

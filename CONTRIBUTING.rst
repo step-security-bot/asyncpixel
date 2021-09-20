@@ -49,6 +49,12 @@ You need Python 3.6+ and the following tools:
 - Nox_
 - nox-poetry_
 
+Clone the submodules:
+
+.. code:: bash
+
+   $ git submodule update --init
+
 Install the package with development requirements:
 
 .. code:: console

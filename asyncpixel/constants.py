@@ -1,11 +1,14 @@
 """Constants."""
 import json
+import os
 from functools import lru_cache
 from typing import Any
 from typing import Dict
 from typing import List
 
 from .models.game_type import GameType
+
+script_dir = os.path.dirname(os.path.realpath(__file__))
 
 # with open("asyncpixel/hypixelconstants/build/achievements.json") as file:
 #     achievements: Dict[str, Any] = json.load(file)
@@ -58,6 +61,7 @@ def get_game_types() -> List[GameType]:
     Returns:
         List[GameType]: game types.
     """
-    with open("asyncpixel/hypixelconstants/build/game_types.json") as file:
+    abs_file_path = os.path.join(script_dir, "hypixelconstants/build/game_types.json")
+    with open(abs_file_path) as file:
         game_types_data: Dict[str, Any] = json.load(file)
     return [GameType.parse_obj(data) for data in game_types_data]
