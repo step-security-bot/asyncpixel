@@ -50,6 +50,15 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "Amund211",
+      "name": "Amund Eggen Svandal",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14028449?v=4",
+      "profile": "https://github.com/Amund211",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
