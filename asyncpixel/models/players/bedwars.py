@@ -184,7 +184,7 @@ class Bedwars(BaseModel):
 
     kills: int = Field(0, alias="kills_bedwars")
     wins: int = Field(0, alias="wins_bedwars")
-    coins: int
+    coins: int = Field(0, alias="coins")
     games_played: int = Field(0, alias="games_played_bedwars")
     final_deaths: int = Field(0, alias="final_deaths_bedwars")
     deaths: int = Field(0, alias="deaths_bedwars")
