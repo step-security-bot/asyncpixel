@@ -5,6 +5,7 @@ import uuid
 import pytest
 from aioresponses import aioresponses
 from asyncpixel import Hypixel
+from asyncpixel.models.players.bedwars import bedwars_level_from_exp
 from asyncpixel.utils import calc_player_level
 
 # from asyncpixel.models import gametype
@@ -1614,6 +1615,13 @@ async def test_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         # )
         assert data.level == 18.090376392868585
 
+        assert data.stats.bedwars is not None  # Null guard for following tests
+        assert data.stats.bedwars.experience == 65262
+        assert data.stats.bedwars.level == 15.6524
+        assert data.raw["achievements"]["bedwars_level"] == int(
+            data.stats.bedwars.level
+        )
+
 
 @pytest.mark.asyncio
 async def test_player_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
@@ -1633,3 +1641,27 @@ async def test_player_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         data = await hypixel_client.player("405dcf08-b80f-4e23-b97d-943ad93d14fd")
 
         assert data is None
+
+
+def test_bedwars_level_calculation() -> None:
+    """Test the bedwars level calculator against known values."""
+    bw_star_data = [
+        (500, 1),
+        (89025, 20 + 2025 / 5000),
+        (122986, 27),
+        (954638, 196),
+        (969078, 199),
+        (975611, 202),
+        (977587, 203),
+        (2344717, 481 + 4717 / 5000),
+    ]
+    for exp, true_star in bw_star_data:
+        calculated_star = bedwars_level_from_exp(exp)
+
+        # Compare int with int, and float with float
+        if isinstance(true_star, int):
+            calculated_star = int(calculated_star)
+
+        assert (
+            true_star == calculated_star
+        ), f"exp={exp}: calculated star={calculated_star}, true star={true_star}"

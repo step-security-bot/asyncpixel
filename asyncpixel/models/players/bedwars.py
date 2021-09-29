@@ -10,6 +10,60 @@ from pydantic import BaseModel
 from pydantic import Field
 from pydantic import root_validator
 
+# Amount of levels to prestige
+LEVELS_PER_PRESTIGE = 100
+
+# The exp required to level up once
+LEVEL_COST = 5000
+
+# The exp required to level up to the first few levels after a prestige
+EASY_LEVEL_COSTS = {1: 500, 2: 1000, 3: 2000, 4: 3500}
+
+# The exp required to level up past the easy levels
+EASY_EXP = sum(EASY_LEVEL_COSTS.values())
+
+# The amount of easy levels
+EASY_LEVELS = len(EASY_LEVEL_COSTS)
+
+# The exp required to prestige
+PRESTIGE_EXP = EASY_EXP + (100 - EASY_LEVELS) * LEVEL_COST
+
+
+def bedwars_level_from_exp(exp: int) -> float:
+    """Bedwars level/star.
+
+    Args:
+        exp (int): the player's bedwars experience
+
+    Returns:
+        float: bedwars level + progress towards next level
+    """
+    levels = (exp // PRESTIGE_EXP) * LEVELS_PER_PRESTIGE
+    exp %= PRESTIGE_EXP
+
+    # The first few levels have different costs
+    for i in range(1, EASY_LEVELS + 1):
+        cost = EASY_LEVEL_COSTS[i]
+        if exp >= cost:
+            levels += 1
+            exp -= cost
+        else:
+            # We can't afford the next level, so we have found the level we are at
+            break
+
+    levels += exp // LEVEL_COST
+    exp %= LEVEL_COST
+
+    next_level = (levels + 1) % LEVELS_PER_PRESTIGE
+
+    # The cost of the next level
+    if next_level in EASY_LEVEL_COSTS:
+        next_level_cost = EASY_LEVEL_COSTS[next_level]
+    else:
+        next_level_cost = LEVEL_COST
+
+    return levels + exp / next_level_cost
+
 
 class BedwarsGame(BaseModel):
     """Bedwars GameMode stats.
@@ -128,6 +182,8 @@ class Bedwars(BaseModel):
             Defaults to 0.
         beds_broken (int): Number of beds broken across all Bedwars gamemodes.
             Defaults to 0.
+        winstreak (int): Current winstreak. Defaults to 0.
+        experience (int): Total bedwars experience. Defaults to 0.
         singles (Optional[BedwarsGame]): Stats for the singles Gamemode.
         doubles (Optional[BedwarsGame]): Stats for the doubles Gamemode.
         triples (Optional[BedwarsGame]): Stats for the triples Gamemode.
@@ -201,6 +257,8 @@ class Bedwars(BaseModel):
     losses: int = Field(0, alias="losses_bedwars")
     beds_lost: int = Field(0, alias="beds_lost_bedwars")
     beds_broken: int = Field(0, alias="beds_broken_bedwars")
+    winstreak: int = Field(0, alias="winstreak")
+    experience: int = Field(0, alias="Experience")
 
     singles: Optional[BedwarsGame]
     doubles: Optional[BedwarsGame]
@@ -311,6 +369,15 @@ class Bedwars(BaseModel):
             float: ratio between game wins and game losses.
         """
         return safe_divide(self.wins, self.losses)
+
+    @property
+    def level(self) -> float:
+        """Bedwars level/star.
+
+        Returns:
+            float: bedwars level + progress towards next level
+        """
+        return bedwars_level_from_exp(self.experience)
 
     @root_validator(pre=True)
     def traverse_sources(  # noqa: C901, D102
