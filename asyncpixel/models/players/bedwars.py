@@ -1,9 +1,11 @@
 """Bedwars."""
+import warnings
 from typing import Any
 from typing import Dict
 from typing import List
 from typing import Optional
 
+from asyncpixel.models.utils import safe_divide
 from pydantic import BaseModel
 from pydantic import Field
 from pydantic import root_validator
@@ -74,9 +76,7 @@ class BedwarsGame(BaseModel):
         Returns:
             float: ratio between game wins and game losses.
         """
-        if self.losses == 0:
-            return 0.0
-        return self.wins / self.losses
+        return safe_divide(self.wins, self.losses)
 
     @property
     def beds_broken_per_lost(self) -> float:
@@ -85,20 +85,29 @@ class BedwarsGame(BaseModel):
         Returns:
             float: ratio between beds broken and lost.
         """
-        if self.beds_lost == 0:
-            return 0.0
-        return self.beds_broken / self.beds_lost
+        return safe_divide(self.beds_broken, self.beds_lost)
 
     @property
     def final_kills_per_kills(self) -> float:
-        """Final kills per kills.
+        """Final kills per normal kill.
 
         Returns:
-            float: ratio between final kills and kills.
+            float: ratio between final kills and normal kills
         """
-        if self.final_deaths == 0:
-            return 0.0
-        return self.final_kills / self.final_deaths
+        warnings.warn(
+            "Field final_kills_per_kills will be removed in a future update",
+            DeprecationWarning,
+        )
+        return safe_divide(self.final_kills, self.kills)
+
+    @property
+    def final_kills_per_final_death(self) -> float:
+        """Final kills per final death.
+
+        Returns:
+            float: ratio between final kills and final deaths.
+        """
+        return safe_divide(self.final_kills, self.final_deaths)
 
 
 class Bedwars(BaseModel):
@@ -265,14 +274,25 @@ class Bedwars(BaseModel):
 
     @property
     def final_kills_per_kills(self) -> float:
-        """Final kills per final deaths.
+        """Final kills per normal kill.
 
         Returns:
-            float: ratio between kills and deaths.
+            float: ratio between final kills and normal kills
         """
-        if self.final_deaths == 0:
-            return 0.0
-        return self.final_kills / self.final_deaths
+        warnings.warn(
+            "Field final_kills_per_kills will be removed in a future update",
+            DeprecationWarning,
+        )
+        return safe_divide(self.final_kills, self.kills)
+
+    @property
+    def final_kills_per_final_death(self) -> float:
+        """Final kills per final death.
+
+        Returns:
+            float: ratio between final kills and final deaths.
+        """
+        return safe_divide(self.final_kills, self.final_deaths)
 
     @property
     def beds_broken_per_lost(self) -> float:
@@ -281,9 +301,7 @@ class Bedwars(BaseModel):
         Returns:
             float: ratio between beds broken and beds lost.
         """
-        if self.beds_lost == 0:
-            return 0.0
-        return self.beds_broken / self.beds_lost
+        return safe_divide(self.beds_broken, self.beds_lost)
 
     @property
     def win_lose(self) -> float:
@@ -292,9 +310,7 @@ class Bedwars(BaseModel):
         Returns:
             float: ratio between game wins and game losses.
         """
-        if self.losses == 0:
-            return 0.0
-        return self.wins / self.losses
+        return safe_divide(self.wins, self.losses)
 
     @root_validator(pre=True)
     def traverse_sources(  # noqa: C901, D102

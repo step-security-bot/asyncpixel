@@ -2,9 +2,25 @@
 from typing import Any
 from typing import Dict
 from typing import Optional
+from typing import Union
 
 from pydantic import BaseModel
 from pydantic import root_validator
+
+
+def safe_divide(dividend: Union[int, float], divisor: Union[int, float]) -> float:
+    """Return dividend / divisor without raising ZeroDivisionError.
+
+    Args:
+        dividend (int, float): the dividend (a in a/b)
+        divisor (int, float): the divisor (b in a/b)
+
+    Returns:
+        float: dividend / divisor, or 0.0 if divisor == 0
+    """
+    if divisor == 0:
+        return 0.0
+    return dividend / divisor
 
 
 def to_camel(string: str) -> str:

@@ -1,4 +1,5 @@
 """Skywars."""
+from asyncpixel.models.utils import safe_divide
 from pydantic import BaseModel
 from pydantic import Field
 
@@ -35,9 +36,7 @@ class Skywars(BaseModel):
         Returns:
             float: ratio between kills and deaths.
         """
-        if self.deaths == 0:
-            return 0.0
-        return self.kills / self.deaths
+        return safe_divide(self.kills, self.deaths)
 
     @property
     def wins_per_lose(self) -> float:
@@ -46,6 +45,4 @@ class Skywars(BaseModel):
         Returns:
             float: ratio between wins and losses.
         """
-        if self.losses == 0:
-            return 0.0
-        return self.wins / self.losses
+        return safe_divide(self.wins, self.losses)
