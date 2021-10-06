@@ -6,6 +6,7 @@ import pytest
 from aioresponses import aioresponses
 from asyncpixel import Hypixel
 from asyncpixel.models.players.bedwars import bedwars_level_from_exp
+from asyncpixel.models.utils import safe_divide
 from asyncpixel.utils import calc_player_level
 
 # from asyncpixel.models import gametype
@@ -1665,3 +1666,20 @@ def test_bedwars_level_calculation() -> None:
         assert (
             true_star == calculated_star
         ), f"exp={exp}: calculated star={calculated_star}, true star={true_star}"
+
+
+def test_safe_divide() -> None:
+    """Test the safe divide utility."""
+    test_cases = [
+        (500, 1, 500.0),
+        (-100, 2, -50.0),
+        (100, 13, 100 / 13),
+        (0, 0.5, 0.0),
+        (100, 0, float("inf")),
+        (0, 0, float("inf")),
+        (-1.0, 0, float("-inf")),
+    ]
+
+    for dividend, divisor, quotient in test_cases:
+        assert safe_divide(dividend, divisor) == quotient
+        assert isinstance(safe_divide(dividend, divisor), float)

@@ -16,10 +16,10 @@ def safe_divide(dividend: Union[int, float], divisor: Union[int, float]) -> floa
         divisor (int, float): the divisor (b in a/b)
 
     Returns:
-        float: dividend / divisor, or 0.0 if divisor == 0
+        float: dividend / divisor, or floating point infinity if divisor == 0
     """
     if divisor == 0:
-        return 0.0
+        return float("inf") * (1 if dividend >= 0 else -1)
     return dividend / divisor
 
 
