@@ -67,4 +67,4 @@ def calc_player_level(xp: Union[float, int]) -> float:
     Returns:
         float: current level of player.
     """
-    return 1 + (-8750.0 + (8750 ** 2 + 5000 * xp) ** 0.5) / 2500
+    return float(1 + (-8750.0 + (8750 ** 2 + 5000 * xp) ** 0.5) / 2500)
