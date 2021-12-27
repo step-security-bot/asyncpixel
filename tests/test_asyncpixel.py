@@ -10,7 +10,7 @@ from .utils import generate_key
 
 def test_version() -> None:
     """Mock version."""
-    assert asyncpixel.__version__ == "1.2.0"
+    assert asyncpixel.__version__ == "1.2.1"
 
 
 def test_author() -> None:
