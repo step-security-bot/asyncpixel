@@ -14,12 +14,12 @@ classifiers = [
 ]
 description = "Asyncpixel"
 documentation = "https://asyncpixel.readthedocs.io"
-homepage = "https://github.com/Obsidion-dev/asyncpixel"
+homepage = "https://github.com/Darkflame72/asyncpixel"
 license = "GPLv3"
 name = "asyncpixel"
 readme = "README.md"
-repository = "https://github.com/Obsidion-dev/asyncpixel"
-version = "1.2.1"
+repository = "https://github.com/Darkflame72/asyncpixel"
+version = "1.3.0"
 
 [tool.poetry.dependencies]
 aiohttp = "^3.6.2"

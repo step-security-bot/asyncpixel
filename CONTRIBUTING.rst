@@ -124,6 +124,6 @@ To run linting and code formatting checks before commiting your change, you can 
 It is recommended to open an issue before starting work on anything.
 This will allow a chance to talk it over with the owners and validate your approach.
 
-.. _pull request: https://github.com/Obsidion-dev/asyncpixel/pulls
+.. _pull request: https://github.com/Darkflame72/asyncpixel/pulls
 .. github-only
 .. _Code of Conduct: CODE_OF_CONDUCT.rst
