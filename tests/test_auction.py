@@ -245,7 +245,7 @@ async def test_auction_from_profiile(hypixel_client: Hypixel, key: uuid.UUID) ->
 
 
 @pytest.mark.asyncio
-async def test_auction_from_profiile_none(
+async def test_auction_from_profile_none(
     hypixel_client: Hypixel, key: uuid.UUID
 ) -> None:
     """Test to check the auction_from_profile method returns correct data."""

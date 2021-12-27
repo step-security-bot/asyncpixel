@@ -28,7 +28,9 @@ class Game(BaseModel):
     ended: Optional[datetime.datetime] = None
 
     @validator("game_type", pre=True)
-    def validate_game_type(cls, v: str) -> GameType:  # noqa: B902, N805, D102
+    @classmethod
+    def validate_game_type(cls, v: str) -> GameType:
+        """Turn game type to correct format."""
         game_type = [game for game in get_game_types() if game.type_name == v][0]
         return game_type
 

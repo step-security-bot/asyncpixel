@@ -35,7 +35,9 @@ class Booster(BaseModel):
     game_type: GameType
 
     @validator("game_type", pre=True)
-    def validate_game_type(cls, v: int) -> GameType:  # noqa: B902, N805, D102
+    @classmethod
+    def validate_game_type(cls, v: int) -> GameType:
+        """Validate game type."""
         game_type = [game for game in get_game_types() if game.id == v][0]
         return game_type
 

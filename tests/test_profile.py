@@ -28,6 +28,7 @@ async def test_profiles(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                         "members": {
                             "405dcf08b80f4e23b97d943ad93d14fd": {
                                 "last_save": 1599217969829,
+                                "fairy_exchanges": 10,
                                 "inv_armor": {
                                     "type": 0,
                                     "data": "H4sIAAAAAAAAAONiYOBkYMzkYmBg"
@@ -507,6 +508,12 @@ async def test_profiles(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         assert member.fairy_souls == 1
         assert member.death_count == 2
         assert member.pets == []
+        assert member.fairy_bonus == {
+            "defense": 12,
+            "health": 50,
+            "speed": 1,
+            "strength": 12,
+        }
 
 
 @pytest.mark.asyncio

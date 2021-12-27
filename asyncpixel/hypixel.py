@@ -276,7 +276,7 @@ class Hypixel:
             Auction: Auction object.
         """
         params = {"page": page}
-        for _ in range(retry):
+        for _ in range(retry):  # pragma: no cover
             try:
                 data = await self._get("skyblock/auctions", params=params)
                 break

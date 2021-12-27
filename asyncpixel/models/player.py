@@ -113,9 +113,9 @@ class Social(BaseModel):
     hypixel_forums: Optional[str]
 
     @root_validator(pre=True)
-    def get_social_media(  # noqa: D102
-        cls, values: Dict[str, Any]  # noqa: B902, N805, D102
-    ) -> Dict[str, Any]:
+    @classmethod
+    def get_social_media(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+        """Get social media in correct format."""
         out = values.copy()
         for k, v in out["links"].items():
             out[k.lower()] = v
@@ -166,9 +166,9 @@ class Player(BaseModel):
     rank: Optional[str]
 
     @root_validator(pre=True)
-    def create_rank(  # noqa: D102
-        cls, values: Dict[str, Any]  # noqa: B902, N805, D102
-    ) -> Dict[str, Any]:
+    @classmethod
+    def create_rank(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+        """Get the rank."""
         out = values.copy()
         rank = utils.get_rank(
             values.get("rank"),
@@ -209,9 +209,9 @@ class Player(BaseModel):
     most_recent_game_type: Optional[GameType]
 
     @validator("most_recent_game_type", pre=True)
-    def validate_game_type(  # noqa: D102
-        cls, v: Union[str, int]  # noqa: B902, N805
-    ) -> GameType:
+    @classmethod
+    def validate_game_type(cls, v: Union[str, int]) -> GameType:
+        """Validate game type."""
         try:
             game_type = [game for game in get_game_types() if game.id == v][0]
         except Exception:
@@ -221,20 +221,20 @@ class Player(BaseModel):
     level: float
 
     @root_validator(pre=True)
-    def create_level(  # noqa: D102
-        cls, values: Dict[str, Any]  # noqa: B902, N805, D102
-    ) -> Dict[str, Any]:
+    @classmethod
+    def create_level(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+        """Create level."""
         out = values.copy()
-        exp = float(out.get("networkExp"))  # type: ignore
+        exp = float(out.get("networkExp", 0.0))
         out["level"] = utils.calc_player_level(exp)
         return out
 
     raw: Dict[str, Any]
 
     @root_validator(pre=True)
-    def create_raw(  # noqa: D102
-        cls, values: Dict[str, Any]  # noqa: B902, N805, D102
-    ) -> Dict[str, Any]:
+    @classmethod
+    def create_raw(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+        """Create a copy of the values to directly access."""
         out = values.copy()
         out["raw"] = out
         return out

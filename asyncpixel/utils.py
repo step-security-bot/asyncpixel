@@ -22,7 +22,7 @@ ranks = {
 
 
 def get_rank(
-    package_rank: Optional[str],
+    package_rank: Optional[str] = None,
     rank: Optional[str] = None,
     prefix_raw: Optional[str] = None,
     monthly_package_rank: Optional[str] = None,

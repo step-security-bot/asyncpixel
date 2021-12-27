@@ -77,33 +77,6 @@ class Members(BaseModel):
         pets (List[Any]): Pets.
     """
 
-    # last_save: Optional[datetime.datetime]
-    # first_join: Optional[datetime.datetime]
-    # pets = [],
-    # stats = {}
-    # coin_purse: int = 0
-    # crafted_generators = []
-    # slayer_bosses = {}
-    # unlocked_coll_tiers = []
-    # collection = {}
-    # # Inventories
-    # inv_armor: Optional[]
-    # inv_contents = {}
-    # fishing_bag = {}
-    # potion_bag = {}
-    # talisman_bag = {}
-    # quiver = {}
-    # ender_chest_contents = {}
-    # candy_inventory_contents = {}
-    # wardrobe_contents = {}
-    # personal_vault_contents = {}
-    # backpack_contents = {}
-    # backpack_icons = {}
-    # # Fairy souls
-    # fairy_souls_collected: int = 0
-    # fairy_souls: int = 0
-    # fairy_exchanges: int = 0
-
     last_save: Optional[datetime.datetime]
     first_join: Optional[datetime.datetime]
     coin_purse: float = 0

@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 class GameType(BaseModel):
-    """Main booster class.
+    """Main game class.
 
     Args:
         id (str): ID

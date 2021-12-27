@@ -5,6 +5,8 @@ import uuid
 import pytest
 from aioresponses import aioresponses
 from asyncpixel import Hypixel
+from asyncpixel.models.game_type import GameType
+from asyncpixel.models.player import Player
 from asyncpixel.models.players.bedwars import bedwars_level_from_exp
 from asyncpixel.models.utils import safe_divide
 from asyncpixel.utils import calc_player_level
@@ -43,6 +45,9 @@ async def test_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                     "lastLogin": 1608016405945,
                     "displayname": "Darkflame72",
                     "knownAliases": ["MRL03", "Darkflame72"],
+                    "socialMedia": {
+                        "links": {"Twitter": "https://twitter.com/hypixel"}
+                    },
                     "knownAliasesLower": ["mrl03", "darkflame72"],
                     "achievementsOneTime": [
                         "general_first_join",
@@ -551,6 +556,7 @@ async def test_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                             "bedwars_christmas_boxes": 3,
                             "free_event_key_bedwars_christmas_boxes_2020": True,
                             "four_four_projectile_kills_bedwars": 2,
+                            "quads_ultimate_kills_bedwars": 0,
                         },
                         "Walls3": {
                             "packages": [
@@ -1611,17 +1617,56 @@ async def test_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
         assert data.achievement_points == 640
         assert data.current_gadget == "FORTUNE_COOKIE"
         assert data.channel == "ALL"
-        # assert data.most_recent_game_type == gametype(
-        #     "BEDWARS", "Bedwars", "Bed Wars", 58
-        # )
         assert data.level == 18.090376392868585
 
-        assert data.stats.bedwars is not None  # Null guard for following tests
+        assert data.stats.bedwars is not None
         assert data.stats.bedwars.experience == 65262
         assert data.stats.bedwars.level == 15.6524
         assert data.raw["achievements"]["bedwars_level"] == int(
             data.stats.bedwars.level
         )
+        assert data.stats.bedwars.singles is not None
+        assert data.stats.bedwars.singles.win_per_lose == 0.0
+        assert data.stats.bedwars.singles.beds_broken_per_lost == 2 / 3
+        assert data.stats.bedwars.singles.final_kills_per_kills == 0
+        assert data.stats.bedwars.singles.final_kills_per_final_death == 0
+        assert data.stats.bedwars.final_kills_per_kills == 0.18275862068965518
+        assert data.stats.bedwars.final_kills_per_final_death == 0.18027210884353742
+        assert data.stats.bedwars.beds_broken_per_lost == 0.09931506849315068
+        assert data.stats.bedwars.win_lose == 0.24610591900311526
+        assert data.stats.bedwars.level == 15.6524
+        assert data.stats.skywars is not None
+        assert data.stats.skywars.kills_per_death == 0.0
+        assert data.stats.skywars.wins_per_lose == 0.0
+        assert data.social_media is not None
+        assert data.social_media.twitter == "https://twitter.com/hypixel"
+        assert data.most_recent_game_type == GameType(
+            id=58,
+            type_name="BEDWARS",
+            database_name="Bedwars",
+            lobby_name="bedwars",
+            display_name="Bedwars",
+            clean_name="Bed Wars",
+            standard_name="BedWars",
+        )
+        assert data.stats.bedwars.quads_ultimate is not None
+        assert data.stats.bedwars.doubles_ultimate is None
+
+
+@pytest.mark.asyncio
+async def test_most_recent_game_type() -> None:
+    """Test most recent game type."""
+    assert Player(
+        uuid=str(uuid.uuid4()), firstLogin=datetime.datetime.now(), stats={}
+    ).validate_game_type(58) == GameType(
+        id=58,
+        type_name="BEDWARS",
+        database_name="Bedwars",
+        lobby_name="bedwars",
+        display_name="Bedwars",
+        clean_name="Bed Wars",
+        standard_name="BedWars",
+    )
 
 
 @pytest.mark.asyncio

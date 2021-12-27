@@ -161,3 +161,16 @@ async def test_get_uuid() -> None:
         uuid = await client.uuid_from_name("Technoblade")
         assert uuid == UUID("b876ec32e396476ba1158438d83c67d4")
         await client.close()
+
+
+@pytest.mark.asyncio
+async def test_get_uuid_fail() -> None:
+    """Test get uuid."""
+    with aioresponses() as m:
+        m.get(
+            "https://api.mojang.com/users/profiles/minecraft/Technoblade",
+            status=404,
+        )
+        client = asyncpixel.Hypixel()
+        uuid = await client.uuid_from_name("Technoblade")
+        assert uuid is None

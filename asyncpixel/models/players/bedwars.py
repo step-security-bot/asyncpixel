@@ -380,9 +380,9 @@ class Bedwars(BaseModel):
         return bedwars_level_from_exp(self.experience)
 
     @root_validator(pre=True)
-    def traverse_sources(  # noqa: C901, D102
-        cls, values: Dict[str, Any]  # noqa: B902, N805
-    ) -> Dict[str, Any]:
+    @classmethod
+    def traverse_sources(cls, values: Dict[str, Any]) -> Dict[str, Any]:  # noqa: C901
+        """Traverse all sources."""
         out = values.copy()
         for (name, field) in values.items():
             if name.startswith("eight_one_"):
@@ -410,12 +410,12 @@ class Bedwars(BaseModel):
                     out["four_v_four"] = {}
 
                 out["four_v_four"][name[9:]] = field
-            elif name.startswith("quads_ultimate_"):
+            elif name.startswith("quads_ultimate_"):  # pragma: no cover
                 if "quads_ultimate" not in out:
                     out["quads_ultimate"] = {}
 
                 out["quads_ultimate"][name[15:]] = field
-            elif name.startswith("ultimate_"):
+            elif name.startswith("ultimate_"):  # pragma: no cover
                 if "doubles_ultimate" not in out:
                     out["doubles_ultimate"] = {}
 
