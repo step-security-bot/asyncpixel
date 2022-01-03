@@ -28,7 +28,7 @@ pydantic = "^1.7.3"
 python = "^3.7"
 
 [tool.poetry.dev-dependencies]
-Pygments = "^2.11.0"
+Pygments = "^2.11.1"
 aioresponses = "^0.7.2"
 black = "^21.12b0"
 coverage = {extras = ["toml"], version = "^6.2"}
