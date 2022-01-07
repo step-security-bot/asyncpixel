@@ -1056,7 +1056,7 @@ test = ["pytest", "pytest-cov"]
 
 [[package]]
 name = "sphinx-autodoc-typehints"
-version = "1.14.0"
+version = "1.14.1"
 description = "Type hints (PEP 484) support for the Sphinx autodoc extension"
 category = "dev"
 optional = false
@@ -1310,7 +1310,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "5cd05e09787898591fc0a79e42bddd48b5c04779841c8ebe34d749398755e61a"
+content-hash = "962f990399361711bd580f14b5d89d8d53ed801fa609ce9cbeac4743629e269d"
 
 [metadata.files]
 aiohttp = [
@@ -2055,8 +2055,8 @@ sphinx-autobuild = [
     {file = "sphinx_autobuild-2021.3.14-py3-none-any.whl", hash = "sha256:8fe8cbfdb75db04475232f05187c776f46f6e9e04cacf1e49ce81bdac649ccac"},
 ]
 sphinx-autodoc-typehints = [
-    {file = "sphinx_autodoc_typehints-1.14.0-py3-none-any.whl", hash = "sha256:2780ed346f0bc056fd922131a41e5370dce76ddfa7fbd8ff3ff4c3f36c4c328f"},
-    {file = "sphinx_autodoc_typehints-1.14.0.tar.gz", hash = "sha256:e10069d8c13a5b11021bb27f78cc69975d45c47d0a6b6343d9764acbcdc9a1fa"},
+    {file = "sphinx_autodoc_typehints-1.14.1-py3-none-any.whl", hash = "sha256:8b3b7da797fa007f7f39c518879a1bdae3a7dab96e170f4cb5a4b96390238369"},
+    {file = "sphinx_autodoc_typehints-1.14.1.tar.gz", hash = "sha256:875de815a1ba609a4c0ebc620faecd8eb57183ba1f4cc6f8abba1790c140e960"},
 ]
 sphinx-copybutton = [
     {file = "sphinx-copybutton-0.4.0.tar.gz", hash = "sha256:8daed13a87afd5013c3a9af3575cc4d5bec052075ccd3db243f895c07a689386"},
