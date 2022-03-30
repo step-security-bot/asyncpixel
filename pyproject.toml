@@ -30,7 +30,7 @@ python = "^3.7"
 [tool.poetry.dev-dependencies]
 Pygments = "^2.11.2"
 aioresponses = "^0.7.3"
-black = "^22.1"
+black = "^22.3"
 coverage = {extras = ["toml"], version = "^6.3"}
 darglint = "^1.8.1"
 flake8 = "^3.9.2"
