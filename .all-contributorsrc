@@ -60,6 +60,15 @@
         "code",
         "bug"
       ]
+    },
+    {
+      "login": "wald0040",
+      "name": "wald0040",
+      "avatar_url": "https://avatars.githubusercontent.com/u/88714744?v=4",
+      "profile": "https://github.com/wald0040",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,

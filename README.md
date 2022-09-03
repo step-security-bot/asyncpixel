@@ -109,6 +109,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/satyamedh"><img src="https://avatars.githubusercontent.com/u/47636284?v=4?s=100" width="100px;" alt=""/><br /><sub><b>satyamedh hulyalkar</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Asatyamedh" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://dubs.rip"><img src="https://avatars.githubusercontent.com/u/59372145?v=4?s=100" width="100px;" alt=""/><br /><sub><b>dubs</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Aduhby" title="Bug reports">🐛</a></td>
     <td align="center"><a href="https://github.com/Amund211"><img src="https://avatars.githubusercontent.com/u/14028449?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Amund Eggen Svandal</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/commits?author=Amund211" title="Code">💻</a> <a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3AAmund211" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/wald0040"><img src="https://avatars.githubusercontent.com/u/88714744?v=4?s=100" width="100px;" alt=""/><br /><sub><b>wald0040</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Awald0040" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
