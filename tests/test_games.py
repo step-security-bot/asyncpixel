@@ -1,5 +1,6 @@
 """Test games."""
 import datetime
+from typing import AsyncGenerator
 from uuid import UUID
 
 import pytest
@@ -9,7 +10,7 @@ from asyncpixel.models import GameType
 
 
 @pytest.mark.asyncio
-async def test_games(hypixel_client: Hypixel, key: UUID) -> None:
+async def test_games(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -> None:
     """Test to check the games method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -61,8 +62,8 @@ async def test_games(hypixel_client: Hypixel, key: UUID) -> None:
                 ],
             },
         )
-        client = hypixel_client
-        data = await client.recent_games("7486aa03aca5470e888dde8a43eb8c10")
+        async for client in hypixel_client:
+            data = await client.recent_games("7486aa03aca5470e888dde8a43eb8c10")
 
         assert data is not None
         assert len(data) == 5
@@ -152,7 +153,9 @@ async def test_games(hypixel_client: Hypixel, key: UUID) -> None:
 
 
 @pytest.mark.asyncio
-async def test_games_none(hypixel_client: Hypixel, key: UUID) -> None:
+async def test_games_none(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
+) -> None:
     """Test to check the games method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -166,7 +169,7 @@ async def test_games_none(hypixel_client: Hypixel, key: UUID) -> None:
             },
             payload={"success": True, "games": None},
         )
-        client = hypixel_client
-        data = await client.recent_games("7486aa03aca5470e888dde8a43eb8c10")
+        async for client in hypixel_client:
+            data = await client.recent_games("7486aa03aca5470e888dde8a43eb8c10")
 
         assert data is None

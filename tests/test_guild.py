@@ -1,6 +1,7 @@
 """Test guild."""
 import datetime
 import uuid
+from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
@@ -8,7 +9,9 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_guild_by_id(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_guild_by_id(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the guild_by_id method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -67,7 +70,8 @@ async def test_guild_by_id(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                 },
             },
         )
-        data = await hypixel_client.guild_by_id("52e57a1c0cf2e250d1cd00f8")
+        async for client in hypixel_client:
+            data = await client.guild_by_id("52e57a1c0cf2e250d1cd00f8")
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(
@@ -118,7 +122,9 @@ async def test_guild_by_id(hypixel_client: Hypixel, key: uuid.UUID) -> None:
 
 
 @pytest.mark.asyncio
-async def test_guild_by_id_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_guild_by_id_none(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the guild_by_id method returns correct data when not found."""
     with aioresponses() as m:
         m.get(
@@ -131,12 +137,15 @@ async def test_guild_by_id_none(hypixel_client: Hypixel, key: uuid.UUID) -> None
             },
             payload={"success": True, "guild": None},
         )
-        data = await hypixel_client.guild_by_id("52e57a1c0cf2e250d1cd00f8")
+        async for client in hypixel_client:
+            data = await client.guild_by_id("52e57a1c0cf2e250d1cd00f8")
         assert data is None
 
 
 @pytest.mark.asyncio
-async def test_guild_by_name(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_guild_by_name(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the guild_by_name method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -195,7 +204,8 @@ async def test_guild_by_name(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                 },
             },
         )
-        data = await hypixel_client.guild_by_name("The Sloths")
+        async for client in hypixel_client:
+            data = await client.guild_by_name("The Sloths")
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(
@@ -246,7 +256,9 @@ async def test_guild_by_name(hypixel_client: Hypixel, key: uuid.UUID) -> None:
 
 
 @pytest.mark.asyncio
-async def test_guild_by_name_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_guild_by_name_none(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the guild_by_name method returns correct data when not found."""
     with aioresponses() as m:
         m.get(
@@ -259,12 +271,15 @@ async def test_guild_by_name_none(hypixel_client: Hypixel, key: uuid.UUID) -> No
             },
             payload={"success": True, "guild": None},
         )
-        data = await hypixel_client.guild_by_name("The Sloths")
+        async for client in hypixel_client:
+            data = await client.guild_by_name("The Sloths")
         assert data is None
 
 
 @pytest.mark.asyncio
-async def test_guild_by_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_guild_by_player(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the guild_by_player method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -324,7 +339,8 @@ async def test_guild_by_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                 },
             },
         )
-        data = await hypixel_client.guild_by_player("f7c77d999f154a66a87dc4a51ef30d19")
+        async for client in hypixel_client:
+            data = await client.guild_by_player("f7c77d999f154a66a87dc4a51ef30d19")
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(
@@ -375,7 +391,9 @@ async def test_guild_by_player(hypixel_client: Hypixel, key: uuid.UUID) -> None:
 
 
 @pytest.mark.asyncio
-async def test_guild_by_player_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_guild_by_player_none(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the guild_by_player method returns correct data when not found."""
     with aioresponses() as m:
         m.get(
@@ -389,13 +407,14 @@ async def test_guild_by_player_none(hypixel_client: Hypixel, key: uuid.UUID) -> 
             },
             payload={"success": True, "guild": None},
         )
-        data = await hypixel_client.guild_by_player("f7c77d999f154a66a87dc4a51ef30d19")
+        async for client in hypixel_client:
+            data = await client.guild_by_player("f7c77d999f154a66a87dc4a51ef30d19")
         assert data is None
 
 
 @pytest.mark.asyncio
 async def test_guild_by_id_no_mute_quest(
-    hypixel_client: Hypixel, key: uuid.UUID
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
 ) -> None:
     """Test to check the guild_by_id method returns correct data."""
     with aioresponses() as m:
@@ -453,7 +472,8 @@ async def test_guild_by_id_no_mute_quest(
                 },
             },
         )
-        data = await hypixel_client.guild_by_id("52e57a1c0cf2e250d1cd00f8")
+        async for client in hypixel_client:
+            data = await client.guild_by_id("52e57a1c0cf2e250d1cd00f8")
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(
@@ -503,7 +523,7 @@ async def test_guild_by_id_no_mute_quest(
 
 @pytest.mark.asyncio
 async def test_guild_by_name_no_mute_quest(
-    hypixel_client: Hypixel, key: uuid.UUID
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
 ) -> None:
     """Test to check the guild_by_name method returns correct data."""
     with aioresponses() as m:
@@ -561,7 +581,8 @@ async def test_guild_by_name_no_mute_quest(
                 },
             },
         )
-        data = await hypixel_client.guild_by_name("The Sloths")
+        async for client in hypixel_client:
+            data = await client.guild_by_name("The Sloths")
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(
@@ -611,7 +632,7 @@ async def test_guild_by_name_no_mute_quest(
 
 @pytest.mark.asyncio
 async def test_guild_by_player_no_mute_quest(
-    hypixel_client: Hypixel, key: uuid.UUID
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
 ) -> None:
     """Test to check the guild_by_player method returns correct data."""
     with aioresponses() as m:
@@ -670,7 +691,8 @@ async def test_guild_by_player_no_mute_quest(
                 },
             },
         )
-        data = await hypixel_client.guild_by_player("f7c77d999f154a66a87dc4a51ef30d19")
+        async for client in hypixel_client:
+            data = await client.guild_by_player("f7c77d999f154a66a87dc4a51ef30d19")
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(

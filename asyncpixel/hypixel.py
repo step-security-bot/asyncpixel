@@ -74,6 +74,14 @@ class Hypixel:
         self.retry_after: datetime.datetime = datetime.datetime(1998, 1, 1)
         self._calc_player_level = calc_player_level
 
+    async def __aenter__(self) -> "Hypixel":
+        """Enter context manager."""
+        return self
+
+    async def __aexit__(self, *args: Any) -> None:
+        """Exit context manager."""
+        await self.close()
+
     async def close(self) -> None:
         """Used for safe client cleanup."""
         await self._session.close()

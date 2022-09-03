@@ -41,14 +41,14 @@ def get_rank(
         Optional[str]: rank
     """
     real_rank = None
-    if prefix_raw:
+    if prefix_raw and prefix_raw != "NONE":
         prefix = re.sub(r"§.", "", prefix_raw)[1:-1]
-        # prefixes all start and end with brackets, and have minecraft color codes,
+        # prefixes all start and end with brackets, and have Minecraft color codes,
         # this is to remove color codes and
         # brackets
         real_rank = ranks.get(prefix, prefix)
-    elif rank and rank != "NORMAL" and not real_rank:
-        real_rank = ranks.get(rank, rank)
+    elif rank and rank != "NORMAL":
+        real_rank = ranks.get(re.sub(r"§.", "", rank)[1:-1], rank)
     elif (monthly_package_rank and monthly_package_rank != "NONE") and not real_rank:
         real_rank = ranks.get(monthly_package_rank, monthly_package_rank)
     elif new_package_rank and not real_rank:

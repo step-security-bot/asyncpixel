@@ -1,6 +1,7 @@
 """Test profile."""
 import datetime
 import uuid
+from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
@@ -8,7 +9,9 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_profiles(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_profiles(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the profiles method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -416,7 +419,8 @@ async def test_profiles(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                 ],
             },
         )
-        data = await hypixel_client.profiles("405dcf08-b80f-4e23-b97d-943ad93d14fd")
+        async for client in hypixel_client:
+            data = await client.profiles("405dcf08-b80f-4e23-b97d-943ad93d14fd")
         assert data is not None
         assert data["405dcf08b80f4e23b97d943ad93d14fd"].cute_name == "Strawberry"
         assert data["405dcf08b80f4e23b97d943ad93d14fd"].profile_id == uuid.UUID(
@@ -517,7 +521,9 @@ async def test_profiles(hypixel_client: Hypixel, key: uuid.UUID) -> None:
 
 
 @pytest.mark.asyncio
-async def test_profiles_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_profiles_none(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the profiles method returns correct data when not found."""
     with aioresponses() as m:
         m.get(
@@ -531,13 +537,16 @@ async def test_profiles_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
             },
             payload={"success": True, "profiles": None},
         )
-        data = await hypixel_client.profiles("405dcf08-b80f-4e23-b97d-943ad93d14fd")
+        async for client in hypixel_client:
+            data = await client.profiles("405dcf08-b80f-4e23-b97d-943ad93d14fd")
 
         assert data is None
 
 
 @pytest.mark.asyncio
-async def test_profile(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_profile(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test profile."""
     with aioresponses() as m:
         m.get(
@@ -934,7 +943,8 @@ async def test_profile(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                 },
             },
         )
-        data = await hypixel_client.profile("405dcf08b80f4e23b97d943ad93d14fd")
+        async for client in hypixel_client:
+            data = await client.profile("405dcf08b80f4e23b97d943ad93d14fd")
 
         assert data is not None
         assert data.profile_id == uuid.UUID("405dcf08b80f4e23b97d943ad93d14fd")
@@ -1022,7 +1032,9 @@ async def test_profile(hypixel_client: Hypixel, key: uuid.UUID) -> None:
 
 
 @pytest.mark.asyncio
-async def test_no_profile(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_no_profile(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test no problem."""
     with aioresponses() as m:
         m.get(
@@ -1039,6 +1051,7 @@ async def test_no_profile(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                 "profile": None,
             },
         )
-        data = await hypixel_client.profile("405dcf08-b80f-4e23-b97d-943ad93d14fd")
+        async for client in hypixel_client:
+            data = await client.profile("405dcf08-b80f-4e23-b97d-943ad93d14fd")
 
         assert data is None

@@ -1,5 +1,6 @@
 """Test bazaar."""
 import datetime
+from typing import AsyncGenerator
 from uuid import UUID
 
 import pytest
@@ -8,7 +9,7 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_bazaar(hypixel_client: Hypixel, key: UUID) -> None:
+async def test_bazaar(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -> None:
     """Test to check the bazaar returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -49,8 +50,8 @@ async def test_bazaar(hypixel_client: Hypixel, key: UUID) -> None:
                 },
             },
         )
-        client = hypixel_client
-        data = await client.bazaar()
+        async for client in hypixel_client:
+            data = await client.bazaar()
 
         assert data.last_updated == datetime.datetime.fromtimestamp(
             1590854517.479, tz=datetime.timezone.utc

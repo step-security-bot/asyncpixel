@@ -1,4 +1,5 @@
 """Test game count."""
+from typing import AsyncGenerator
 from uuid import UUID
 
 import pytest
@@ -7,7 +8,9 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_game_count(hypixel_client: Hypixel, key: UUID) -> None:
+async def test_game_count(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
+) -> None:
     """Test to check the game_count method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -41,7 +44,8 @@ async def test_game_count(hypixel_client: Hypixel, key: UUID) -> None:
                 "playerCount": 77238,
             },
         )
-        data = await hypixel_client.game_count()
+        async for client in hypixel_client:
+            data = await client.game_count()
 
         assert data.player_count == 77238
         assert data.games["SKYBLOCK"].players == 30522

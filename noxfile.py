@@ -10,7 +10,7 @@ from nox_poetry import session
 
 
 package = "asyncpixel"
-python_versions = ["3.9", "3.8", "3.7", "3.6"]
+python_versions = ["3.10", "3.9", "3.8"]
 nox.options.sessions = (
     "pre-commit",
     "safety",
@@ -68,7 +68,7 @@ def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
         hook.write_text("\n".join(lines))
 
 
-@session(name="pre-commit", python="3.9")
+@session(name="pre-commit", python="3.10")
 def precommit(session: Session) -> None:
     """Lint using pre-commit."""
     args = session.posargs or ["run", "--all-files", "--show-diff-on-failure"]
@@ -92,7 +92,7 @@ def precommit(session: Session) -> None:
         activate_virtualenv_in_precommit_hooks(session)
 
 
-@session(python="3.9")
+@session(python="3.10")
 def safety(session: Session) -> None:
     """Scan dependencies for insecure packages."""
     requirements = session.poetry.export_requirements()
@@ -139,7 +139,7 @@ def tests(session: Session) -> None:
 def coverage(session: Session) -> None:
     """Produce the coverage report."""
     # Do not use session.posargs unless this is the only session.
-    nsessions = len(session._runner.manifest)  # type: ignore[attr-defined]
+    nsessions = len(session._runner.manifest)
     has_args = session.posargs and nsessions == 1
     args = session.posargs if has_args else ["report"]
 
@@ -151,7 +151,7 @@ def coverage(session: Session) -> None:
     session.run("coverage", *args)
 
 
-@session(name="docs-build", python="3.9")
+@session(name="docs-build", python="3.10")
 def docs_build(session: Session) -> None:
     """Build the documentation."""
     args = session.posargs or ["docs", "docs/_build"]
@@ -173,7 +173,7 @@ def docs_build(session: Session) -> None:
     session.run("sphinx-build", *args)
 
 
-@session(python="3.9")
+@session(python="3.10")
 def docs(session: Session) -> None:
     """Build and serve the documentation with live reloading on file changes."""
     args = session.posargs or ["--open-browser", "docs", "docs/_build"]

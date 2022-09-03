@@ -1,5 +1,6 @@
 """Test leaderboards."""
 import uuid
+from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
@@ -7,7 +8,9 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_leaderboards(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_leaderboards(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the leaderboards method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -38,7 +41,8 @@ async def test_leaderboards(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                 },
             },
         )
-        data = await hypixel_client.leaderboards()
+        async for client in hypixel_client:
+            data = await client.leaderboards()
 
         assert len(data.keys()) == 1
         assert list(data.keys())[0] == "SKYWARS"

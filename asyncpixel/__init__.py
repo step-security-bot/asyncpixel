@@ -15,21 +15,18 @@ An asyncronous hypixel api wrapper
 #
 # You should have received a copy of the GNU General Public License a
 # long with this program. If not, see <https://www.gnu.org/licenses/>.
+from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version
 
-try:
-    from importlib.metadata import version, PackageNotFoundError  # type: ignore
-except ImportError:  # pragma: no cover
-    from importlib_metadata import version, PackageNotFoundError  # type: ignore
-
-from .hypixel import Hypixel
 from . import utils
+from .hypixel import Hypixel
 
 try:
     __version__ = version(__name__)
 except PackageNotFoundError:  # pragma: no cover
     __version__ = "unknown"
 __author__ = "Leon Bowie"
-__copyright__ = "Copyright 2020-2021 Leon Bowie"
+__copyright__ = "Copyright 2020-2022 Leon Bowie"
 __title__ = "asyncpixel"
 __license__ = """Copyright (C) 2020 Leon Bowie
 

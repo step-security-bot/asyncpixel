@@ -25,7 +25,7 @@ def test_title() -> None:
 
 def test_copyright() -> None:
     """Test copyright."""
-    assert asyncpixel.__copyright__ == "Copyright 2020-2021 Leon Bowie"
+    assert asyncpixel.__copyright__ == "Copyright 2020-2022 Leon Bowie"
 
 
 def test_license() -> None:

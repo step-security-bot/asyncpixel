@@ -1,6 +1,7 @@
 """Test Auctions."""
 import datetime
 import uuid
+from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
@@ -8,7 +9,9 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_auctions(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_auctions(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the auction method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -60,8 +63,8 @@ async def test_auctions(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                 ],
             },
         )
-        client = hypixel_client
-        data = await client.auctions()
+        async for client in hypixel_client:
+            data = await client.auctions()
 
         assert data.page == 0
         assert data.total_pages == 32

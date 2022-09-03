@@ -1,5 +1,6 @@
 """Test boosters."""
 import datetime
+from typing import AsyncGenerator
 from uuid import UUID
 
 import pytest
@@ -10,7 +11,9 @@ from tests.utils import generate_key
 
 
 @pytest.mark.asyncio
-async def test_boosters(hypixel_client: Hypixel, key: UUID) -> None:
+async def test_boosters(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
+) -> None:
     """Test to check the boosters method returns correct data."""
     purchaseruuid1 = generate_key()
     purchaseruuid2 = generate_key()
@@ -65,7 +68,8 @@ async def test_boosters(hypixel_client: Hypixel, key: UUID) -> None:
                 "boosterState": {"decrementing": True},
             },
         )
-        data = await hypixel_client.boosters()
+        async for client in hypixel_client:
+            data = await client.boosters()
 
         assert len(data.boosters) == 3
         assert data.booster_state_decrementing is True

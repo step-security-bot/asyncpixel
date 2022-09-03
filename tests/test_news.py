@@ -1,4 +1,5 @@
 """Test news."""
+from typing import AsyncGenerator
 from uuid import UUID
 
 import pytest
@@ -7,7 +8,9 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_skyblock_news(hypixel_client: Hypixel, key: UUID) -> None:
+async def test_skyblock_news(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
+) -> None:
     """Test to check the skyblock_news method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -36,7 +39,8 @@ async def test_skyblock_news(hypixel_client: Hypixel, key: UUID) -> None:
                 ],
             },
         )
-        data = await hypixel_client.news()
+        async for client in hypixel_client:
+            data = await client.news()
 
         assert len(data) == 2
 

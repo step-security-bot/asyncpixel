@@ -1,4 +1,5 @@
 """Test status."""
+from typing import AsyncGenerator
 from uuid import UUID
 
 import pytest
@@ -9,7 +10,9 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_online_status(hypixel_client: Hypixel, key: UUID) -> None:
+async def test_online_status(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
+) -> None:
     """Test to check the online_status method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -30,8 +33,8 @@ async def test_online_status(hypixel_client: Hypixel, key: UUID) -> None:
                 },
             },
         )
-        client = hypixel_client
-        data = await client.player_status("7486aa03aca5470e888dde8a43eb8c10")
+        async for client in hypixel_client:
+            data = await client.player_status("7486aa03aca5470e888dde8a43eb8c10")
         assert data is not None
 
         assert data.online is True
@@ -40,7 +43,9 @@ async def test_online_status(hypixel_client: Hypixel, key: UUID) -> None:
 
 
 @pytest.mark.asyncio
-async def test_offline_status(hypixel_client: Hypixel, key: UUID) -> None:
+async def test_offline_status(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
+) -> None:
     """Test to check the offline_status method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -54,7 +59,7 @@ async def test_offline_status(hypixel_client: Hypixel, key: UUID) -> None:
             },
             payload={"success": True, "session": None},
         )
-        client = hypixel_client
-        data = await client.player_status("7486aa03aca5470e888dde8a43eb8c10")
+        async for client in hypixel_client:
+            data = await client.player_status("7486aa03aca5470e888dde8a43eb8c10")
 
         assert data is None

@@ -1,4 +1,5 @@
 """Test watchdog."""
+from typing import AsyncGenerator
 from uuid import UUID
 
 import pytest
@@ -7,7 +8,9 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_watchdog(hypixel_client: Hypixel, key: UUID) -> None:
+async def test_watchdog(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
+) -> None:
     """Test to check the watchdog method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -27,7 +30,8 @@ async def test_watchdog(hypixel_client: Hypixel, key: UUID) -> None:
                 "staff_total": 1608360,
             },
         )
-        data = await hypixel_client.watchdog_stats()
+        async for client in hypixel_client:
+            data = await client.watchdog_stats()
 
         assert data.watchdog_last_minute == 5
         assert data.staff_rolling_daily == 1356

@@ -1,6 +1,7 @@
 """Test friends."""
 import datetime
 import uuid
+from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
@@ -8,7 +9,9 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_friends(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_friends(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the friends method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -32,8 +35,8 @@ async def test_friends(hypixel_client: Hypixel, key: uuid.UUID) -> None:
                 ],
             },
         )
-        client = hypixel_client
-        data = await client.player_friends("7486aa03aca5470e888dde8a43eb8c10")
+        async for client in hypixel_client:
+            data = await client.player_friends("7486aa03aca5470e888dde8a43eb8c10")
 
         assert data is not None
         assert len(data) == 1
@@ -46,7 +49,9 @@ async def test_friends(hypixel_client: Hypixel, key: uuid.UUID) -> None:
 
 
 @pytest.mark.asyncio
-async def test_friends_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
+async def test_friends_none(
+    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
+) -> None:
     """Test to check the friends method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -60,7 +65,7 @@ async def test_friends_none(hypixel_client: Hypixel, key: uuid.UUID) -> None:
             },
             payload={"success": True, "records": None},
         )
-        client = hypixel_client
-        data = await client.player_friends("7486aa03aca5470e888dde8a43eb8c10")
+        async for client in hypixel_client:
+            data = await client.player_friends("7486aa03aca5470e888dde8a43eb8c10")
 
         assert data is None

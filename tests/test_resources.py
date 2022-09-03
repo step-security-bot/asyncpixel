@@ -1,11 +1,15 @@
 """Test guild."""
+from typing import AsyncGenerator
+
 import pytest
 from aioresponses import aioresponses
 from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_resources_achievements(hypixel_client: Hypixel) -> None:
+async def test_resources_achievements(
+    hypixel_client: AsyncGenerator[Hypixel, None]
+) -> None:
     """Test to check the resources_achievements method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -18,13 +22,16 @@ async def test_resources_achievements(hypixel_client: Hypixel) -> None:
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
-        data = await hypixel_client.resources_achievements()
+        async for client in hypixel_client:
+            data = await client.resources_achievements()
 
         assert data["lastUpdated"] == 1608480930882
 
 
 @pytest.mark.asyncio
-async def test_resources_challenges(hypixel_client: Hypixel) -> None:
+async def test_resources_challenges(
+    hypixel_client: AsyncGenerator[Hypixel, None]
+) -> None:
     """Test to check the resources_challenges method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -32,13 +39,14 @@ async def test_resources_challenges(hypixel_client: Hypixel) -> None:
             status=200,
             payload={"success": True, "lastUpdated": 1608480930882},
         )
-        data = await hypixel_client.resources_challenges()
+        async for client in hypixel_client:
+            data = await client.resources_challenges()
 
         assert data["lastUpdated"] == 1608480930882
 
 
 @pytest.mark.asyncio
-async def test_resources_quests(hypixel_client: Hypixel) -> None:
+async def test_resources_quests(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
     """Test to check the resources_quests method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -51,13 +59,16 @@ async def test_resources_quests(hypixel_client: Hypixel) -> None:
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
-        data = await hypixel_client.resources_quests()
+        async for client in hypixel_client:
+            data = await client.resources_quests()
 
         assert data["lastUpdated"] == 1608480930882
 
 
 @pytest.mark.asyncio
-async def test_resources_guilds_achievements(hypixel_client: Hypixel) -> None:
+async def test_resources_guilds_achievements(
+    hypixel_client: AsyncGenerator[Hypixel, None]
+) -> None:
     """Test to check the resources_guilds_achievements method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -70,13 +81,16 @@ async def test_resources_guilds_achievements(hypixel_client: Hypixel) -> None:
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
-        data = await hypixel_client.resources_guilds_achievements()
+        async for client in hypixel_client:
+            data = await client.resources_guilds_achievements()
 
         assert data["lastUpdated"] == 1608480930882
 
 
 @pytest.mark.asyncio
-async def test_resources_guilds_permissions(hypixel_client: Hypixel) -> None:
+async def test_resources_guilds_permissions(
+    hypixel_client: AsyncGenerator[Hypixel, None]
+) -> None:
     """Test to check the resources_guilds_permissions method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -89,13 +103,16 @@ async def test_resources_guilds_permissions(hypixel_client: Hypixel) -> None:
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
-        data = await hypixel_client.resources_guilds_permissions()
+        async for client in hypixel_client:
+            data = await client.resources_guilds_permissions()
 
         assert data["lastUpdated"] == 1608480930882
 
 
 @pytest.mark.asyncio
-async def test_resources_skyblock_collections(hypixel_client: Hypixel) -> None:
+async def test_resources_skyblock_collections(
+    hypixel_client: AsyncGenerator[Hypixel, None]
+) -> None:
     """Test to check the resources_skyblock_collections method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -108,13 +125,16 @@ async def test_resources_skyblock_collections(hypixel_client: Hypixel) -> None:
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
-        data = await hypixel_client.resources_skyblock_collections()
+        async for client in hypixel_client:
+            data = await client.resources_skyblock_collections()
 
         assert data["lastUpdated"] == 1608480930882
 
 
 @pytest.mark.asyncio
-async def test_resources_skyblock_skills(hypixel_client: Hypixel) -> None:
+async def test_resources_skyblock_skills(
+    hypixel_client: AsyncGenerator[Hypixel, None]
+) -> None:
     """Test to check the resources_skyblock_skills method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -127,6 +147,7 @@ async def test_resources_skyblock_skills(hypixel_client: Hypixel) -> None:
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
-        data = await hypixel_client.resources_skyblock_skills()
+        async for client in hypixel_client:
+            data = await client.resources_skyblock_skills()
 
         assert data["lastUpdated"] == 1608480930882
