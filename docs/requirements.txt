@@ -4,5 +4,5 @@ recommonmark==0.7.1
 sphinx-autodoc-typehints==1.19.2
 sphinx-copybutton==0.5.0
 sphinxext-opengraph==0.6.3
-furo==2022.6.21
+furo==2022.9.15
 sphinxcontrib-trio==1.1.2
