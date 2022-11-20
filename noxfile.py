@@ -10,7 +10,7 @@ from nox_poetry import session
 
 
 package = "asyncpixel"
-python_versions = ["3.10", "3.9", "3.8"]
+python_versions = ["3.11", "3.10", "3.9", "3.8"]
 nox.options.sessions = (
     "pre-commit",
     "safety",
@@ -68,7 +68,7 @@ def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
         hook.write_text("\n".join(lines))
 
 
-@session(name="pre-commit", python="3.10")
+@session(name="pre-commit", python="3.11")
 def precommit(session: Session) -> None:
     """Lint using pre-commit."""
     args = session.posargs or ["run", "--all-files", "--show-diff-on-failure"]
@@ -92,19 +92,14 @@ def precommit(session: Session) -> None:
         activate_virtualenv_in_precommit_hooks(session)
 
 
-@session(python="3.10")
+@session(python="3.11")
 def safety(session: Session) -> None:
     """Scan dependencies for insecure packages."""
     requirements = session.poetry.export_requirements()
     session.install("safety")
-    # Ignore some issues in some dev dependencies
     session.run(
         "safety",
         "check",
-        "--ignore=39525",
-        "--ignore=39611",
-        "--ignore=40014",
-        "--ignore=40291",
         f"--file={requirements}",
         "--bare",
     )
@@ -151,7 +146,7 @@ def coverage(session: Session) -> None:
     session.run("coverage", *args)
 
 
-@session(name="docs-build", python="3.10")
+@session(name="docs-build", python="3.11")
 def docs_build(session: Session) -> None:
     """Build the documentation."""
     args = session.posargs or ["docs", "docs/_build"]
@@ -173,7 +168,7 @@ def docs_build(session: Session) -> None:
     session.run("sphinx-build", *args)
 
 
-@session(python="3.10")
+@session(python="3.11")
 def docs(session: Session) -> None:
     """Build and serve the documentation with live reloading on file changes."""
     args = session.posargs or ["--open-browser", "docs", "docs/_build"]
