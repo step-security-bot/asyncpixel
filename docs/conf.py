@@ -41,7 +41,7 @@ extensions = [
     "sphinxcontrib_trio",
 ]
 
-autodoc_mock_imports = ["pydantic", "aiohttp"]
+# autodoc_mock_imports = ["pydantic", "aiohttp"]
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
