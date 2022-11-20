@@ -105,7 +105,7 @@ def safety(session: Session) -> None:
     )
 
 
-@session(python=python_versions)
+@session(python="3.11")
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or ["asyncpixel", "tests", "docs/conf.py"]
