@@ -159,7 +159,7 @@ class Player(BaseModel):
         most_recent_game_type (Optional[GameType]): Most recent Game Type that
             has been played.
         level (Optional[float]): Level of user.
-        pet_stats (Optional[PetStats]): Pet stats.
+        pet_stats (Optional[Pet]): Pet stats.
         raw (Dict[str, Any]): raw data
     """
 
