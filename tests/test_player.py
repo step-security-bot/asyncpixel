@@ -1712,8 +1712,8 @@ def test_bedwars_level_calculation() -> None:
         calculated_star = bedwars_level_from_exp(exp)
 
         # Compare int with int, and float with float
-        if isinstance(true_star, int) and not isinstance(calculated_star, int):
-            calculated_star = int(calculated_star)
+        calculated_star = float(calculated_star)
+        true_star = float(true_star)
 
         assert (
             true_star == calculated_star
