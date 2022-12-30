@@ -30,3 +30,15 @@ def to_camel(string: str) -> str:
     for word in string.split("_")[1:]:
         out += word.capitalize()
     return out
+
+
+def to_upper(string: str) -> str:
+    """Convert str to upper case.
+
+    Args:
+        string (str): input.
+
+    Returns:
+        str: upperCase version of str.
+    """
+    return string.upper()

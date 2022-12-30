@@ -1436,7 +1436,9 @@ async def test_player(
                             "HUNGER": {"timestamp": 1529225265831, "value": 100},
                             "EXERCISE": {"value": 100, "timestamp": 1529225256120},
                             "THIRST": {"timestamp": 1529225262979, "value": 100},
-                        }
+                            "experience": 212,
+                            "name": "Wolfy",
+                        },
                     },
                     "parkourCheckpointBests": {
                         "Bedwars": {"0": 11553, "1": 7949, "2": 11109, "3": 76136}
@@ -1632,9 +1634,7 @@ async def test_player(
         assert data.stats.bedwars.singles is not None
         assert data.stats.bedwars.singles.win_per_lose == 0.0
         assert data.stats.bedwars.singles.beds_broken_per_lost == 2 / 3
-        assert data.stats.bedwars.singles.final_kills_per_kills == 0
         assert data.stats.bedwars.singles.final_kills_per_final_death == 0
-        assert data.stats.bedwars.final_kills_per_kills == 0.18275862068965518
         assert data.stats.bedwars.final_kills_per_final_death == 0.18027210884353742
         assert data.stats.bedwars.beds_broken_per_lost == 0.09931506849315068
         assert data.stats.bedwars.win_lose == 0.24610591900311526
@@ -1655,6 +1655,34 @@ async def test_player(
         )
         assert data.stats.bedwars.quads_ultimate is not None
         assert data.stats.bedwars.doubles_ultimate is None
+
+        assert data.pet_stats is not None
+        assert len(data.pet_stats) == 1
+        assert data.pet_stats["WOLF"] is not None
+        print(data.pet_stats)
+        assert data.pet_stats["WOLF"].experience == 212
+        assert data.pet_stats["WOLF"].name == "Wolfy"
+        assert data.pet_stats["WOLF"].hunger is not None
+        assert data.pet_stats["WOLF"].hunger.value == 100
+        assert data.pet_stats[
+            "WOLF"
+        ].hunger.timestamp == datetime.datetime.fromtimestamp(
+            1529225265.831, tz=datetime.timezone.utc
+        )
+        assert data.pet_stats["WOLF"].thirst is not None
+        assert data.pet_stats["WOLF"].thirst.value == 100
+        assert data.pet_stats[
+            "WOLF"
+        ].thirst.timestamp == datetime.datetime.fromtimestamp(
+            1529225262.979, tz=datetime.timezone.utc
+        )
+        assert data.pet_stats["WOLF"].exercise is not None
+        assert data.pet_stats["WOLF"].exercise.value == 100
+        assert data.pet_stats[
+            "WOLF"
+        ].exercise.timestamp == datetime.datetime.fromtimestamp(
+            1529225256.120, tz=datetime.timezone.utc
+        )
 
 
 @pytest.mark.asyncio
@@ -1712,8 +1740,8 @@ def test_bedwars_level_calculation() -> None:
         calculated_star = bedwars_level_from_exp(exp)
 
         # Compare int with int, and float with float
-        calculated_star = float(calculated_star)
-        true_star = float(true_star)
+        calculated_star = int(calculated_star)
+        true_star = int(true_star)
 
         assert (
             true_star == calculated_star

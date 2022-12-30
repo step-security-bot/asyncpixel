@@ -21,14 +21,16 @@ from .key import Key
 from .leaderboards import Leaderboards
 from .news import Item
 from .news import News
+from .pet import Pet
+from .pet import PetStat
 from .player import Player
 from .player import Social
 from .player import Stats
-from .profile import InvArmor
-from .profile import Members
-from .profile import Objective
-from .profile import Profile
-from .profile import Quests
+from .player_profile import InvArmor
+from .player_profile import Members
+from .player_profile import Objective
+from .player_profile import Profile
+from .player_profile import Quests
 from .status import Status
 from .watchdog import WatchDog
 
@@ -66,4 +68,6 @@ __all__ = [
     "Stats",
     "Social",
     "Rank",
+    "Pet",
+    "PetStat",
 ]

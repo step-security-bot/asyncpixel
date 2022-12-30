@@ -76,7 +76,7 @@ class Hypixel:
 
     async def __aenter__(self) -> "Hypixel":
         """Enter context manager."""
-        return self # pragma: no cover
+        return self  # pragma: no cover
 
     async def __aexit__(self, *args: Any) -> None:
         """Exit context manager."""

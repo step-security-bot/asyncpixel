@@ -8,6 +8,7 @@ from typing import Union
 
 from asyncpixel import utils
 from asyncpixel.constants import get_game_types
+from asyncpixel.models.pet import Pet
 from pydantic import BaseModel
 from pydantic import Field
 from pydantic import validator
@@ -158,6 +159,7 @@ class Player(BaseModel):
         most_recent_game_type (Optional[GameType]): Most recent Game Type that
             has been played.
         level (Optional[float]): Level of user.
+        pet_stats (Optional[PetStats]): Pet stats.
         raw (Dict[str, Any]): raw data
     """
 
@@ -207,6 +209,7 @@ class Player(BaseModel):
     current_gadget: Optional[str]
     channel: Optional[str]
     most_recent_game_type: Optional[GameType]
+    pet_stats: Optional[Dict[str, Pet]]
 
     @validator("most_recent_game_type", pre=True)
     @classmethod
@@ -236,7 +239,7 @@ class Player(BaseModel):
     def create_raw(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """Create a copy of the values to directly access."""
         out = values.copy()
-        out["raw"] = out
+        out["raw"] = values
         return out
 
     class Config:
