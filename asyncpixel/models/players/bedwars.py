@@ -142,19 +142,6 @@ class BedwarsGame(BaseModel):
         return safe_divide(self.beds_broken, self.beds_lost)
 
     @property
-    def final_kills_per_kills(self) -> float:
-        """Final kills per normal kill.
-
-        Returns:
-            float: ratio between final kills and normal kills
-        """
-        warnings.warn(
-            "Field final_kills_per_kills will be removed in a future update",
-            DeprecationWarning,
-        )
-        return safe_divide(self.final_kills, self.kills)
-
-    @property
     def final_kills_per_final_death(self) -> float:
         """Final kills per final death.
 
@@ -329,19 +316,6 @@ class Bedwars(BaseModel):
     active_sprays: str = Field("", alias="activeSprays")
     active_glyph: str = Field("", alias="activeGlyph")
     selected_ultimate: str = Field("", alias="selected_ultimate")
-
-    @property
-    def final_kills_per_kills(self) -> float:
-        """Final kills per normal kill.
-
-        Returns:
-            float: ratio between final kills and normal kills
-        """
-        warnings.warn(
-            "Field final_kills_per_kills will be removed in a future update",
-            DeprecationWarning,
-        )
-        return safe_divide(self.final_kills, self.kills)
 
     @property
     def final_kills_per_final_death(self) -> float:
