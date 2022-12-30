@@ -5,3 +5,4 @@ sphinxcontrib-trio==1.1.2
 sphinx==6.0.0
 recommonmark==0.7.1
 sphinx-autodoc-typehints==1.19.5
+aiohttp==3.8.3
