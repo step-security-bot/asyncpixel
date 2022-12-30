@@ -2,13 +2,14 @@
 import datetime
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from pydantic import Field
 
 from .utils import to_upper
 
 
 class PetStat(BaseModel):
-    """Pet State
+    """Pet State.
 
     Parameters
     ----------
@@ -23,7 +24,7 @@ class PetStat(BaseModel):
 
 
 class Pet(BaseModel):
-    """Pet
+    """Pet.
 
     Parameters
     ----------
