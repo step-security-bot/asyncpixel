@@ -76,15 +76,15 @@ class Hypixel:
 
     async def __aenter__(self) -> "Hypixel":
         """Enter context manager."""
-        return self
+        return self # pragma: no cover
 
     async def __aexit__(self, *args: Any) -> None:
         """Exit context manager."""
-        await self.close()
+        await self.close()  # pragma: no cover
 
     async def close(self) -> None:
         """Used for safe client cleanup."""
-        await self._session.close()
+        await self._session.close()  # pragma: no cover
 
     async def _get(
         self,

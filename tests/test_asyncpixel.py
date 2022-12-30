@@ -174,3 +174,17 @@ async def test_get_uuid_fail() -> None:
         client = asyncpixel.Hypixel()
         uuid = await client.uuid_from_name("Technoblade")
         assert uuid is None
+
+
+@pytest.mark.asyncio
+async def test_context_manager() -> None:
+    """Test context manager."""
+    with aioresponses() as m:
+        m.get(
+            "https://api.mojang.com/users/profiles/minecraft/Technoblade",
+            status=200,
+            payload={"name": "Technoblade", "id": "b876ec32e396476ba1158438d83c67d4"},
+        )
+        async with asyncpixel.Hypixel() as client:
+            uuid = await client.uuid_from_name("Technoblade")
+            assert uuid == UUID("b876ec32e396476ba1158438d83c67d4")
