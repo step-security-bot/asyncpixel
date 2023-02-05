@@ -19,7 +19,7 @@ license = "GPLv3"
 name = "asyncpixel"
 readme = "README.md"
 repository = "https://github.com/Darkflame72/asyncpixel"
-version = "1.4.0"
+version = "1.5.0"
 
 [tool.poetry.dependencies]
 aiohttp = "^3.6.2"
@@ -70,7 +70,7 @@ recommonmark = "^0.7.1"
 
 
 [tool.coverage.paths]
-source = ["asyncpixel"]
+source = ["asyncpixel/", "*/site-packages", "*/asyncpixel"]
 
 [tool.coverage.run]
 branch = true

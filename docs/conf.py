@@ -23,7 +23,7 @@ author = "Leon Bowie"
 copyright = f"{datetime.now().year}, {author}"
 
 # The full version, including alpha/beta/rc tags
-release = "1.3.2"
+release = "1.5.0"
 
 
 # -- General configuration ---------------------------------------------------
