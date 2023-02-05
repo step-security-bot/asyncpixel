@@ -7,6 +7,7 @@ from typing import Dict
 from typing import List
 from typing import Optional
 
+from asyncpixel.models.pet import ProfilePet
 from pydantic import BaseModel
 
 
@@ -74,7 +75,7 @@ class Members(BaseModel):
         fairy_souls (Optional[int]): Fairy souls.
         death_count (Optional[int]): death count.
         slayer_bosses (Dict[str, Dict[str, Any]]): Slayer bosses.
-        pets (List[Any]): Pets.
+        pets (List[ProfilePet]): Pets.
     """
 
     last_save: Optional[datetime.datetime]
@@ -83,7 +84,7 @@ class Members(BaseModel):
     fairy_souls_collected: int = 0
     fairy_souls: int = 0
     fairy_exchanges: int = 0
-    pets: List[Any] = []
+    pets: List[ProfilePet] = []
     collection: Dict[str, Any] = {}
     collections_unlocked: int = 0
 
