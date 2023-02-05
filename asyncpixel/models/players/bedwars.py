@@ -357,7 +357,7 @@ class Bedwars(BaseModel):
     def traverse_sources(cls, values: Dict[str, Any]) -> Dict[str, Any]:  # noqa: C901
         """Traverse all sources."""
         out = values.copy()
-        for (name, field) in values.items():
+        for name, field in values.items():
             if name.startswith("eight_one_"):
                 if "singles" not in out:
                     out["singles"] = {}
