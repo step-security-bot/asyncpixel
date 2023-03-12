@@ -62,7 +62,7 @@ class BazaarItem(BaseModel):
 
     Args:
         product_id (str): Product id.
-        buy_summary (List[BazaarSellSummary]): List of sell summary.
+        sell_summary (List[BazaarSellSummary]): List of sell summary.
         buy_summary (List[BazaarBuySummary]): List of buy summary.
         quick_status (BazaarQuickStatus): Quick status.
     """
