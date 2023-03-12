@@ -102,15 +102,20 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="https://quirky.codes/"><img src="https://avatars2.githubusercontent.com/u/35202521?v=4?s=100" width="100px;" alt=""/><br /><sub><b>AjayACST</b></sub></a><br /><a href="#maintenance-AjayACST" title="Maintenance">🚧</a></td>
-    <td align="center"><a href="https://github.com/aiexz"><img src="https://avatars3.githubusercontent.com/u/42418433?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Alex</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/commits?author=aiexz" title="Code">💻</a> <a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Aaiexz" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/magicaltoast"><img src="https://avatars.githubusercontent.com/u/68669235?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Damian Grzanka</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/commits?author=magicaltoast" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/satyamedh"><img src="https://avatars.githubusercontent.com/u/47636284?v=4?s=100" width="100px;" alt=""/><br /><sub><b>satyamedh hulyalkar</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Asatyamedh" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://dubs.rip"><img src="https://avatars.githubusercontent.com/u/59372145?v=4?s=100" width="100px;" alt=""/><br /><sub><b>dubs</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Aduhby" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/Amund211"><img src="https://avatars.githubusercontent.com/u/14028449?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Amund Eggen Svandal</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/commits?author=Amund211" title="Code">💻</a> <a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3AAmund211" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://github.com/wald0040"><img src="https://avatars.githubusercontent.com/u/88714744?v=4?s=100" width="100px;" alt=""/><br /><sub><b>wald0040</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Awald0040" title="Bug reports">🐛</a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://quirky.codes/"><img src="https://avatars2.githubusercontent.com/u/35202521?v=4?s=100" width="100px;" alt="AjayACST"/><br /><sub><b>AjayACST</b></sub></a><br /><a href="#maintenance-AjayACST" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/aiexz"><img src="https://avatars3.githubusercontent.com/u/42418433?v=4?s=100" width="100px;" alt="Alex"/><br /><sub><b>Alex</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/commits?author=aiexz" title="Code">💻</a> <a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Aaiexz" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/magicaltoast"><img src="https://avatars.githubusercontent.com/u/68669235?v=4?s=100" width="100px;" alt="Damian Grzanka"/><br /><sub><b>Damian Grzanka</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/commits?author=magicaltoast" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/satyamedh"><img src="https://avatars.githubusercontent.com/u/47636284?v=4?s=100" width="100px;" alt="satyamedh hulyalkar"/><br /><sub><b>satyamedh hulyalkar</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Asatyamedh" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://dubs.rip"><img src="https://avatars.githubusercontent.com/u/59372145?v=4?s=100" width="100px;" alt="dubs"/><br /><sub><b>dubs</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Aduhby" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Amund211"><img src="https://avatars.githubusercontent.com/u/14028449?v=4?s=100" width="100px;" alt="Amund Eggen Svandal"/><br /><sub><b>Amund Eggen Svandal</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/commits?author=Amund211" title="Code">💻</a> <a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3AAmund211" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/wald0040"><img src="https://avatars.githubusercontent.com/u/88714744?v=4?s=100" width="100px;" alt="wald0040"/><br /><sub><b>wald0040</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Awald0040" title="Bug reports">🐛</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/MillionthOdin16"><img src="https://avatars.githubusercontent.com/u/102247808?v=4?s=100" width="100px;" alt="MillionthOdin16"/><br /><sub><b>MillionthOdin16</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3AMillionthOdin16" title="Bug reports">🐛</a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->
