@@ -9,13 +9,14 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_auctions(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+@pytest.mark.parametrize(
+    "hypixel_client", ["hypixel_client", "hypixel_client_no_key"], indirect=True
+)
+async def test_auctions(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
     """Test to check the auction method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/skyblock/auctions?key={str(key)}&page=0",
+            "https://api.hypixel.net/skyblock/auctions?page=0",
             status=200,
             headers={
                 "RateLimit-Limit": "120",

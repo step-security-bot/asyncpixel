@@ -259,7 +259,7 @@ class Hypixel:
         Returns:
             Bazaar: object for bazzar.
         """
-        data = await self._get("skyblock/bazaar")
+        data = await self._get("skyblock/bazaar", key_required=False)
 
         bazaar_items = []
 
@@ -286,7 +286,9 @@ class Hypixel:
         params = {"page": page}
         for _ in range(retry):  # pragma: no cover
             try:
-                data = await self._get("skyblock/auctions", params=params)
+                data = await self._get(
+                    "skyblock/auctions", params=params, key_required=False
+                )
                 break
             except aiohttp.ServerTimeoutError:
                 pass

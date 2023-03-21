@@ -9,11 +9,14 @@ from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "hypixel_client", ["hypixel_client", "hypixel_client_no_key"], indirect=True
+)
 async def test_bazaar(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -> None:
     """Test to check the bazaar returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/skyblock/bazaar?key={str(key)}",
+            "https://api.hypixel.net/skyblock/bazaar",
             status=200,
             headers={
                 "RateLimit-Limit": "120",

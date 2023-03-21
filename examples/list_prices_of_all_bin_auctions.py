@@ -3,12 +3,10 @@ import asyncio
 
 from asyncpixel.hypixel import Hypixel
 
-api_key = "Your key"
 
-
-async def main(key):
+async def main():
     """Prints price of all bin auctions on first page."""
-    client = Hypixel(key)
+    client = Hypixel()  # This call does not require an api key
     auctions = await client.auctions()
 
     for bin in filter(lambda x: x.bin, auctions.auctions):
@@ -16,4 +14,4 @@ async def main(key):
     await client.close()
 
 
-asyncio.run(main(api_key))
+asyncio.run(main())
