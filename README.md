@@ -114,7 +114,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/MillionthOdin16"><img src="https://avatars.githubusercontent.com/u/102247808?v=4?s=100" width="100px;" alt="MillionthOdin16"/><br /><sub><b>MillionthOdin16</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3AMillionthOdin16" title="Bug reports">🐛</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ch-iv"><img src="https://avatars.githubusercontent.com/u/108201575?v=4?s=100" width="100px;" alt="ch-iv"/><br /><sub><b>ch-iv</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Ach-iv" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/ch-iv"><img src="https://avatars.githubusercontent.com/u/108201575?v=4?s=100" width="100px;" alt="ch-iv"/><br /><sub><b>ch-iv</b></sub></a><br /><a href="https://github.com/Darkflame72/asyncpixel/issues?q=author%3Ach-iv" title="Bug reports">🐛</a> <a href="https://github.com/Darkflame72/asyncpixel/commits?author=ch-iv" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
