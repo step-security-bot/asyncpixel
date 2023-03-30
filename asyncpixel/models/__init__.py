@@ -2,6 +2,8 @@
 from .auctions import Auction
 from .auctions import AuctionItem
 from .auctions import Bids
+from .auctions_ended import AuctionEnded
+from .auctions_ended import AuctionEndedItem
 from .bazaar import Bazaar
 from .bazaar import BazaarItem
 from .bazaar import BazaarQuickStatus
@@ -34,10 +36,13 @@ from .player_profile import Quests
 from .status import Status
 from .watchdog import WatchDog
 
+
 __all__ = [
     "Auction",
     "Item",
     "AuctionItem",
+    "AuctionEnded",
+    "AuctionEndedItem",
     "Bazaar",
     "BazaarSummary",
     "BazaarItem",

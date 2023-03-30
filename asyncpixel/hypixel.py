@@ -28,6 +28,7 @@ from .exceptions import ApiNoSuccessError
 from .exceptions import InvalidApiKeyError
 from .exceptions import RateLimitError
 from .models import Auction
+from .models import AuctionEnded
 from .models import AuctionItem
 from .models import Bazaar
 from .models import BazaarItem
@@ -293,6 +294,23 @@ class Hypixel:
             except aiohttp.ServerTimeoutError:
                 pass
         return Auction.parse_obj(data)
+
+    async def auctions_ended(self, retry: int = 3) -> AuctionEnded:
+        """Get the ended auctions.
+
+        Args:
+            retry (int): Amount of retries to get the data from the api Defaults to 3.
+
+        Returns:
+            AuctionEnded: Auctions ended object.
+        """
+        for _ in range(retry):  # pragma: no cover
+            try:
+                data = await self._get("skyblock/auctions_ended", key_required=False)
+                break
+            except aiohttp.ServerTimeoutError:
+                pass
+        return AuctionEnded.parse_obj(data)
 
     async def recent_games(self, uuid: UUID) -> Optional[List[Game]]:
         """Get recent games of a player.
