@@ -1523,6 +1523,7 @@ async def test_player(
                 },
             },
         )
+        data = None
         async for client in hypixel_client:
             data = await client.player("405dcf08-b80f-4e23-b97d-943ad93d14fd")
 
@@ -1649,7 +1650,6 @@ async def test_player(
             type_name="BEDWARS",
             database_name="Bedwars",
             lobby_name="bedwars",
-            display_name="Bedwars",
             clean_name="Bed Wars",
             standard_name="BedWars",
         )
@@ -1688,14 +1688,11 @@ async def test_player(
 @pytest.mark.asyncio
 async def test_most_recent_game_type() -> None:
     """Test most recent game type."""
-    assert Player(
-        uuid=str(uuid.uuid4()), firstLogin=datetime.datetime.now(), stats={}
-    ).validate_game_type(58) == GameType(
+    assert Player.validate_game_type(58) == GameType(
         id=58,
         type_name="BEDWARS",
         database_name="Bedwars",
         lobby_name="bedwars",
-        display_name="Bedwars",
         clean_name="Bed Wars",
         standard_name="BedWars",
     )
@@ -1718,6 +1715,7 @@ async def test_player_none(
             },
             payload={"success": True, "player": None},
         )
+        data = None
         async for client in hypixel_client:
             data = await client.player("405dcf08-b80f-4e23-b97d-943ad93d14fd")
 
