@@ -10,7 +10,7 @@ from .utils import generate_key
 
 def test_version() -> None:
     """Mock version."""
-    assert asyncpixel.__version__ == "1.5.0"
+    assert asyncpixel.__version__ == "1.6.0"
 
 
 def test_author() -> None:
@@ -25,7 +25,7 @@ def test_title() -> None:
 
 def test_copyright() -> None:
     """Test copyright."""
-    assert asyncpixel.__copyright__ == "Copyright 2020-2022 Leon Bowie"
+    assert asyncpixel.__copyright__ == "Copyright 2020-2023 Leon Bowie"
 
 
 def test_license() -> None:

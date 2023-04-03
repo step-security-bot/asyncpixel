@@ -19,7 +19,7 @@ license = "GPLv3"
 name = "asyncpixel"
 readme = "README.md"
 repository = "https://github.com/Darkflame72/asyncpixel"
-version = "1.5.0"
+version = "1.6.0"
 
 [tool.poetry.dependencies]
 aiohttp = "^3.6.2"

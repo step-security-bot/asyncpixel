@@ -26,7 +26,7 @@ try:
 except PackageNotFoundError:  # pragma: no cover
     __version__ = "unknown"
 __author__ = "Leon Bowie"
-__copyright__ = "Copyright 2020-2022 Leon Bowie"
+__copyright__ = "Copyright 2020-2023 Leon Bowie"
 __title__ = "asyncpixel"
 __license__ = """Copyright (C) 2020 Leon Bowie
 
