@@ -30,8 +30,12 @@ async def test_watchdog(
                 "staff_total": 1608360,
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.watchdog_stats()
+
+        assert data is not None
 
         assert data.watchdog_last_minute == 5
         assert data.staff_rolling_daily == 1356

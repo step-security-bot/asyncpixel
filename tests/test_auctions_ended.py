@@ -41,8 +41,11 @@ async def test_auctions_ended(hypixel_client: AsyncGenerator[Hypixel, None]) -> 
             },
         )
 
+        data = None
         async for client in hypixel_client:
             data = await client.auctions_ended()
+
+        assert data is not None
 
         assert data.last_updated == datetime.datetime.fromtimestamp(
             1679435322.685, tz=datetime.timezone.utc

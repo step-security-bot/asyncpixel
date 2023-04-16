@@ -64,8 +64,11 @@ async def test_auctions(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
                 ],
             },
         )
+        data = None
         async for client in hypixel_client:
             data = await client.auctions()
+
+        assert data is not None
 
         assert data.page == 0
         assert data.total_pages == 32

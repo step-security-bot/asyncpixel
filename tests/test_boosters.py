@@ -68,8 +68,12 @@ async def test_boosters(
                 "boosterState": {"decrementing": True},
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.boosters()
+
+        assert data is not None
 
         assert len(data.boosters) == 3
         assert data.booster_state_decrementing is True

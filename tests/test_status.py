@@ -33,6 +33,8 @@ async def test_online_status(
                 },
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.player_status("7486aa03aca5470e888dde8a43eb8c10")
         assert data is not None
@@ -59,6 +61,8 @@ async def test_offline_status(
             },
             payload={"success": True, "session": None},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.player_status("7486aa03aca5470e888dde8a43eb8c10")
 

@@ -4,7 +4,7 @@ import asyncio
 from asyncpixel.hypixel import Hypixel
 
 
-async def main():
+async def main() -> None:
     """Prints price of all recently ended auctions."""
     client = Hypixel()
     auctions_ended = await client.auctions_ended()

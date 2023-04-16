@@ -35,6 +35,8 @@ async def test_friends(
                 ],
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.player_friends("7486aa03aca5470e888dde8a43eb8c10")
 
@@ -65,6 +67,8 @@ async def test_friends_none(
             },
             payload={"success": True, "records": None},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.player_friends("7486aa03aca5470e888dde8a43eb8c10")
 

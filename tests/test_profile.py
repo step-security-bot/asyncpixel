@@ -710,6 +710,8 @@ async def test_profiles(
                 ],
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.profiles("405dcf08-b80f-4e23-b97d-943ad93d14fd")
         assert data is not None
@@ -836,6 +838,8 @@ async def test_profiles_none(
             },
             payload={"success": True, "profiles": None},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.profiles("405dcf08-b80f-4e23-b97d-943ad93d14fd")
 
@@ -1242,6 +1246,8 @@ async def test_profile(
                 },
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.profile("405dcf08b80f4e23b97d943ad93d14fd")
 
@@ -1350,6 +1356,8 @@ async def test_no_profile(
                 "profile": None,
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.profile("405dcf08-b80f-4e23-b97d-943ad93d14fd")
 

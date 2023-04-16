@@ -44,8 +44,12 @@ async def test_game_count(
                 "playerCount": 77238,
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.game_count()
+
+        assert data is not None
 
         assert data.player_count == 77238
         assert data.games["SKYBLOCK"].players == 30522

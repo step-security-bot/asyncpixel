@@ -18,6 +18,7 @@ An asyncronous hypixel api wrapper
 from importlib.metadata import PackageNotFoundError
 from importlib.metadata import version
 
+from . import exceptions
 from . import utils
 from .hypixel import Hypixel
 
@@ -43,10 +44,4 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License a
 long with this program. If not, see <https://www.gnu.org/licenses/>."""
 
-__all__ = [
-    "__version__",
-    "__author__",
-    "__license__",
-    "Hypixel",
-    "utils",
-]
+__all__ = ["__version__", "__author__", "__license__", "Hypixel", "utils", "exceptions"]

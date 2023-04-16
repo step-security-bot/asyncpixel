@@ -136,6 +136,8 @@ async def test_auction_from_uuid_none(
             status=200,
             payload={"success": True, "auctions": None},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.auction_from_uuid("409a1e0f261a49849493278d6cd9305a")
 
@@ -200,8 +202,11 @@ async def test_auction_from_profiile(
                 ],
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.auction_from_profile("347ef6c1daac45ed9d1fa02818cf0fb6")
+
         assert data is not None
         assert len(data) == 1
 
@@ -270,6 +275,8 @@ async def test_auction_from_profile_none(
             },
             payload={"success": True, "auctions": None},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.auction_from_profile("347ef6c1daac45ed9d1fa02818cf0fb6")
 
@@ -333,8 +340,10 @@ async def test_auction_from_player(
                 ],
             },
         )
+        data = None
         async for client in hypixel_client:
             data = await client.auction_from_player("bc581ce675e94a0c88ac9deae06090f0")
+
         assert data is not None
         assert len(data) == 1
 
@@ -403,6 +412,8 @@ async def test_auction_from_player_none(
             },
             payload={"success": True, "auctions": None},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.auction_from_player("bc581ce675e94a0c88ac9deae06090f0")
 

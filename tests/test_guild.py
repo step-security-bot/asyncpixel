@@ -70,8 +70,11 @@ async def test_guild_by_id(
                 },
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.guild_by_id("52e57a1c0cf2e250d1cd00f8")
+
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(
@@ -137,8 +140,11 @@ async def test_guild_by_id_none(
             },
             payload={"success": True, "guild": None},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.guild_by_id("52e57a1c0cf2e250d1cd00f8")
+
         assert data is None
 
 
@@ -204,8 +210,11 @@ async def test_guild_by_name(
                 },
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.guild_by_name("The Sloths")
+
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(
@@ -271,8 +280,11 @@ async def test_guild_by_name_none(
             },
             payload={"success": True, "guild": None},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.guild_by_name("The Sloths")
+
         assert data is None
 
 
@@ -339,8 +351,11 @@ async def test_guild_by_player(
                 },
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.guild_by_player("f7c77d999f154a66a87dc4a51ef30d19")
+
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(
@@ -407,8 +422,11 @@ async def test_guild_by_player_none(
             },
             payload={"success": True, "guild": None},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.guild_by_player("f7c77d999f154a66a87dc4a51ef30d19")
+
         assert data is None
 
 
@@ -472,8 +490,11 @@ async def test_guild_by_id_no_mute_quest(
                 },
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.guild_by_id("52e57a1c0cf2e250d1cd00f8")
+
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(
@@ -581,8 +602,11 @@ async def test_guild_by_name_no_mute_quest(
                 },
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.guild_by_name("The Sloths")
+
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(
@@ -691,8 +715,11 @@ async def test_guild_by_player_no_mute_quest(
                 },
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.guild_by_player("f7c77d999f154a66a87dc4a51ef30d19")
+
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
         assert data.created == datetime.datetime.fromtimestamp(

@@ -283,8 +283,12 @@ class Hypixel:
 
         Returns:
             Auction: Auction object.
+
+        Raises:
+            ApiNoSuccessError: Could not get auctions.
         """
         params = {"page": page}
+        data = None
         for _ in range(retry):  # pragma: no cover
             try:
                 data = await self._get(
@@ -293,23 +297,32 @@ class Hypixel:
                 break
             except aiohttp.ServerTimeoutError:
                 pass
+        if data is None:  # pragma: no cover
+            raise ApiNoSuccessError("Could not get auctions.")
         return Auction.parse_obj(data)
 
     async def auctions_ended(self, retry: int = 3) -> AuctionEnded:
-        """Get the ended auctions.
+        """Get the auctions that have ended.
 
         Args:
             retry (int): Amount of retries to get the data from the api Defaults to 3.
 
         Returns:
-            AuctionEnded: Auctions ended object.
+            AuctionEnded: AuctionEnded object.
+
+        Raises:
+            ApiNoSuccessError: Could not get auctions ended.
         """
+        data = None
         for _ in range(retry):  # pragma: no cover
             try:
                 data = await self._get("skyblock/auctions_ended", key_required=False)
                 break
             except aiohttp.ServerTimeoutError:
                 pass
+
+        if data is None:  # pragma: no cover
+            raise ApiNoSuccessError("Could not get auctions ended.")
         return AuctionEnded.parse_obj(data)
 
     async def recent_games(self, uuid: UUID) -> Optional[List[Game]]:

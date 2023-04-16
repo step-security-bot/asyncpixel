@@ -53,8 +53,12 @@ async def test_bazaar(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) 
                 },
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.bazaar()
+
+        assert data is not None
 
         assert data.last_updated == datetime.datetime.fromtimestamp(
             1590854517.479, tz=datetime.timezone.utc

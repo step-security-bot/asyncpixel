@@ -4,7 +4,7 @@ import asyncio
 import asyncpixel
 
 
-async def main():
+async def main() -> None:
     """Get uuid."""
     hypixel = asyncpixel.Hypixel("hypixel_api_key")
     print(await hypixel.uuid_from_name("Darkflame72"))

@@ -23,7 +23,10 @@ async def test_player_count(
             },
             payload={"success": True, "playerCount": 75612},
         )
+        data = None
         async for client in hypixel_client:
             data = await client.player_count()
+
+        assert data is not None
 
         assert data == 75612

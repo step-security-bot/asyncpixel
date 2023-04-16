@@ -41,8 +41,12 @@ async def test_leaderboards(
                 },
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.leaderboards()
+
+        assert data is not None
 
         assert len(data.keys()) == 1
         assert list(data.keys())[0] == "SKYWARS"

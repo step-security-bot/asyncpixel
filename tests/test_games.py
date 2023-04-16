@@ -62,6 +62,8 @@ async def test_games(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -
                 ],
             },
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.recent_games("7486aa03aca5470e888dde8a43eb8c10")
 
@@ -169,6 +171,8 @@ async def test_games_none(
             },
             payload={"success": True, "games": None},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.recent_games("7486aa03aca5470e888dde8a43eb8c10")
 

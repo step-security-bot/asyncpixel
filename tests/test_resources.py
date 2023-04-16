@@ -22,8 +22,12 @@ async def test_resources_achievements(
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.resources_achievements()
+
+        assert data is not None
 
         assert data["lastUpdated"] == 1608480930882
 
@@ -39,8 +43,12 @@ async def test_resources_challenges(
             status=200,
             payload={"success": True, "lastUpdated": 1608480930882},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.resources_challenges()
+
+        assert data is not None
 
         assert data["lastUpdated"] == 1608480930882
 
@@ -59,8 +67,12 @@ async def test_resources_quests(hypixel_client: AsyncGenerator[Hypixel, None]) -
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.resources_quests()
+
+        assert data is not None
 
         assert data["lastUpdated"] == 1608480930882
 
@@ -81,8 +93,12 @@ async def test_resources_guilds_achievements(
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.resources_guilds_achievements()
+
+        assert data is not None
 
         assert data["lastUpdated"] == 1608480930882
 
@@ -103,8 +119,12 @@ async def test_resources_guilds_permissions(
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.resources_guilds_permissions()
+
+        assert data is not None
 
         assert data["lastUpdated"] == 1608480930882
 
@@ -125,8 +145,12 @@ async def test_resources_skyblock_collections(
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.resources_skyblock_collections()
+
+        assert data is not None
 
         assert data["lastUpdated"] == 1608480930882
 
@@ -147,7 +171,11 @@ async def test_resources_skyblock_skills(
             },
             payload={"success": True, "lastUpdated": 1608480930882},
         )
+
+        data = None
         async for client in hypixel_client:
             data = await client.resources_skyblock_skills()
+
+        assert data is not None
 
         assert data["lastUpdated"] == 1608480930882

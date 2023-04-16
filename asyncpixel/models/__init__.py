@@ -67,7 +67,6 @@ __all__ = [
     "WatchDog",
     "Bids",
     "GuildMembers",
-    "Banner",
     "Pattern",
     "GameType",
     "Stats",

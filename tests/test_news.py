@@ -39,8 +39,11 @@ async def test_skyblock_news(
                 ],
             },
         )
+        data = None
         async for client in hypixel_client:
             data = await client.news()
+
+        assert data is not None
 
         assert len(data) == 2
 
