@@ -34,6 +34,8 @@
   <a href="https://github.com/Darkflame72/asyncpixel/issues">Report a bug</a>
   <span> · </span>
   Support: <a href="https://github.com/Darkflame72/asyncpixel/discussions">Discussions</a>
+  <span> · </span>
+  Chat: <a href="https://matrix.to/#/!1nbCXZX3wk8isWgX:matrix.darkflame.dev?via=matrix.darkflame.dev">Matrix</a>
 </h3>
 
 ## ✨ Features
@@ -92,7 +94,7 @@ Asyncpixel is open-source. The library is licensed [GPL v3](https://www.gnu.org/
 
 ## 💬 Get in touch
 
-If you have a question or would like to talk with other Asyncpixel users, please hop over to [Github discussions](https://github.com/Darkflame72/asyncpixel/discussions).
+If you have a question or would like to discuss anything related to the library, please hop over to [Github discussions](https://github.com/Darkflame72/asyncpixel/discussions) or join our room on [Matrix](https://matrix.to/#/!1nbCXZX3wk8isWgX:matrix.darkflame.dev?via=matrix.darkflame.dev).
 
 ## Contributors ✨
 
