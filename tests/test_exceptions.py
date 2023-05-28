@@ -24,7 +24,9 @@ async def test_rate_limit() -> None:
         client = Hypixel(api_key=str(key))
         with pytest.raises(RateLimitError) as e:
             await client._get("test")
-            assert str(e) == "Entered API key is not valid"
+        assert str(e.value).startswith(
+            "The hypixel API ratelimit was reached, try again at "
+        )
         await client.close()
 
 
@@ -41,7 +43,7 @@ async def test_invalid_key() -> None:
         client = Hypixel(api_key=str(key))
         with pytest.raises(InvalidApiKeyError) as e:
             await client._get("test")
-            assert str(e) == "The hypixel API ratelimit was reached!"
+        assert str(e.value) == "Entered API key is not valid"
         await client.close()
 
 
@@ -58,7 +60,9 @@ async def test_api_error() -> None:
         client = Hypixel(api_key=str(key))
         with pytest.raises(ApiNoSuccessError) as e:
             await client._get("test")
-            assert str(e) == "The test endpoint encounted an error on the hypixel side."
+        assert (
+            str(e.value) == "The test endpoint encounted an error on the hypixel side."
+        )
         await client.close()
 
 
