@@ -6,4 +6,4 @@ sphinx==7.0.1
 recommonmark==0.7.1
 sphinx-autodoc-typehints==1.23.4
 aiohttp==3.8.4
-pydantic==1.10.10
+pydantic==1.10.11
