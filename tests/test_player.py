@@ -6,11 +6,11 @@ from typing import AsyncGenerator
 import pytest
 from aioresponses import aioresponses
 from asyncpixel import Hypixel
-from asyncpixel.models.game_type import GameType
-from asyncpixel.models.player import Player
+from asyncpixel.constants import GameType
 from asyncpixel.models.players.bedwars import bedwars_level_from_exp
 from asyncpixel.models.utils import safe_divide
 from asyncpixel.utils import calc_player_level
+from asyncpixel.utils import validate_game_type
 
 # from asyncpixel.models import gametype
 
@@ -1688,7 +1688,7 @@ async def test_player(
 @pytest.mark.asyncio
 async def test_most_recent_game_type() -> None:
     """Test most recent game type."""
-    assert Player.validate_game_type(58) == GameType(
+    assert validate_game_type(58) == GameType(
         id=58,
         type_name="BEDWARS",
         database_name="Bedwars",

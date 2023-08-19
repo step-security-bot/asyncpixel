@@ -7,6 +7,7 @@ from typing import Optional
 from typing import Union
 
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from pydantic import Field
 from pydantic.types import UUID4
 
@@ -26,7 +27,7 @@ class Bids(BaseModel):
 
     auction_id: UUID4
     bidder: UUID4
-    profile_id: Optional[UUID4]
+    profile_id: Optional[UUID4] = None
     amount: int
     timestamp: datetime.datetime
 
@@ -71,15 +72,18 @@ class AuctionItem(BaseModel):
     starting_bid: int
     item_bytes: Union[str, Dict[str, Union[int, str]]]
     claimed: bool
-    claimed_bidders: Optional[List[UUID4]]
+    claimed_bidders: Optional[List[UUID4]] = None
     highest_bid_amount: int
     bids: List[Bids]
-    id: Optional[str] = Field(alias="_id")
+    id: Optional[str] = Field(alias="_id", default=None)
     bin: bool = False
 
     def active(self) -> bool:
         """Return if auction is active - you can bid on it."""
-        return not self.claimed and datetime.datetime.now(tz=self.end.tzinfo) < self.end
+        return (
+            not self.claimed
+            and datetime.datetime.now(tz=self.end.astimezone().tzinfo) < self.end
+        )
 
     def lowest_possible_bid(self) -> int:
         """Returns next lowest possible bid."""
@@ -107,8 +111,4 @@ class Auction(BaseModel):
     total_auctions: int
     last_updated: datetime.datetime
     auctions: List[AuctionItem]
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)

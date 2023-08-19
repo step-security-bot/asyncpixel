@@ -5,10 +5,35 @@ from functools import lru_cache
 from typing import Any
 from typing import Dict
 from typing import List
+from typing import Optional
 
-from .models.game_type import GameType
+from pydantic import BaseModel
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
+
+
+class GameType(BaseModel):
+    """Main game class.
+
+    Args:
+        id (str): ID
+        purchaser_uuid (uuid.UUID): UUID of booster.
+        amount (int): Amount of boosters.
+        original_length (int): Original length of booster.
+        length (int): Length of booster.
+        game_type (int): Game type.
+        date_activated (datetime.datetime): Date boost activated.
+        stacked (Union[List[uuid.UUID], bool]): Wether boosters stacked.
+    """
+
+    id: int
+    type_name: str
+    database_name: str
+    lobby_name: Optional[str] = None
+    clean_name: str
+    standard_name: str
+    legacy: bool = False
+
 
 # with open("asyncpixel/hypixelconstants/build/achievements.json") as file:
 #     achievements: Dict[str, Any] = json.load(file)
@@ -64,4 +89,4 @@ def get_game_types() -> List[GameType]:
     abs_file_path = os.path.join(script_dir, "hypixelconstants/build/game_types.json")
     with open(abs_file_path) as file:
         game_types_data: Dict[str, Any] = json.load(file)
-    return [GameType.parse_obj(data) for data in game_types_data]
+    return [GameType.model_validate(data) for data in game_types_data]

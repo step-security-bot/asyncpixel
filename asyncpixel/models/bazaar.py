@@ -3,6 +3,7 @@ import datetime
 from typing import List
 
 from pydantic import BaseModel
+from pydantic import ConfigDict
 
 from .utils import to_camel
 
@@ -19,11 +20,7 @@ class BazaarSummary(BaseModel):
     amount: int
     price_per_unit: float
     orders: int
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)
 
 
 class BazaarQuickStatus(BaseModel):
@@ -50,11 +47,7 @@ class BazaarQuickStatus(BaseModel):
     buy_volume: int
     buy_moving_week: int
     buy_orders: int
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)
 
 
 class BazaarItem(BaseModel):

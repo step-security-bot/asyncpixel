@@ -13,7 +13,6 @@ from .booster import Boosters
 from .friends import Friend
 from .game_count import GameCounts
 from .game_count import GameCountsGame
-from .game_type import GameType
 from .games import Game
 from .guild import Guild
 from .guild import GuildMembers
@@ -68,7 +67,6 @@ __all__ = [
     "Bids",
     "GuildMembers",
     "Pattern",
-    "GameType",
     "Stats",
     "Social",
     "Rank",

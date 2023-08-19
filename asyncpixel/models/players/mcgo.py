@@ -20,7 +20,7 @@ class MCGO(BaseModel):
     coins: int = 0
     deaths: int = 0
     shots_fired: int = 0
-    round_wins = 0
+    round_wins: int = 0
     bombs_planted: int = 0
     game_wins_deathmatch: int = 0
     wins: int = Field(0, alias="game_wins")

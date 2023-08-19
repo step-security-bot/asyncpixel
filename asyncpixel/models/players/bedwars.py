@@ -7,7 +7,7 @@ from typing import Optional
 from asyncpixel.models.utils import safe_divide
 from pydantic import BaseModel
 from pydantic import Field
-from pydantic import root_validator
+from pydantic import model_validator
 
 # Amount of levels to prestige
 LEVELS_PER_PRESTIGE = 100
@@ -246,14 +246,14 @@ class Bedwars(BaseModel):
     winstreak: int = Field(0, alias="winstreak")
     experience: int = Field(0, alias="Experience")
 
-    singles: Optional[BedwarsGame]
-    doubles: Optional[BedwarsGame]
-    triples: Optional[BedwarsGame]
-    quads: Optional[BedwarsGame]
-    four_v_four: Optional[BedwarsGame]
-    quads_ultimate: Optional[BedwarsGame]
-    doubles_ultimate: Optional[BedwarsGame]
-    castle: Optional[BedwarsGame]
+    singles: Optional[BedwarsGame] = None
+    doubles: Optional[BedwarsGame] = None
+    triples: Optional[BedwarsGame] = None
+    quads: Optional[BedwarsGame] = None
+    four_v_four: Optional[BedwarsGame] = None
+    quads_ultimate: Optional[BedwarsGame] = None
+    doubles_ultimate: Optional[BedwarsGame] = None
+    castle: Optional[BedwarsGame] = None
 
     # Deaths
     entity_attack_deaths: int = Field(0, alias="entity_attack_deaths_bedwars")
@@ -352,7 +352,7 @@ class Bedwars(BaseModel):
         """
         return bedwars_level_from_exp(self.experience)
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
     @classmethod
     def traverse_sources(cls, values: Dict[str, Any]) -> Dict[str, Any]:  # noqa: C901
         """Traverse all sources."""

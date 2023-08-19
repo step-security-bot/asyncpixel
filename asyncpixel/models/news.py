@@ -13,7 +13,7 @@ class Item(BaseModel):
     """
 
     material: str
-    data: Optional[int]
+    data: Optional[int] = None
 
 
 class News(BaseModel):

@@ -4,12 +4,13 @@ import uuid
 from typing import List
 from typing import Union
 
-from asyncpixel.constants import get_game_types
+from asyncpixel.constants import GameType
+from asyncpixel.utils import validate_game_type
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from pydantic import Field
-from pydantic import validator
+from pydantic import field_validator
 
-from .game_type import GameType
 from .utils import to_camel
 
 
@@ -34,20 +35,15 @@ class Booster(BaseModel):
     length: int
     game_type: GameType
 
-    @validator("game_type", pre=True)
+    @field_validator("game_type", mode="before")
     @classmethod
-    def validate_game_type(cls, v: int) -> GameType:
+    def _validate_game_type(cls, v: int) -> GameType:
         """Validate game type."""
-        game_type = [game for game in get_game_types() if game.id == v][0]
-        return game_type
+        return validate_game_type(v)
 
     date_activated: datetime.datetime
     stacked: Union[List[uuid.UUID], bool] = False
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)
 
 
 class Boosters(BaseModel):

@@ -2,6 +2,7 @@
 import datetime
 
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from pydantic import Field
 from pydantic.types import UUID4
 
@@ -22,8 +23,4 @@ class Friend(BaseModel):
     uuid_sender: UUID4
     uuid_receiver: UUID4
     started: datetime.datetime
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)

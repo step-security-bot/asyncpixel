@@ -22,7 +22,7 @@ from typing import Tuple
 from typing import Union
 
 import aiohttp
-from pydantic import parse_obj_as
+from pydantic import TypeAdapter
 
 from .exceptions import ApiNoSuccessError
 from .exceptions import InvalidApiKeyError
@@ -168,7 +168,7 @@ class Hypixel:
         """
         data = await self._get("watchdogstats")
 
-        return WatchDog.parse_obj(data)
+        return WatchDog.model_validate(data)
 
     async def key_data(self, key: Optional[str] = None) -> Key:
         """Get information about an api key.
@@ -192,7 +192,7 @@ class Hypixel:
 
         data = (await self._get("key", params=params, key_required=False))["record"]
 
-        return Key.parse_obj(data)
+        return Key.model_validate(data)
 
     async def boosters(self) -> Boosters:
         """Get the current online boosters.
@@ -202,7 +202,7 @@ class Hypixel:
         """
         data = await self._get("boosters")
         data["decrementing"] = data["boosterState"]["decrementing"]
-        return Boosters.parse_obj(data)
+        return Boosters.model_validate(data)
 
     async def player_count(self) -> int:
         """Get the current amount of players online.
@@ -222,7 +222,8 @@ class Hypixel:
         """
         data = await self._get("skyblock/news")
 
-        return parse_obj_as(List[News], data["items"])
+        adapter = TypeAdapter(List[News])
+        return adapter.validate_python(data["items"])
 
     async def player_status(self, uuid: UUID) -> Optional[Status]:
         """Get current online status about a player.
@@ -236,7 +237,7 @@ class Hypixel:
         data = await self._get("status", params={"uuid": str(uuid)})
         if data["session"] is None:
             return None
-        return Status.parse_obj(data["session"])
+        return Status.model_validate(data["session"])
 
     async def player_friends(self, uuid: UUID) -> Optional[List[Friend]]:
         """Get a list of a players friends.
@@ -252,7 +253,8 @@ class Hypixel:
         if data["records"] is None:
             return None
 
-        return parse_obj_as(List[Friend], data["records"])
+        adapter = TypeAdapter(List[Friend])
+        return adapter.validate_python(data["records"])
 
     async def bazaar(self) -> Bazaar:
         """Get info of the items in the bazaar.
@@ -267,7 +269,7 @@ class Hypixel:
         for name in data["products"]:
             elements = data["products"][name]
             elements["name"] = name
-            bazaar_items.append(BazaarItem.parse_obj(elements))
+            bazaar_items.append(BazaarItem.model_validate(elements))
 
         return Bazaar(
             last_updated=data["lastUpdated"],
@@ -299,7 +301,7 @@ class Hypixel:
                 pass
         if data is None:  # pragma: no cover
             raise ApiNoSuccessError("Could not get auctions.")
-        return Auction.parse_obj(data)
+        return Auction.model_validate(data)
 
     async def auctions_ended(self, retry: int = 3) -> AuctionEnded:
         """Get the auctions that have ended.
@@ -323,7 +325,7 @@ class Hypixel:
 
         if data is None:  # pragma: no cover
             raise ApiNoSuccessError("Could not get auctions ended.")
-        return AuctionEnded.parse_obj(data)
+        return AuctionEnded.model_validate(data)
 
     async def recent_games(self, uuid: UUID) -> Optional[List[Game]]:
         """Get recent games of a player.
@@ -339,7 +341,8 @@ class Hypixel:
         if data["games"] is None:
             return None
 
-        return parse_obj_as(List[Game], data["games"])
+        adapter = TypeAdapter(List[Game])
+        return adapter.validate_python(data["games"])
 
     async def player(self, uuid: UUID) -> Optional[Player]:
         """Get information about a player from their uuid.
@@ -354,7 +357,7 @@ class Hypixel:
         data = await self._get("player", params=params)
         if data["player"] is None:
             return None
-        return Player.parse_obj(data["player"])
+        return Player.model_validate(data["player"])
 
     async def guild_by_name(self, guild_name: str) -> Optional[Guild]:
         """Get guild by name.
@@ -369,7 +372,7 @@ class Hypixel:
         data = await self._get("guild", params=params)
         if data["guild"] is None:
             return None
-        return Guild.parse_obj(data["guild"])
+        return Guild.model_validate(data["guild"])
 
     async def guild_by_id(self, guild_id: str) -> Optional[Guild]:
         """Get guild by id.
@@ -384,7 +387,7 @@ class Hypixel:
         data = await self._get("guild", params=params)
         if data["guild"] is None:
             return None
-        return Guild.parse_obj(data["guild"])
+        return Guild.model_validate(data["guild"])
 
     async def guild_by_player(self, player_uuid: UUID) -> Optional[Guild]:
         """Get guild by player.
@@ -399,7 +402,7 @@ class Hypixel:
         data = await self._get("guild", params=params)
         if data["guild"] is None:
             return None
-        return Guild.parse_obj(data["guild"])
+        return Guild.model_validate(data["guild"])
 
     async def auction_from_uuid(self, uuid: UUID) -> Optional[List[AuctionItem]]:
         """Get auction from uuid.
@@ -414,7 +417,9 @@ class Hypixel:
         data = await self._get("skyblock/auction", params=params)
         if data["auctions"] is None:
             return None
-        return parse_obj_as(List[AuctionItem], data["auctions"])
+
+        adapter = TypeAdapter(List[AuctionItem])
+        return adapter.validate_python(data["auctions"])
 
     async def auction_from_player(self, player: str) -> Optional[List[AuctionItem]]:
         """Get auction data from player.
@@ -429,7 +434,9 @@ class Hypixel:
         data = await self._get("skyblock/auction", params=params)
         if data["auctions"] is None:
             return None
-        return parse_obj_as(List[AuctionItem], data["auctions"])
+
+        adapter = TypeAdapter(List[AuctionItem])
+        return adapter.validate_python(data["auctions"])
 
     async def auction_from_profile(
         self, profile_id: str
@@ -446,7 +453,9 @@ class Hypixel:
         data = await self._get("skyblock/auction", params=params)
         if data["auctions"] is None:
             return None
-        return parse_obj_as(List[AuctionItem], data["auctions"])
+
+        adapter = TypeAdapter(List[AuctionItem])
+        return adapter.validate_python(data["auctions"])
 
     async def game_count(self) -> GameCounts:
         """Gets number of players per game.
@@ -455,7 +464,7 @@ class Hypixel:
             GameCounts: game counts.
         """
         data = await self._get("gameCounts")
-        return GameCounts.parse_obj(data)
+        return GameCounts.model_validate(data)
 
     async def leaderboards(self) -> Dict[str, List[Leaderboards]]:
         """Get the current leaderboards.
@@ -565,7 +574,7 @@ class Hypixel:
         data = await self._get("skyblock/profile", params=params)
         if data["profile"] is None:
             return None
-        return Profile.parse_obj(data["profile"])
+        return Profile.model_validate(data["profile"])
 
     async def profiles(self, uuid: UUID) -> Optional[Dict[str, Profile]]:
         """Get info on a profile.
@@ -584,7 +593,7 @@ class Hypixel:
         profile_dict = {}
         for profile in profiles:
             _id = profile["profile_id"]
-            profile_dict[_id] = Profile.parse_obj(profile)
+            profile_dict[_id] = Profile.model_validate(profile)
         return profile_dict
 
     async def uuid_from_name(self, username: str) -> Optional[uuid.UUID]:

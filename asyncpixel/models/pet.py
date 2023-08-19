@@ -3,6 +3,7 @@ import datetime
 from typing import Optional
 
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from pydantic import Field
 from pydantic.types import UUID4
 
@@ -42,16 +43,12 @@ class Pet(BaseModel):
         Name of the pet
     """
 
-    thirst: Optional[PetStat]
-    exercise: Optional[PetStat]
-    hunger: Optional[PetStat]
-    experience: Optional[int] = Field(alias="experience")
-    name: Optional[str] = Field(alias="name")
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_upper
+    thirst: Optional[PetStat] = None
+    exercise: Optional[PetStat] = None
+    hunger: Optional[PetStat] = None
+    experience: Optional[int] = Field(alias="experience", default=None)
+    name: Optional[str] = Field(alias="name", default=None)
+    model_config = ConfigDict(alias_generator=to_upper)
 
 
 class ProfilePet(BaseModel):
@@ -77,16 +74,12 @@ class ProfilePet(BaseModel):
         Skin of the pet
     """
 
-    uuid: Optional[UUID4]
+    uuid: Optional[UUID4] = None
     type: str
     exp: float
     active: bool
     tier: str
-    held_item: Optional[str]
+    held_item: Optional[str] = None
     candy_used: int
-    skin: Optional[str]
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    skin: Optional[str] = None
+    model_config = ConfigDict(alias_generator=to_camel)

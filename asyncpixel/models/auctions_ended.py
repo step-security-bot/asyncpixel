@@ -5,6 +5,7 @@ from typing import List
 from typing import Union
 
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from pydantic.types import UUID4
 
 from .utils import to_camel
@@ -44,8 +45,4 @@ class AuctionEnded(BaseModel):
 
     last_updated: datetime.datetime
     auctions: List[AuctionEndedItem]
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)

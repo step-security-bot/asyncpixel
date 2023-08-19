@@ -2,6 +2,7 @@
 import uuid
 
 from pydantic import BaseModel
+from pydantic import ConfigDict
 
 from .utils import to_camel
 
@@ -22,8 +23,4 @@ class Key(BaseModel):
     limit: int
     queries_in_past_min: int
     total_queries: int
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)

@@ -7,15 +7,15 @@ from typing import Optional
 from typing import Union
 
 from asyncpixel import utils
-from asyncpixel.constants import get_game_types
+from asyncpixel.constants import GameType
 from asyncpixel.models.pet import Pet
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from pydantic import Field
-from pydantic import validator
-from pydantic.class_validators import root_validator
+from pydantic import field_validator
+from pydantic import model_validator
 from pydantic.types import UUID4
 
-from .game_type import GameType
 from .players import Arcade
 from .players import Arena
 from .players import Battleground
@@ -66,32 +66,32 @@ class Stats(BaseModel):
         legacy (Optional[Legacy]): Legacy stats.
     """
 
-    bedwars: Optional[Bedwars] = Field(alias="Bedwars")
-    arcade: Optional[Arcade] = Field(alias="Arcade")
-    build_battle: Optional[BuildBattle] = Field(alias="BuildBattle")
-    duels: Optional[Duels] = Field(alias="Duels")
-    battleground: Optional[Battleground] = Field(alias="Battleground")
-    hunger_games: Optional[HungerGames] = Field(alias="HungerGames")
-    ginger_bread: Optional[GingerBread] = Field(alias="GingerBread")
-    paintball: Optional[Paintball] = Field(alias="Paintball")
-    quake: Optional[Quake] = Field(alias="Quake")
-    vampirez: Optional[VampireZ] = Field(alias="VampireZ")
-    tnt_games: Optional[TNTGames] = Field(alias="TNTGames")
-    uhc: Optional[UHC] = Field(alias="UHC")
-    mcgo: Optional[MCGO] = Field(alias="MCGO")
-    walls3: Optional[Walls3] = Field(alias="Walls3")
-    walls: Optional[Walls] = Field(alias="Walls")
-    arena: Optional[Arena] = Field(alias="Arena")
-    sky_clash: Optional[SkyClash] = Field(alias="SkyClash")
-    pit: Optional[Pit] = Field(alias="Pit")
-    housing: Optional[Housing] = Field(alias="Housing")
-    legacy: Optional[Legacy] = Field(alias="Legacy")
-    skywars: Optional[Skywars] = Field(alias="SkyWars")
+    bedwars: Optional[Bedwars] = Field(alias="Bedwars", default=None)
+    arcade: Optional[Arcade] = Field(alias="Arcade", default=None)
+    build_battle: Optional[BuildBattle] = Field(alias="BuildBattle", default=None)
+    duels: Optional[Duels] = Field(alias="Duels", default=None)
+    battleground: Optional[Battleground] = Field(alias="Battleground", default=None)
+    hunger_games: Optional[HungerGames] = Field(alias="HungerGames", default=None)
+    ginger_bread: Optional[GingerBread] = Field(alias="GingerBread", default=None)
+    paintball: Optional[Paintball] = Field(alias="Paintball", default=None)
+    quake: Optional[Quake] = Field(alias="Quake", default=None)
+    vampirez: Optional[VampireZ] = Field(alias="VampireZ", default=None)
+    tnt_games: Optional[TNTGames] = Field(alias="TNTGames", default=None)
+    uhc: Optional[UHC] = Field(alias="UHC", default=None)
+    mcgo: Optional[MCGO] = Field(alias="MCGO", default=None)
+    walls3: Optional[Walls3] = Field(alias="Walls3", default=None)
+    walls: Optional[Walls] = Field(alias="Walls", default=None)
+    arena: Optional[Arena] = Field(alias="Arena", default=None)
+    sky_clash: Optional[SkyClash] = Field(alias="SkyClash", default=None)
+    pit: Optional[Pit] = Field(alias="Pit", default=None)
+    housing: Optional[Housing] = Field(alias="Housing", default=None)
+    legacy: Optional[Legacy] = Field(alias="Legacy", default=None)
+    skywars: Optional[Skywars] = Field(alias="SkyWars", default=None)
 
-    # true_combat: Optional[TrueCombat] = Field(alias="TrueCombat")
-    # speed_uhc: Optional[SpeedUHC]= Field(alias="SpeedUHC")
-    # sky_block: Optional[SkyBlock]= Field(alias="SkyBlock")
-    # super_smash: Optional[SuperSmash] = Field(alias="SuperSmash")
+    # true_combat: Optional[TrueCombat] = Field(alias="TrueCombat", default=None)
+    # speed_uhc: Optional[SpeedUHC]= Field(alias="SpeedUHC", default=None)
+    # sky_block: Optional[SkyBlock]= Field(alias="SkyBlock", default=None)
+    # super_smash: Optional[SuperSmash] = Field(alias="SuperSmash", default=None)
 
 
 class Social(BaseModel):
@@ -106,14 +106,14 @@ class Social(BaseModel):
         hypixel_forums (Optional[str]): Hypixel Forums.
     """
 
-    twitter: Optional[str]
-    youtube: Optional[str]
-    instagram: Optional[str]
-    twitch: Optional[str]
-    discord: Optional[str]
-    hypixel_forums: Optional[str]
+    twitter: Optional[str] = None
+    youtube: Optional[str] = None
+    instagram: Optional[str] = None
+    twitch: Optional[str] = None
+    discord: Optional[str] = None
+    hypixel_forums: Optional[str] = None
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
     @classmethod
     def get_social_media(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """Get social media in correct format."""
@@ -164,10 +164,10 @@ class Player(BaseModel):
     """
 
     uuid: UUID4
-    displayname: Optional[str]
-    rank: Optional[str]
+    displayname: Optional[str] = None
+    rank: Optional[str] = None
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
     @classmethod
     def create_rank(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """Get the rank."""
@@ -183,47 +183,43 @@ class Player(BaseModel):
         return out
 
     first_login: datetime.datetime
-    last_login: Optional[datetime.datetime]
-    last_logout: Optional[datetime.datetime]
+    last_login: Optional[datetime.datetime] = None
+    last_logout: Optional[datetime.datetime] = None
     stats: Stats
-    social_media: Optional[Social]
+    social_media: Optional[Social] = None
 
-    id: Optional[str] = Field(alias="_id")
-    playername: Optional[str]
-    known_aliases: Optional[List[str]]
-    known_aliases_lower: Optional[List[str]]
-    achievements_one_time: Optional[List[str]]
-    mc_version_rp: Optional[str]
-    network_exp: Optional[float]
-    karma: Optional[int]
-    last_adsense_generate_time: Optional[datetime.datetime]
-    last_claimed_reward: Optional[int]
-    total_rewards: Optional[int]
-    total_daily_rewards: Optional[int]
-    reward_streak: Optional[int]
-    reward_score: Optional[int]
-    reward_high_score: Optional[int]
-    friend_requests_uuid: Optional[List[UUID4]]
-    achievement_tracking: Optional[List[str]]
-    achievement_points: Optional[int]
-    current_gadget: Optional[str]
-    channel: Optional[str]
-    most_recent_game_type: Optional[GameType]
-    pet_stats: Optional[Dict[str, Pet]]
+    id: Optional[str] = Field(alias="_id", default=None)
+    playername: Optional[str] = None
+    known_aliases: Optional[List[str]] = None
+    known_aliases_lower: Optional[List[str]] = None
+    achievements_one_time: Optional[List[str]] = None
+    mc_version_rp: Optional[str] = None
+    network_exp: Optional[float] = None
+    karma: Optional[int] = None
+    last_adsense_generate_time: Optional[datetime.datetime] = None
+    last_claimed_reward: Optional[int] = None
+    total_rewards: Optional[int] = None
+    total_daily_rewards: Optional[int] = None
+    reward_streak: Optional[int] = None
+    reward_score: Optional[int] = None
+    reward_high_score: Optional[int] = None
+    friend_requests_uuid: Optional[List[UUID4]] = None
+    achievement_tracking: Optional[List[str]] = None
+    achievement_points: Optional[int] = None
+    current_gadget: Optional[str] = None
+    channel: Optional[str] = None
+    most_recent_game_type: Optional[GameType] = None
+    pet_stats: Optional[Dict[str, Pet]] = None
 
-    @validator("most_recent_game_type", pre=True)
+    @field_validator("most_recent_game_type", mode="before")
     @classmethod
-    def validate_game_type(cls, v: Union[str, int]) -> GameType:
+    def _validate_game_type(cls, v: Union[str, int]) -> GameType:
         """Validate game type."""
-        try:
-            game_type = [game for game in get_game_types() if game.id == v][0]
-        except Exception:
-            game_type = [game for game in get_game_types() if game.type_name == v][0]
-        return game_type
+        return utils.validate_game_type(v)
 
     level: float
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
     @classmethod
     def create_level(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """Create level."""
@@ -234,7 +230,7 @@ class Player(BaseModel):
 
     raw: Dict[str, Any]
 
-    @root_validator(pre=True)
+    @model_validator(mode="before")
     @classmethod
     def create_raw(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """Create a copy of the values to directly access."""
@@ -242,7 +238,4 @@ class Player(BaseModel):
         out["raw"] = values
         return out
 
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)

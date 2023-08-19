@@ -7,6 +7,7 @@ from typing import Optional
 
 from asyncpixel.models.utils import to_camel
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from pydantic.fields import Field
 
 
@@ -37,14 +38,10 @@ class GuildMembers(BaseModel):
     uuid: uuid.UUID
     rank: str
     joined: datetime.datetime
-    exp_history: Optional[Dict[str, int]]
+    exp_history: Optional[Dict[str, int]] = None
     quest_participation: Optional[int] = None
     muted_till: Optional[datetime.datetime] = None
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)
 
 
 class Rank(BaseModel):
@@ -97,21 +94,17 @@ class Guild(BaseModel):
     created: datetime.datetime
     name: str
     name_lower: str = Field(alias="name_lower")
-    description: Optional[str]
-    tag: Optional[str]
+    description: Optional[str] = None
+    tag: Optional[str] = None
     exp: int
     members: List[GuildMembers]
     achievements: Dict[str, int]
-    ranks: Optional[List[Rank]]
+    ranks: Optional[List[Rank]] = None
     joinable: bool = False
     legacy_ranking: Optional[int] = None
-    publicly_listed: Optional[bool]
-    preferred_games: Optional[List[str]]
+    publicly_listed: Optional[bool] = None
+    preferred_games: Optional[List[str]] = None
     chat_mute: Optional[datetime.datetime] = None
-    guild_exp_by_game_type: Optional[Dict[str, int]]
-    tag_color: Optional[str]
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    guild_exp_by_game_type: Optional[Dict[str, int]] = None
+    tag_color: Optional[str] = None
+    model_config = ConfigDict(alias_generator=to_camel)

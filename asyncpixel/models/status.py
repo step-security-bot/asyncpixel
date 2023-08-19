@@ -1,11 +1,12 @@
 """Status data class."""
 from typing import Optional
 
-from asyncpixel.constants import get_game_types
+from asyncpixel.constants import GameType
+from asyncpixel.utils import validate_game_type
 from pydantic import BaseModel
-from pydantic import validator
+from pydantic import ConfigDict
+from pydantic import field_validator
 
-from .game_type import GameType
 from .utils import to_camel
 
 
@@ -23,14 +24,10 @@ class Status(BaseModel):
     game_type: Optional[GameType] = None
     mode: Optional[str] = None
 
-    @validator("game_type", pre=True)
+    @field_validator("game_type", mode="before")
     @classmethod
-    def validate_game_type(cls, v: str) -> GameType:
+    def _validate_game_type(cls, v: str) -> GameType:
         """Validate game type."""
-        game_type = [game for game in get_game_types() if game.type_name == v][0]
-        return game_type
+        return validate_game_type(v)
 
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)

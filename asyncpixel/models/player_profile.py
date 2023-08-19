@@ -78,8 +78,8 @@ class Members(BaseModel):
         pets (List[ProfilePet]): Pets.
     """
 
-    last_save: Optional[datetime.datetime]
-    first_join: Optional[datetime.datetime]
+    last_save: Optional[datetime.datetime] = None
+    first_join: Optional[datetime.datetime] = None
     coin_purse: float = 0
     fairy_souls_collected: int = 0
     fairy_souls: int = 0
@@ -88,11 +88,11 @@ class Members(BaseModel):
     collection: Dict[str, Any] = {}
     collections_unlocked: int = 0
 
-    inv_armor: Optional[InvArmor]
-    first_join_hub: Optional[int]
-    stats: Optional[Dict[str, float]]
+    inv_armor: Optional[InvArmor] = None
+    first_join_hub: Optional[int] = None
+    stats: Optional[Dict[str, float]] = None
     tutorial: List[str] = []
-    last_death: Optional[int]
+    last_death: Optional[int] = None
     crafted_generators: List[str] = []
     visited_zones: List[str] = []
     death_count: int = 0
@@ -124,7 +124,7 @@ class Profile(BaseModel):
     """
 
     profile_id: uuid.UUID
-    cute_name: Optional[str]
+    cute_name: Optional[str] = None
     members: Dict[str, Members]
-    banking: Optional[Dict[str, Any]]
-    community_upgrades: Optional[Dict[str, Any]]
+    banking: Optional[Dict[str, Any]] = None
+    community_upgrades: Optional[Dict[str, Any]] = None

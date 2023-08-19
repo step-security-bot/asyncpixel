@@ -6,7 +6,7 @@ from uuid import UUID
 import pytest
 from aioresponses import aioresponses
 from asyncpixel import Hypixel
-from asyncpixel.models import GameType
+from asyncpixel.constants import GameType
 from tests.utils import generate_key
 
 

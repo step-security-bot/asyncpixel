@@ -1,5 +1,6 @@
 """Watchdog objects."""
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from pydantic import Field
 
 from .utils import to_camel
@@ -21,8 +22,4 @@ class WatchDog(BaseModel):
     watchdog_total: int = Field(alias="watchdog_total")
     watchdog_rolling_daily: int = Field(alias="watchdog_rollingDaily")
     staff_total: int = Field(alias="staff_total")
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)

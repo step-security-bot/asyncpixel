@@ -3,6 +3,9 @@ import re
 from typing import Optional
 from typing import Union
 
+from asyncpixel.constants import GameType
+from asyncpixel.constants import get_game_types
+
 ranks = {
     "NONE": None,
     "VIP": "VIP",
@@ -68,3 +71,20 @@ def calc_player_level(xp: Union[float, int]) -> float:
         float: current level of player.
     """
     return float(1 + (-8750.0 + (8750**2 + 5000 * xp) ** 0.5) / 2500)
+
+
+def validate_game_type(type: Union[str, int]) -> GameType:
+    """Validate and convert game type.
+
+    Args:
+        type (Union[str, int]): Game name or id.
+
+    Returns:
+        GameType: GameType object
+    """
+    try:
+        game_type = [game for game in get_game_types() if game.id == type][0]
+    except Exception:
+        game_type = [game for game in get_game_types() if game.type_name == type][0]
+
+    return game_type

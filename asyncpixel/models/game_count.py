@@ -3,6 +3,7 @@ from typing import Dict
 from typing import Optional
 
 from pydantic import BaseModel
+from pydantic import ConfigDict
 
 from .utils import to_camel
 
@@ -16,7 +17,7 @@ class GameCountsGame(BaseModel):
     """
 
     players: int
-    modes: Optional[Dict[str, int]]
+    modes: Optional[Dict[str, int]] = None
 
 
 class GameCounts(BaseModel):
@@ -29,8 +30,4 @@ class GameCounts(BaseModel):
 
     games: Dict[str, GameCountsGame]
     player_count: int
-
-    class Config:
-        """Config."""
-
-        alias_generator = to_camel
+    model_config = ConfigDict(alias_generator=to_camel)
