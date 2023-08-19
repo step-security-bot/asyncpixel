@@ -1,4 +1,4 @@
-furo==2023.7.26
+furo==2023.8.19
 sphinx-copybutton==0.5.2
 sphinxext-opengraph==0.8.2
 sphinxcontrib-trio==1.1.2
