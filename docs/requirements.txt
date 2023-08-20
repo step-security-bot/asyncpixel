@@ -2,7 +2,7 @@ furo==2023.8.19
 sphinx-copybutton==0.5.2
 sphinxext-opengraph==0.8.2
 sphinxcontrib-trio==1.1.2
-sphinx==7.2.0
+sphinx==7.2.2
 recommonmark==0.7.1
 sphinx-autodoc-typehints==1.24.0
 aiohttp==3.8.5
