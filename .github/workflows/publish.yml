@@ -18,6 +18,11 @@ jobs:
       hashes: ${{ steps.hash.outputs.hashes }}
 
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
+        with:
+          egress-policy: audit
+
       - name: "Checkout repository"
         uses: "actions/checkout@7739b9ba2efcda9dde65ad1e3c2dbe65b41dfba7"
         with:
@@ -69,6 +74,11 @@ jobs:
     environment:
       name: "publish-test"
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
+        with:
+          egress-policy: audit
+
       - name: "Download dists"
         uses: "actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a"
         with:
@@ -91,6 +101,11 @@ jobs:
       name: "publish"
 
     steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@8ca2b8b2ece13480cda6dacd3511b49857a23c09 # v2.5.1
+        with:
+          egress-policy: audit
+
       - name: "Download dists"
         uses: "actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a"
         with:
