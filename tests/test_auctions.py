@@ -5,13 +5,12 @@ from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "hypixel_client", ["hypixel_client", "hypixel_client_no_key"], indirect=True
-)
+@pytest.mark.parametrize("hypixel_client", ["hypixel_client", "hypixel_client_no_key"], indirect=True)
 async def test_auctions(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
     """Test to check the auction method returns correct data."""
     with aioresponses() as m:
@@ -73,9 +72,7 @@ async def test_auctions(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
         assert data.page == 0
         assert data.total_pages == 32
         assert data.total_auctions == 31267
-        assert data.last_updated == datetime.datetime.fromtimestamp(
-            1571065561.345, tz=datetime.timezone.utc
-        )
+        assert data.last_updated == datetime.datetime.fromtimestamp(1571065561.345, tz=datetime.timezone.utc)
         assert len(data.auctions) == 1
 
         assert not data.auctions[0].active()
@@ -83,20 +80,12 @@ async def test_auctions(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
 
         assert data.auctions[0].bin
         assert data.auctions[0].uuid == uuid.UUID("bc581ce675e94a0c88ac9deae06090f0")
-        assert data.auctions[0].auctioneer == uuid.UUID(
-            "96a7c06732f54c1382ab6a2515dbb960"
-        )
-        assert data.auctions[0].profile_id == uuid.UUID(
-            "96a7c06732f54c1382ab6a2515dbb960"
-        )
+        assert data.auctions[0].auctioneer == uuid.UUID("96a7c06732f54c1382ab6a2515dbb960")
+        assert data.auctions[0].profile_id == uuid.UUID("96a7c06732f54c1382ab6a2515dbb960")
         assert len(data.auctions[0].coop) == 1
         assert data.auctions[0].coop[0] == uuid.UUID("96a7c06732f54c1382ab6a2515dbb960")
-        assert data.auctions[0].start == datetime.datetime.fromtimestamp(
-            1571049581.232, tz=datetime.timezone.utc
-        )
-        assert data.auctions[0].end == datetime.datetime.fromtimestamp(
-            1571071181.232, tz=datetime.timezone.utc
-        )
+        assert data.auctions[0].start == datetime.datetime.fromtimestamp(1571049581.232, tz=datetime.timezone.utc)
+        assert data.auctions[0].end == datetime.datetime.fromtimestamp(1571071181.232, tz=datetime.timezone.utc)
         assert data.auctions[0].item_name == "Magical Mushroom Soup"
         assert data.auctions[0].item_lore == (
             "§7Consuming this Magical Mushroom\n§7"
@@ -115,15 +104,9 @@ async def test_auctions(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
         assert data.auctions[0].highest_bid_amount == 256
         assert data.auctions[0].bids is not None
         assert len(data.auctions[0].bids) == 1
-        assert data.auctions[0].bids[0].auction_id == uuid.UUID(
-            "bc581ce675e94a0c88ac9deae06090f0"
-        )
-        assert data.auctions[0].bids[0].bidder == uuid.UUID(
-            "70aafcc6764b45ff80e60226193a0784"
-        )
-        assert data.auctions[0].bids[0].profile_id == uuid.UUID(
-            "70aafcc6764b45ff80e60226193a0784"
-        )
+        assert data.auctions[0].bids[0].auction_id == uuid.UUID("bc581ce675e94a0c88ac9deae06090f0")
+        assert data.auctions[0].bids[0].bidder == uuid.UUID("70aafcc6764b45ff80e60226193a0784")
+        assert data.auctions[0].bids[0].profile_id == uuid.UUID("70aafcc6764b45ff80e60226193a0784")
         assert data.auctions[0].bids[0].amount == 256
         assert data.auctions[0].bids[0].timestamp == datetime.datetime.fromtimestamp(
             1571065921.089, tz=datetime.timezone.utc

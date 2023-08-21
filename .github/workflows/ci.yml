@@ -1,0 +1,101 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+# Declare default permissions as read only.
+permissions: read-all
+
+concurrency:
+  group: ${{ github.event.number || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@v2
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          pdm sync -d -G style
+
+      - name: Run Lint
+        run: |
+          pdm run -v lint
+
+  tests:
+    name: ${{ matrix.python-version }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, "3.10", 3.11]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          pdm sync -d -G test
+
+      - name: Run Tests
+        run: |
+          pdm run -v test
+
+      - name: Upload coverage data
+        uses: "actions/upload-artifact@v3.1.2"
+        with:
+          name: coverage-data
+          path: ".coverage.*"
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@v2
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          pdm sync -d -G test
+
+      - name: Download coverage data
+        uses: actions/download-artifact@v3.0.2
+        with:
+          name: coverage-data
+
+      - name: Combine coverage and generate report
+        run: |
+          pdm run -v coverage_report
+
+      - name: Generate coverage report
+        run: |
+          pdm run -v coverage -- xml
+
+      - name: Upload coverage report
+        uses: codecov/codecov-action@v3.1.4

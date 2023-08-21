@@ -4,20 +4,18 @@ from uuid import UUID
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 
 # from asyncpixel.models import gametype
 
 
 @pytest.mark.asyncio
-async def test_online_status(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
-) -> None:
+async def test_online_status(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -> None:
     """Test to check the online_status method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/status?key={str(key)}&uuid=74"
-            + "86aa03aca5470e888dde8a43eb8c10",
+            f"https://api.hypixel.net/status?key={key!s}&uuid=74" + "86aa03aca5470e888dde8a43eb8c10",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -45,14 +43,11 @@ async def test_online_status(
 
 
 @pytest.mark.asyncio
-async def test_offline_status(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
-) -> None:
+async def test_offline_status(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -> None:
     """Test to check the offline_status method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/status?key={str(key)}&uuid=74"
-            + "86aa03aca5470e888dde8a43eb8c10",
+            f"https://api.hypixel.net/status?key={key!s}&uuid=74" + "86aa03aca5470e888dde8a43eb8c10",
             status=200,
             headers={
                 "RateLimit-Limit": "120",

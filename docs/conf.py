@@ -13,6 +13,8 @@ import os
 import sys
 from datetime import datetime
 
+from asyncpixel import __version__
+
 sys.path.insert(0, os.path.abspath("../"))
 
 
@@ -23,7 +25,7 @@ author = "Leon Bowie"
 copyright = f"{datetime.now().year}, {author}"
 
 # The full version, including alpha/beta/rc tags
-release = "1.6.0"
+release = __version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -39,6 +41,7 @@ extensions = [
     "sphinxext.opengraph",
     "sphinx_copybutton",
     "sphinxcontrib_trio",
+    "sphinxcontrib.autodoc_pydantic",
 ]
 
 # autodoc_mock_imports = ["pydantic", "aiohttp"]

@@ -5,13 +5,12 @@ from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "hypixel_client", ["hypixel_client", "hypixel_client_no_key"], indirect=True
-)
+@pytest.mark.parametrize("hypixel_client", ["hypixel_client", "hypixel_client_no_key"], indirect=True)
 async def test_auctions_ended(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
     """Test to check the auctions ended method returns correct data."""
     with aioresponses() as m:
@@ -47,23 +46,15 @@ async def test_auctions_ended(hypixel_client: AsyncGenerator[Hypixel, None]) -> 
 
         assert data is not None
 
-        assert data.last_updated == datetime.datetime.fromtimestamp(
-            1679435322.685, tz=datetime.timezone.utc
-        )
+        assert data.last_updated == datetime.datetime.fromtimestamp(1679435322.685, tz=datetime.timezone.utc)
         assert len(data.auctions) == 1
 
         assert data.auctions[0].bin
-        assert data.auctions[0].auction_id == uuid.UUID(
-            "50e70ff17ac2409b8d5e94e51b0e9531"
-        )
+        assert data.auctions[0].auction_id == uuid.UUID("50e70ff17ac2409b8d5e94e51b0e9531")
         assert data.auctions[0].seller == uuid.UUID("3c0f6da52855408c96a87c391734f2db")
-        assert data.auctions[0].seller_profile == uuid.UUID(
-            "d7ab595483ac4e74aa137d5d4ce82cf6"
-        )
+        assert data.auctions[0].seller_profile == uuid.UUID("d7ab595483ac4e74aa137d5d4ce82cf6")
         assert data.auctions[0].buyer == uuid.UUID("af510607b5734653aa61e1e51aa5fa39")
 
-        assert data.auctions[0].timestamp == datetime.datetime.fromtimestamp(
-            1679435259.014, tz=datetime.timezone.utc
-        )
+        assert data.auctions[0].timestamp == datetime.datetime.fromtimestamp(1679435259.014, tz=datetime.timezone.utc)
         assert data.auctions[0].price == 17000000
         assert data.auctions[0].item_bytes == "..."

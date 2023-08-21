@@ -3,6 +3,7 @@ import uuid
 from typing import AsyncIterator
 
 import pytest
+
 from asyncpixel import Hypixel
 
 

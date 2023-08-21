@@ -17,11 +17,3 @@ for Hypixel.
 
   intro
   api/index.rst
-
-.. toctree::
-  :hidden:
-  :caption: Meta
-
-  contributing
-  codeofconduct
-  license

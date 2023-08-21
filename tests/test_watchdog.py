@@ -4,17 +4,16 @@ from uuid import UUID
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_watchdog(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
-) -> None:
+async def test_watchdog(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -> None:
     """Test to check the watchdog method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/watchdogstats?key={str(key)}",
+            f"https://api.hypixel.net/watchdogstats?key={key!s}",
             status=200,
             headers={
                 "RateLimit-Limit": "120",

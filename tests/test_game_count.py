@@ -4,17 +4,16 @@ from uuid import UUID
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_game_count(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
-) -> None:
+async def test_game_count(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -> None:
     """Test to check the game_count method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/gameCounts?key={str(key)}",
+            f"https://api.hypixel.net/gameCounts?key={key!s}",
             status=200,
             headers={
                 "RateLimit-Limit": "120",

@@ -5,17 +5,16 @@ from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_guild_by_id(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_guild_by_id(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the guild_by_id method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/guild?key={str(key)}&id=52e57a1c0cf2e250d1cd00f8",
+            f"https://api.hypixel.net/guild?key={key!s}&id=52e57a1c0cf2e250d1cd00f8",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -77,9 +76,7 @@ async def test_guild_by_id(
 
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
-        assert data.created == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.created == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.name == "The Sloths"
         assert data.name_lower == "the sloths"
         assert data.description == "The sloths"
@@ -90,14 +87,10 @@ async def test_guild_by_id(
 
         assert data.members[0].uuid == uuid.UUID("f7c77d999f154a66a87dc4a51ef30d19")
         assert data.members[0].rank == "GUILDMASTER"
-        assert data.members[0].joined == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.members[0].joined == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.members[0].exp_history == {"2020-05-25": 108, "2020-05-24": 404}
         assert data.members[0].quest_participation == 4
-        assert data.members[0].muted_till == datetime.datetime.fromtimestamp(
-            1399507406.038, tz=datetime.timezone.utc
-        )
+        assert data.members[0].muted_till == datetime.datetime.fromtimestamp(1399507406.038, tz=datetime.timezone.utc)
         assert data.achievements == {
             "ONLINE_PLAYERS": 4,
             "EXPERIENCE_KINGS": 40062,
@@ -114,9 +107,7 @@ async def test_guild_by_id(
         assert data.legacy_ranking == 10446
         assert data.publicly_listed is False
         assert data.preferred_games == ["ARCADE", "SPEED_UHC", "UHC"]
-        assert data.chat_mute == datetime.datetime.fromtimestamp(
-            1590703490.783, tz=datetime.timezone.utc
-        )
+        assert data.chat_mute == datetime.datetime.fromtimestamp(1590703490.783, tz=datetime.timezone.utc)
         assert data.guild_exp_by_game_type == {
             "TNTGAMES": 1312,
             "VAMPIREZ": 4495,
@@ -125,13 +116,11 @@ async def test_guild_by_id(
 
 
 @pytest.mark.asyncio
-async def test_guild_by_id_none(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_guild_by_id_none(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the guild_by_id method returns correct data when not found."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/guild?key={str(key)}&id=52e57a1c0cf2e250d1cd00f8",
+            f"https://api.hypixel.net/guild?key={key!s}&id=52e57a1c0cf2e250d1cd00f8",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -149,13 +138,11 @@ async def test_guild_by_id_none(
 
 
 @pytest.mark.asyncio
-async def test_guild_by_name(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_guild_by_name(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the guild_by_name method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/guild?key={str(key)}&name=The%20Sloths",
+            f"https://api.hypixel.net/guild?key={key!s}&name=The%20Sloths",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -217,9 +204,7 @@ async def test_guild_by_name(
 
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
-        assert data.created == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.created == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.name == "The Sloths"
         assert data.name_lower == "the sloths"
         assert data.description == "The sloths"
@@ -230,14 +215,10 @@ async def test_guild_by_name(
 
         assert data.members[0].uuid == uuid.UUID("f7c77d999f154a66a87dc4a51ef30d19")
         assert data.members[0].rank == "GUILDMASTER"
-        assert data.members[0].joined == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.members[0].joined == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.members[0].exp_history == {"2020-05-25": 108, "2020-05-24": 404}
         assert data.members[0].quest_participation == 4
-        assert data.members[0].muted_till == datetime.datetime.fromtimestamp(
-            1399507406.038, tz=datetime.timezone.utc
-        )
+        assert data.members[0].muted_till == datetime.datetime.fromtimestamp(1399507406.038, tz=datetime.timezone.utc)
         assert data.achievements == {
             "ONLINE_PLAYERS": 4,
             "EXPERIENCE_KINGS": 40062,
@@ -254,9 +235,7 @@ async def test_guild_by_name(
         assert data.legacy_ranking == 10446
         assert data.publicly_listed is False
         assert data.preferred_games == ["ARCADE", "SPEED_UHC", "UHC"]
-        assert data.chat_mute == datetime.datetime.fromtimestamp(
-            1590703490.783, tz=datetime.timezone.utc
-        )
+        assert data.chat_mute == datetime.datetime.fromtimestamp(1590703490.783, tz=datetime.timezone.utc)
         assert data.guild_exp_by_game_type == {
             "TNTGAMES": 1312,
             "VAMPIREZ": 4495,
@@ -265,13 +244,11 @@ async def test_guild_by_name(
 
 
 @pytest.mark.asyncio
-async def test_guild_by_name_none(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_guild_by_name_none(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the guild_by_name method returns correct data when not found."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/guild?key={str(key)}&name=The%20Sloths",
+            f"https://api.hypixel.net/guild?key={key!s}&name=The%20Sloths",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -289,14 +266,11 @@ async def test_guild_by_name_none(
 
 
 @pytest.mark.asyncio
-async def test_guild_by_player(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_guild_by_player(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the guild_by_player method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/guild?key={str(key)}"
-            + "&player=f7c77d999f154a66a87dc4a51ef30d19",
+            f"https://api.hypixel.net/guild?key={key!s}" + "&player=f7c77d999f154a66a87dc4a51ef30d19",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -358,9 +332,7 @@ async def test_guild_by_player(
 
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
-        assert data.created == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.created == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.name == "The Sloths"
         assert data.name_lower == "the sloths"
         assert data.description == "The sloths"
@@ -371,14 +343,10 @@ async def test_guild_by_player(
 
         assert data.members[0].uuid == uuid.UUID("f7c77d999f154a66a87dc4a51ef30d19")
         assert data.members[0].rank == "GUILDMASTER"
-        assert data.members[0].joined == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.members[0].joined == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.members[0].exp_history == {"2020-05-25": 108, "2020-05-24": 404}
         assert data.members[0].quest_participation == 4
-        assert data.members[0].muted_till == datetime.datetime.fromtimestamp(
-            1399507406.038, tz=datetime.timezone.utc
-        )
+        assert data.members[0].muted_till == datetime.datetime.fromtimestamp(1399507406.038, tz=datetime.timezone.utc)
         assert data.achievements == {
             "ONLINE_PLAYERS": 4,
             "EXPERIENCE_KINGS": 40062,
@@ -395,9 +363,7 @@ async def test_guild_by_player(
         assert data.legacy_ranking == 10446
         assert data.publicly_listed is False
         assert data.preferred_games == ["ARCADE", "SPEED_UHC", "UHC"]
-        assert data.chat_mute == datetime.datetime.fromtimestamp(
-            1590703490.783, tz=datetime.timezone.utc
-        )
+        assert data.chat_mute == datetime.datetime.fromtimestamp(1590703490.783, tz=datetime.timezone.utc)
         assert data.guild_exp_by_game_type == {
             "TNTGAMES": 1312,
             "VAMPIREZ": 4495,
@@ -406,14 +372,11 @@ async def test_guild_by_player(
 
 
 @pytest.mark.asyncio
-async def test_guild_by_player_none(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_guild_by_player_none(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the guild_by_player method returns correct data when not found."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/guild?key={str(key)}"
-            + "&player=f7c77d999f154a66a87dc4a51ef30d19",
+            f"https://api.hypixel.net/guild?key={key!s}" + "&player=f7c77d999f154a66a87dc4a51ef30d19",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -431,13 +394,11 @@ async def test_guild_by_player_none(
 
 
 @pytest.mark.asyncio
-async def test_guild_by_id_no_mute_quest(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_guild_by_id_no_mute_quest(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the guild_by_id method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/guild?key={str(key)}&id=52e57a1c0cf2e250d1cd00f8",
+            f"https://api.hypixel.net/guild?key={key!s}&id=52e57a1c0cf2e250d1cd00f8",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -497,9 +458,7 @@ async def test_guild_by_id_no_mute_quest(
 
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
-        assert data.created == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.created == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.name == "The Sloths"
         assert data.name_lower == "the sloths"
         assert data.description == "The sloths"
@@ -510,9 +469,7 @@ async def test_guild_by_id_no_mute_quest(
 
         assert data.members[0].uuid == uuid.UUID("f7c77d999f154a66a87dc4a51ef30d19")
         assert data.members[0].rank == "GUILDMASTER"
-        assert data.members[0].joined == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.members[0].joined == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.members[0].exp_history == {"2020-05-25": 108, "2020-05-24": 404}
         assert data.members[0].quest_participation is None
         assert data.members[0].muted_till is None
@@ -532,9 +489,7 @@ async def test_guild_by_id_no_mute_quest(
         assert data.legacy_ranking == 10446
         assert data.publicly_listed is False
         assert data.preferred_games == ["ARCADE", "SPEED_UHC", "UHC"]
-        assert data.chat_mute == datetime.datetime.fromtimestamp(
-            1590703490.783, tz=datetime.timezone.utc
-        )
+        assert data.chat_mute == datetime.datetime.fromtimestamp(1590703490.783, tz=datetime.timezone.utc)
         assert data.guild_exp_by_game_type == {
             "TNTGAMES": 1312,
             "VAMPIREZ": 4495,
@@ -543,13 +498,11 @@ async def test_guild_by_id_no_mute_quest(
 
 
 @pytest.mark.asyncio
-async def test_guild_by_name_no_mute_quest(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_guild_by_name_no_mute_quest(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the guild_by_name method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/guild?key={str(key)}&name=The%20Sloths",
+            f"https://api.hypixel.net/guild?key={key!s}&name=The%20Sloths",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -609,9 +562,7 @@ async def test_guild_by_name_no_mute_quest(
 
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
-        assert data.created == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.created == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.name == "The Sloths"
         assert data.name_lower == "the sloths"
         assert data.description == "The sloths"
@@ -622,9 +573,7 @@ async def test_guild_by_name_no_mute_quest(
 
         assert data.members[0].uuid == uuid.UUID("f7c77d999f154a66a87dc4a51ef30d19")
         assert data.members[0].rank == "GUILDMASTER"
-        assert data.members[0].joined == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.members[0].joined == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.members[0].exp_history == {"2020-05-25": 108, "2020-05-24": 404}
         assert data.members[0].quest_participation is None
         assert data.members[0].muted_till is None
@@ -644,9 +593,7 @@ async def test_guild_by_name_no_mute_quest(
         assert data.legacy_ranking == 10446
         assert data.publicly_listed is False
         assert data.preferred_games == ["ARCADE", "SPEED_UHC", "UHC"]
-        assert data.chat_mute == datetime.datetime.fromtimestamp(
-            1590703490.783, tz=datetime.timezone.utc
-        )
+        assert data.chat_mute == datetime.datetime.fromtimestamp(1590703490.783, tz=datetime.timezone.utc)
         assert data.guild_exp_by_game_type == {
             "TNTGAMES": 1312,
             "VAMPIREZ": 4495,
@@ -655,14 +602,11 @@ async def test_guild_by_name_no_mute_quest(
 
 
 @pytest.mark.asyncio
-async def test_guild_by_player_no_mute_quest(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_guild_by_player_no_mute_quest(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the guild_by_player method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/guild?key={str(key)}"
-            + "&player=f7c77d999f154a66a87dc4a51ef30d19",
+            f"https://api.hypixel.net/guild?key={key!s}" + "&player=f7c77d999f154a66a87dc4a51ef30d19",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -722,9 +666,7 @@ async def test_guild_by_player_no_mute_quest(
 
         assert data is not None
         assert data.id == "52e57a1c0cf2e250d1cd00f8"
-        assert data.created == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.created == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.name == "The Sloths"
         assert data.name_lower == "the sloths"
         assert data.description == "The sloths"
@@ -735,9 +677,7 @@ async def test_guild_by_player_no_mute_quest(
 
         assert data.members[0].uuid == uuid.UUID("f7c77d999f154a66a87dc4a51ef30d19")
         assert data.members[0].rank == "GUILDMASTER"
-        assert data.members[0].joined == datetime.datetime.fromtimestamp(
-            1390770716.373, tz=datetime.timezone.utc
-        )
+        assert data.members[0].joined == datetime.datetime.fromtimestamp(1390770716.373, tz=datetime.timezone.utc)
         assert data.members[0].exp_history == {"2020-05-25": 108, "2020-05-24": 404}
         assert data.members[0].quest_participation is None
         assert data.members[0].muted_till is None
@@ -761,9 +701,7 @@ async def test_guild_by_player_no_mute_quest(
         assert data.preferred_games is not None
         assert data.preferred_games == ["ARCADE", "SPEED_UHC", "UHC"]
         assert data.chat_mute is not None
-        assert data.chat_mute == datetime.datetime.fromtimestamp(
-            1590703490.783, tz=datetime.timezone.utc
-        )
+        assert data.chat_mute == datetime.datetime.fromtimestamp(1590703490.783, tz=datetime.timezone.utc)
         assert data.guild_exp_by_game_type is not None
         assert data.guild_exp_by_game_type == {
             "TNTGAMES": 1312,

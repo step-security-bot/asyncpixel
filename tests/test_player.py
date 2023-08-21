@@ -5,12 +5,12 @@ from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 from asyncpixel.constants import GameType
 from asyncpixel.models.players.bedwars import bedwars_level_from_exp
 from asyncpixel.models.utils import safe_divide
-from asyncpixel.utils import calc_player_level
-from asyncpixel.utils import validate_game_type
+from asyncpixel.utils import calc_player_level, validate_game_type
 
 # from asyncpixel.models import gametype
 
@@ -24,14 +24,11 @@ async def test_player_level_calc() -> None:
 
 
 @pytest.mark.asyncio
-async def test_player(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_player(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the player method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/player?key={str(key)}"
-            + "&uuid=405dcf08-b80f-4e23-b97d-943ad93d14fd",
+            f"https://api.hypixel.net/player?key={key!s}" + "&uuid=405dcf08-b80f-4e23-b97d-943ad93d14fd",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -48,9 +45,7 @@ async def test_player(
                     "lastLogin": 1608016405945,
                     "displayname": "Darkflame72",
                     "knownAliases": ["MRL03", "Darkflame72"],
-                    "socialMedia": {
-                        "links": {"Twitter": "https://twitter.com/hypixel"}
-                    },
+                    "socialMedia": {"links": {"Twitter": "https://twitter.com/hypixel"}},
                     "knownAliasesLower": ["mrl03", "darkflame72"],
                     "achievementsOneTime": [
                         "general_first_join",
@@ -208,15 +203,12 @@ async def test_player(
                         },
                         "GingerBread": {
                             "jacket_active": "GOLD_JACKET",
-                            "engine_active": "{GingerbreadPart:{PartType"
-                            + ":ENGINE,PartRarity:BASIC}}",
+                            "engine_active": "{GingerbreadPart:{PartType" + ":ENGINE,PartRarity:BASIC}}",
                             "skin_active": "BLUE_KART;DEFAULT",
-                            "booster_active": "{GingerbreadPart:{PartType"
-                            + ":TURBOCHARGER,PartRarity:BASIC}}",
+                            "booster_active": "{GingerbreadPart:{PartType" + ":TURBOCHARGER,PartRarity:BASIC}}",
                             "shoes_active": "GOLD_SHOES",
                             "pants_active": "GOLD_PANTS",
-                            "frame_active": "{GingerbreadPart:{PartType:"
-                            + "FRAME,PartRarity:BASIC}}",
+                            "frame_active": "{GingerbreadPart:{PartType:" + "FRAME,PartRarity:BASIC}}",
                             "packages": [
                                 "helmet_1_3_unlocked",
                                 "achievementsupdatedd",
@@ -868,8 +860,7 @@ async def test_player(
                             "tnt_games_rookie_title_prestige": 1,
                             "selected_2_new": "blitz",
                             "selected_1_new": "sumo",
-                            "duels_recently_played2": "BRIDGE_FOUR#BRIDGE"
-                            + "_2V2V2V2#BRIDGE_DOUBLES",
+                            "duels_recently_played2": "BRIDGE_FOUR#BRIDGE" + "_2V2V2V2#BRIDGE_DOUBLES",
                             "current_winstreak": 0,
                             "current_bridge_winstreak": 0,
                             "current_winstreak_mode_bridge_four": 0,
@@ -1440,9 +1431,7 @@ async def test_player(
                             "name": "Wolfy",
                         },
                     },
-                    "parkourCheckpointBests": {
-                        "Bedwars": {"0": 11553, "1": 7949, "2": 11109, "3": 76136}
-                    },
+                    "parkourCheckpointBests": {"Bedwars": {"0": 11553, "1": 7949, "2": 11109, "3": 76136}},
                     "achievementSync": {"quake_tiered": 1},
                     "achievementRewardsNew": {
                         "for_points_200": 1530832841537,
@@ -1530,13 +1519,9 @@ async def test_player(
         assert data is not None
         assert data.id == "55e96b45de314c0f0424dc9a"
         assert data.uuid == uuid.UUID("405dcf08-b80f-4e23-b97d-943ad93d14fd")
-        assert data.first_login == datetime.datetime.fromtimestamp(
-            1441360709.245, tz=datetime.timezone.utc
-        )
+        assert data.first_login == datetime.datetime.fromtimestamp(1441360709.245, tz=datetime.timezone.utc)
         assert data.playername == "darkflame72"
-        assert data.last_login == datetime.datetime.fromtimestamp(
-            1608016405.945, tz=datetime.timezone.utc
-        )
+        assert data.last_login == datetime.datetime.fromtimestamp(1608016405.945, tz=datetime.timezone.utc)
         assert data.displayname == "Darkflame72"
         assert data.known_aliases == ["MRL03", "Darkflame72"]
         assert data.known_aliases_lower == ["mrl03", "darkflame72"]
@@ -1616,9 +1601,7 @@ async def test_player(
         assert data.reward_streak == 1
         assert data.reward_score == 1
         assert data.reward_high_score == 1
-        assert data.last_logout == datetime.datetime.fromtimestamp(
-            1608016811.099, tz=datetime.timezone.utc
-        )
+        assert data.last_logout == datetime.datetime.fromtimestamp(1608016811.099, tz=datetime.timezone.utc)
         assert data.friend_requests_uuid == []
         assert data.achievement_tracking == []
         assert data.achievement_points == 640
@@ -1629,9 +1612,7 @@ async def test_player(
         assert data.stats.bedwars is not None
         assert data.stats.bedwars.experience == 65262
         assert data.stats.bedwars.level == 15.6524
-        assert data.raw["achievements"]["bedwars_level"] == int(
-            data.stats.bedwars.level
-        )
+        assert data.raw["achievements"]["bedwars_level"] == int(data.stats.bedwars.level)
         assert data.stats.bedwars.singles is not None
         assert data.stats.bedwars.singles.win_per_lose == 0.0
         assert data.stats.bedwars.singles.beds_broken_per_lost == 2 / 3
@@ -1664,23 +1645,17 @@ async def test_player(
         assert data.pet_stats["WOLF"].name == "Wolfy"
         assert data.pet_stats["WOLF"].hunger is not None
         assert data.pet_stats["WOLF"].hunger.value == 100
-        assert data.pet_stats[
-            "WOLF"
-        ].hunger.timestamp == datetime.datetime.fromtimestamp(
+        assert data.pet_stats["WOLF"].hunger.timestamp == datetime.datetime.fromtimestamp(
             1529225265.831, tz=datetime.timezone.utc
         )
         assert data.pet_stats["WOLF"].thirst is not None
         assert data.pet_stats["WOLF"].thirst.value == 100
-        assert data.pet_stats[
-            "WOLF"
-        ].thirst.timestamp == datetime.datetime.fromtimestamp(
+        assert data.pet_stats["WOLF"].thirst.timestamp == datetime.datetime.fromtimestamp(
             1529225262.979, tz=datetime.timezone.utc
         )
         assert data.pet_stats["WOLF"].exercise is not None
         assert data.pet_stats["WOLF"].exercise.value == 100
-        assert data.pet_stats[
-            "WOLF"
-        ].exercise.timestamp == datetime.datetime.fromtimestamp(
+        assert data.pet_stats["WOLF"].exercise.timestamp == datetime.datetime.fromtimestamp(
             1529225256.120, tz=datetime.timezone.utc
         )
 
@@ -1699,14 +1674,11 @@ async def test_most_recent_game_type() -> None:
 
 
 @pytest.mark.asyncio
-async def test_player_none(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_player_none(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the player method returns correct data when not found."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/player?key={str(key)}"
-            + "&uuid=405dcf08-b80f-4e23-b97d-943ad93d14fd",
+            f"https://api.hypixel.net/player?key={key!s}" + "&uuid=405dcf08-b80f-4e23-b97d-943ad93d14fd",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -1741,9 +1713,7 @@ def test_bedwars_level_calculation() -> None:
         calculated_star = int(calculated_star)
         true_star = int(true_star)
 
-        assert (
-            true_star == calculated_star
-        ), f"exp={exp}: calculated star={calculated_star}, true star={true_star}"
+        assert true_star == calculated_star, f"exp={exp}: calculated star={calculated_star}, true star={true_star}"
 
 
 def test_safe_divide() -> None:

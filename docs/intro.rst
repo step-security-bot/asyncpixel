@@ -1,7 +1,7 @@
 Introduction!
 ======================================
 
-Asyncpixel is an asyncronous python wrapper for the Hypixel api with 100% coverage. It uses
+Asyncpixel is an asynchronous python wrapper for the Hypixel api with 100% coverage. It uses
 Pydantic models to store the data presenting an easy to use and reliable interface.
 
 Requirements

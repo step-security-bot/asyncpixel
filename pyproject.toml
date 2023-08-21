@@ -1,113 +1,118 @@
-[tool.poetry]
-authors = ["Darkflame72 <leon@bowie-co.nz>"]
-classifiers = [
-  "Development Status :: 5 - Production/Stable",
-  "Natural Language :: English",
-  "Framework :: AsyncIO",
-  "Operating System :: OS Independent",
-  "Topic :: Games/Entertainment",
-  "Topic :: Software Development :: Libraries",
-  "Topic :: Software Development :: Libraries :: Python Modules",
-  "Topic :: Utilities",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
-]
-description = "Asyncpixel"
-documentation = "https://asyncpixel.readthedocs.io"
-homepage = "https://github.com/Darkflame72/asyncpixel"
-license = "GPLv3"
+[project]
 name = "asyncpixel"
+dynamic = ["version"]
+description = "Asynchronous Python library for the Hypixel API"
+authors = [{ name = "Leon Bowie", email = "leon@bowie-co.nz" }]
+dependencies = ["aiohttp>=3.8.5", "pydantic>=2.2.1"]
+requires-python = ">=3.8.1"
 readme = "README.md"
-repository = "https://github.com/Darkflame72/asyncpixel"
-version = "1.6.0"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Natural Language :: English",
+    "Framework :: AsyncIO",
+    "Operating System :: OS Independent",
+    "Topic :: Games/Entertainment",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+license = { text = "GPL-3.0-or-later" }
 
-[tool.poetry.dependencies]
-aiohttp = "^3.6.2"
-pydantic = "^2.0.0"
-python = ">=3.8.1,<4.0"
+[project.urls]
+Homepage = "https://asyncpixel.readthedocs.io"
+Repository = "https://github.com/Darkflame72/asyncpixel"
+Documentation = "https://asyncpixel.readthedocs.io"
 
-[tool.poetry.group.dev.dependencies]
-Pygments = "^2.12.0"
-aioresponses = "^0.7.3"
-coverage = { extras = ["toml"], version = "^7.0" }
-mypy = "^1.0"
-nox = "^2023.0.0"
-nox-poetry = "^1.0.1"
-pep8-naming = "^0.13.0"
-pre-commit = "^3.0.0"
-pre-commit-hooks = "^4.3.0"
-pytest = "^7.2.0"
-pytest-asyncio = "^0.21.0"
-reorder-python-imports = "^3.1.0"
-typeguard = "^4.0.0"
+[tool.black]
+line-length = 120
+target-version = ["py38", "py39", "py310", "py311"]
 
-[tool.poetry.group.style.dependencies]
-flake8 = "^6.0.0"
-flake8-annotations = "^3.0.0"
-flake8-bandit = "^4.1.1"
-flake8-black = "^0.3.3"
-flake8-bugbear = "^23.0.0"
-flake8-docstrings = "^1.6.0"
-flake8-import-order = "^0.18.1"
-flake8-rst-docstrings = "^0.3.0"
-black = "^23.0.0"
-darglint = "^1.8.1"
+[tool.ruff]
+line-length = 120
+extend-select = [
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "PGH", # pygrep-hooks
+    "RUF", # ruff
+    "W",   # pycodestyle
+    "YTT", # flake8-2020
+]
+src = ["src"]
+target-version = "py38"
 
+[tool.ruff.mccabe]
+max-complexity = 10
 
-[tool.poetry.group.docs]
-optional = true
+[tool.ruff.isort]
+known-first-party = ["pdm"]
 
-[tool.poetry.group.docs.dependencies]
-furo = "^2023.0.0"
-sphinx-copybutton = "^0.5.0"
-sphinxext-opengraph = "^0.8.0"
-sphinxcontrib-trio = "^1.1.2"
-sphinx = "^7.0.0"
-sphinx-autobuild = "^2021.3.14"
-sphinx-autodoc-typehints = "^1.18.3"
-recommonmark = "^0.7.1"
+[tool.mypy]
+strict = true
+
+[tool.pdm.version]
+source = "scm"
+
+[tool.pdm.build]
+excludes = ["./**/.git"]
+package-dir = "src"
+includes = ["src/asyncpixel"]
+source-includes = ["tests", "CHANGELOG.md", "LICENSE", "README.md"]
+
+[tool.pdm.scripts]
+test = "coverage run --parallel -m pytest"
+coverage_report = {shell = "coverage combine && coverage report"}
+doc = "sphinx-build docs docs/_build"
+lint = "pre-commit run --all-files"
+all = {composite = ["lint", "test", "coverage", "doc"]}
+
+[tool.pdm.dev-dependencies]
+docs = [
+    "furo>=2023.8.19",
+    "sphinx-copybutton>=0.5.2",
+    "sphinxext-opengraph>=0.8.2",
+    "sphinx>=7.1.2",
+    "sphinxcontrib-trio>=1.1.2",
+    "autodoc-pydantic>=2.0.1",
+]
+test = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.1",
+    "aioresponses>=0.7.4",
+    "coverage>=7.3.0",
+    "setuptools>=68.1.2",
+]
+style = [
+    "black>=23.7.0",
+    "ruff>=0.0.285",
+    "pre-commit>=3.3.3",
+    "mypy>=1.5.1",
+]
+
+[pytest]
+asyncio_mode = "auto"
 
 
 [tool.coverage.paths]
-source = ["asyncpixel/", "*/site-packages", "*/asyncpixel"]
+source = ["src/", "*/site-packages"]
+others = [
+    "asyncpixel/",
+    "*/asyncpixel",
+]
 
 [tool.coverage.run]
 branch = true
-source = ["asyncpixel"]
+source = ["src/"]
 
 [tool.coverage.report]
 fail_under = 100
 show_missing = true
 
 [build-system]
-build-backend = "poetry.core.masonry.api"
-requires = ["poetry-core>=1.0.0"]
-
-[pytest]
-asyncio_mode = "auto"
-
-[tool.mypy]
-check_untyped_defs = true
-disallow_any_generics = true
-disallow_incomplete_defs = true
-disallow_subclassing_any = true
-disallow_untyped_calls = false
-disallow_untyped_decorators = true
-disallow_untyped_defs = true
-no_implicit_optional = true
-no_implicit_reexport = true
-pretty = true
-show_column_numbers = true
-show_error_codes = true
-show_error_context = true
-strict_equality = true
-warn_redundant_casts = true
-warn_return_any = true
-warn_unreachable = true
-warn_unused_configs = true
-warn_unused_ignores = true
-ignore_missing_imports = false
-
-[[tool.mypy.overrides]]
-module = 'aioresponses.*'
-ignore_missing_imports = true
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

@@ -5,18 +5,16 @@ from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_auction_from_uuid(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_auction_from_uuid(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the auction_from_uuid method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/skyblock/auction?key={str(key)}"
-            + "&uuid=409a1e0f261a49849493278d6cd9305a",
+            f"https://api.hypixel.net/skyblock/auction?key={key!s}" + "&uuid=409a1e0f261a49849493278d6cd9305a",
             headers={
                 "RateLimit-Limit": "120",
                 "RateLimit-Remaining": "119",
@@ -78,12 +76,8 @@ async def test_auction_from_uuid(
             assert data[0].profile_id == uuid.UUID("347ef6c1daac45ed9d1fa02818cf0fb6")
             assert len(data[0].coop) == 1
             assert data[0].coop[0] == uuid.UUID("347ef6c1daac45ed9d1fa02818cf0fb6")
-            assert data[0].start == datetime.datetime.fromtimestamp(
-                1573760802.637, tz=datetime.timezone.utc
-            )
-            assert data[0].end == datetime.datetime.fromtimestamp(
-                1573761102.637, tz=datetime.timezone.utc
-            )
+            assert data[0].start == datetime.datetime.fromtimestamp(1573760802.637, tz=datetime.timezone.utc)
+            assert data[0].end == datetime.datetime.fromtimestamp(1573761102.637, tz=datetime.timezone.utc)
             assert data[0].item_name == "Azure Bluet"
             assert data[0].item_lore == "§f§lCOMMON"
             assert data[0].extra == "Azure Bluet Red Rose"
@@ -104,15 +98,9 @@ async def test_auction_from_uuid(
             assert len(data[0].claimed_bidders) == 0
             assert data[0].highest_bid_amount == 7607533
             assert len(data[0].bids) == 1
-            assert data[0].bids[0].auction_id == uuid.UUID(
-                "409a1e0f261a49849493278d6cd9305a"
-            )
-            assert data[0].bids[0].bidder == uuid.UUID(
-                "99748e629dee463892f68abf3a780094"
-            )
-            assert data[0].bids[0].profile_id == uuid.UUID(
-                "99748e629dee463892f68abf3a780094"
-            )
+            assert data[0].bids[0].auction_id == uuid.UUID("409a1e0f261a49849493278d6cd9305a")
+            assert data[0].bids[0].bidder == uuid.UUID("99748e629dee463892f68abf3a780094")
+            assert data[0].bids[0].profile_id == uuid.UUID("99748e629dee463892f68abf3a780094")
             assert data[0].bids[0].amount == 7607533
             assert data[0].bids[0].timestamp == datetime.datetime.fromtimestamp(
                 1573760824.844, tz=datetime.timezone.utc
@@ -120,14 +108,11 @@ async def test_auction_from_uuid(
 
 
 @pytest.mark.asyncio
-async def test_auction_from_uuid_none(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_auction_from_uuid_none(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the auction_from_uuid method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/skyblock/auction?key={str(key)}"
-            + "&uuid=409a1e0f261a49849493278d6cd9305a",
+            f"https://api.hypixel.net/skyblock/auction?key={key!s}" + "&uuid=409a1e0f261a49849493278d6cd9305a",
             headers={
                 "RateLimit-Limit": "120",
                 "RateLimit-Remaining": "119",
@@ -145,14 +130,11 @@ async def test_auction_from_uuid_none(
 
 
 @pytest.mark.asyncio
-async def test_auction_from_profiile(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_auction_from_profiile(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the auction_from_profile method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/skyblock/auction?key={str(key)}"
-            + "&profile=347ef6c1daac45ed9d1fa02818cf0fb6",
+            f"https://api.hypixel.net/skyblock/auction?key={key!s}" + "&profile=347ef6c1daac45ed9d1fa02818cf0fb6",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -220,12 +202,8 @@ async def test_auction_from_profiile(
         assert data[0].profile_id == uuid.UUID("347ef6c1daac45ed9d1fa02818cf0fb6")
         assert len(data[0].coop) == 1
         assert data[0].coop[0] == uuid.UUID("347ef6c1daac45ed9d1fa02818cf0fb6")
-        assert data[0].start == datetime.datetime.fromtimestamp(
-            1573760802.637, tz=datetime.timezone.utc
-        )
-        assert data[0].end == datetime.datetime.fromtimestamp(
-            1573761102.637, tz=datetime.timezone.utc
-        )
+        assert data[0].start == datetime.datetime.fromtimestamp(1573760802.637, tz=datetime.timezone.utc)
+        assert data[0].end == datetime.datetime.fromtimestamp(1573761102.637, tz=datetime.timezone.utc)
         assert data[0].item_name == "Azure Bluet"
         assert data[0].item_lore == "§f§lCOMMON"
         assert data[0].extra == "Azure Bluet Red Rose"
@@ -245,28 +223,19 @@ async def test_auction_from_profiile(
         assert len(data[0].claimed_bidders) == 0
         assert data[0].highest_bid_amount == 7607533
         assert len(data[0].bids) == 1
-        assert data[0].bids[0].auction_id == uuid.UUID(
-            "409a1e0f261a49849493278d6cd9305a"
-        )
+        assert data[0].bids[0].auction_id == uuid.UUID("409a1e0f261a49849493278d6cd9305a")
         assert data[0].bids[0].bidder == uuid.UUID("99748e629dee463892f68abf3a780094")
-        assert data[0].bids[0].profile_id == uuid.UUID(
-            "99748e629dee463892f68abf3a780094"
-        )
+        assert data[0].bids[0].profile_id == uuid.UUID("99748e629dee463892f68abf3a780094")
         assert data[0].bids[0].amount == 7607533
-        assert data[0].bids[0].timestamp == datetime.datetime.fromtimestamp(
-            1573760824.844, tz=datetime.timezone.utc
-        )
+        assert data[0].bids[0].timestamp == datetime.datetime.fromtimestamp(1573760824.844, tz=datetime.timezone.utc)
 
 
 @pytest.mark.asyncio
-async def test_auction_from_profile_none(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_auction_from_profile_none(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the auction_from_profile method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/skyblock/auction?key={str(key)}"
-            + "&profile=347ef6c1daac45ed9d1fa02818cf0fb6",
+            f"https://api.hypixel.net/skyblock/auction?key={key!s}" + "&profile=347ef6c1daac45ed9d1fa02818cf0fb6",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -284,14 +253,11 @@ async def test_auction_from_profile_none(
 
 
 @pytest.mark.asyncio
-async def test_auction_from_player(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_auction_from_player(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the auction_from_player method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/skyblock/auction?key={str(key)}"
-            + "&player=bc581ce675e94a0c88ac9deae06090f0",
+            f"https://api.hypixel.net/skyblock/auction?key={key!s}" + "&player=bc581ce675e94a0c88ac9deae06090f0",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -357,12 +323,8 @@ async def test_auction_from_player(
         assert data[0].profile_id == uuid.UUID("347ef6c1daac45ed9d1fa02818cf0fb6")
         assert len(data[0].coop) == 1
         assert data[0].coop[0] == uuid.UUID("347ef6c1daac45ed9d1fa02818cf0fb6")
-        assert data[0].start == datetime.datetime.fromtimestamp(
-            1573760802.637, tz=datetime.timezone.utc
-        )
-        assert data[0].end == datetime.datetime.fromtimestamp(
-            2530081735, tz=datetime.timezone.utc
-        )
+        assert data[0].start == datetime.datetime.fromtimestamp(1573760802.637, tz=datetime.timezone.utc)
+        assert data[0].end == datetime.datetime.fromtimestamp(2530081735, tz=datetime.timezone.utc)
         assert data[0].item_name == "Azure Bluet"
         assert data[0].item_lore == "§f§lCOMMON"
         assert data[0].extra == "Azure Bluet Red Rose"
@@ -382,28 +344,19 @@ async def test_auction_from_player(
         assert len(data[0].claimed_bidders) == 0
         assert data[0].highest_bid_amount == 1
         assert len(data[0].bids) == 1
-        assert data[0].bids[0].auction_id == uuid.UUID(
-            "409a1e0f261a49849493278d6cd9305a"
-        )
+        assert data[0].bids[0].auction_id == uuid.UUID("409a1e0f261a49849493278d6cd9305a")
         assert data[0].bids[0].bidder == uuid.UUID("99748e629dee463892f68abf3a780094")
-        assert data[0].bids[0].profile_id == uuid.UUID(
-            "99748e629dee463892f68abf3a780094"
-        )
+        assert data[0].bids[0].profile_id == uuid.UUID("99748e629dee463892f68abf3a780094")
         assert data[0].bids[0].amount == 7607533
-        assert data[0].bids[0].timestamp == datetime.datetime.fromtimestamp(
-            1573760824.844, tz=datetime.timezone.utc
-        )
+        assert data[0].bids[0].timestamp == datetime.datetime.fromtimestamp(1573760824.844, tz=datetime.timezone.utc)
 
 
 @pytest.mark.asyncio
-async def test_auction_from_player_none(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_auction_from_player_none(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the auction_from_player method."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/skyblock/auction?key={str(key)}"
-            + "&player=bc581ce675e94a0c88ac9deae06090f0",
+            f"https://api.hypixel.net/skyblock/auction?key={key!s}" + "&player=bc581ce675e94a0c88ac9deae06090f0",
             status=200,
             headers={
                 "RateLimit-Limit": "120",

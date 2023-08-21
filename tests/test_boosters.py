@@ -5,15 +5,14 @@ from uuid import UUID
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 from asyncpixel.constants import GameType
 from tests.utils import generate_key
 
 
 @pytest.mark.asyncio
-async def test_boosters(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
-) -> None:
+async def test_boosters(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -> None:
     """Test to check the boosters method returns correct data."""
     purchaseruuid1 = generate_key()
     purchaseruuid2 = generate_key()
@@ -22,7 +21,7 @@ async def test_boosters(
     stacked2 = generate_key()
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/boosters?key={str(key)}",
+            f"https://api.hypixel.net/boosters?key={key!s}",
             status=200,
             headers={
                 "RateLimit-Limit": "120",

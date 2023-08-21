@@ -1,8 +1,8 @@
 """Test utilss."""
 import pytest
-from asyncpixel.models.utils import safe_divide
-from asyncpixel.models.utils import to_camel
-from asyncpixel.utils import get_rank
+
+from asyncpixel.models.utils import safe_divide, to_camel
+from asyncpixel.utils import get_rank, validate_game_type
 
 
 @pytest.mark.asyncio
@@ -32,3 +32,16 @@ async def test_to_camel() -> None:
     """Test to camel."""
     assert to_camel("test_string") == "testString"
     assert to_camel("test_string_2") == "testString2"
+
+
+@pytest.mark.asyncio
+async def test_validate_game_type() -> None:
+    """Test validate game type."""
+    assert validate_game_type(2).id == 2
+    assert validate_game_type("QUAKECRAFT").id == 2
+
+    with pytest.raises(StopIteration):
+        validate_game_type(1)
+
+    with pytest.raises(StopIteration):
+        validate_game_type("NULL")

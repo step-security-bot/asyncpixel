@@ -3,6 +3,7 @@ import uuid
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 from asyncpixel.exceptions.exceptions import InvalidApiKeyError
 from tests.utils import generate_key
@@ -14,7 +15,7 @@ async def test_default_key() -> None:
     key = generate_key()
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/key?key={str(key)}",
+            f"https://api.hypixel.net/key?key={key!s}",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -49,7 +50,7 @@ async def test_added_key() -> None:
     key = generate_key()
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/key?key={str(key)}",
+            f"https://api.hypixel.net/key?key={key!s}",
             status=200,
             headers={
                 "RateLimit-Limit": "120",

@@ -5,13 +5,12 @@ from uuid import UUID
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-@pytest.mark.parametrize(
-    "hypixel_client", ["hypixel_client", "hypixel_client_no_key"], indirect=True
-)
+@pytest.mark.parametrize("hypixel_client", ["hypixel_client", "hypixel_client_no_key"], indirect=True)
 async def test_bazaar(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -> None:
     """Test to check the bazaar returns correct data."""
     with aioresponses() as m:
@@ -60,9 +59,7 @@ async def test_bazaar(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) 
 
         assert data is not None
 
-        assert data.last_updated == datetime.datetime.fromtimestamp(
-            1590854517.479, tz=datetime.timezone.utc
-        )
+        assert data.last_updated == datetime.datetime.fromtimestamp(1590854517.479, tz=datetime.timezone.utc)
         assert len(data.bazaar_items) == 1
 
         assert data.bazaar_items[0].product_id == "INK_SACK:3"

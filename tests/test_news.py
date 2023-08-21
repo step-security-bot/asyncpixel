@@ -4,17 +4,16 @@ from uuid import UUID
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_skyblock_news(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
-) -> None:
+async def test_skyblock_news(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -> None:
     """Test to check the skyblock_news method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/skyblock/news?key={str(key)}",
+            f"https://api.hypixel.net/skyblock/news?key={key!s}",
             status=200,
             headers={
                 "RateLimit-Limit": "120",

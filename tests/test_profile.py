@@ -5,18 +5,16 @@ from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_profiles(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_profiles(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the profiles method returns correct data."""
     with aioresponses() as m:
         m.get(
-            "https://api.hypixel.net/skyblock/profiles?"
-            f"key={str(key)}&uuid=405dcf08-b80f-4e23-b97d-943ad93d14fd",
+            "https://api.hypixel.net/skyblock/profiles?" f"key={key!s}&uuid=405dcf08-b80f-4e23-b97d-943ad93d14fd",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -34,8 +32,7 @@ async def test_profiles(
                                 "fairy_exchanges": 10,
                                 "inv_armor": {
                                     "type": 0,
-                                    "data": "H4sIAAAAAAAAAONiYOBkYMzkYmBg"
-                                    + "YGEAAQCp5xppEQAAAA\u003d\u003d",
+                                    "data": "H4sIAAAAAAAAAONiYOBkYMzkYmBg" + "YGEAAQCp5xppEQAAAA\u003d\u003d",
                                 },
                                 "first_join": 1589445775678,
                                 "first_join_hub": 277843,
@@ -716,30 +713,16 @@ async def test_profiles(
             data = await client.profiles("405dcf08-b80f-4e23-b97d-943ad93d14fd")
         assert data is not None
         assert data["405dcf08b80f4e23b97d943ad93d14fd"].cute_name == "Strawberry"
-        assert data["405dcf08b80f4e23b97d943ad93d14fd"].profile_id == uuid.UUID(
-            "405dcf08b80f4e23b97d943ad93d14fd"
-        )
+        assert data["405dcf08b80f4e23b97d943ad93d14fd"].profile_id == uuid.UUID("405dcf08b80f4e23b97d943ad93d14fd")
         assert len(data["405dcf08b80f4e23b97d943ad93d14fd"].members) == 2
-        assert (
-            "405dcf08b80f4e23b97d943ad93d14fd"
-            in data["405dcf08b80f4e23b97d943ad93d14fd"].members
-        )
-        member = data["405dcf08b80f4e23b97d943ad93d14fd"].members[
-            "405dcf08b80f4e23b97d943ad93d14fd"
-        ]
+        assert "405dcf08b80f4e23b97d943ad93d14fd" in data["405dcf08b80f4e23b97d943ad93d14fd"].members
+        member = data["405dcf08b80f4e23b97d943ad93d14fd"].members["405dcf08b80f4e23b97d943ad93d14fd"]
 
-        assert member.last_save == datetime.datetime.fromtimestamp(
-            1599217969.829, tz=datetime.timezone.utc
-        )
+        assert member.last_save == datetime.datetime.fromtimestamp(1599217969.829, tz=datetime.timezone.utc)
         assert member.inv_armor is not None
         assert member.inv_armor.type == 0
-        assert (
-            member.inv_armor.data
-            == "H4sIAAAAAAAAAONiYOBkYMzkYmBgYGEAAQCp5xppEQAAAA\u003d\u003d"
-        )
-        assert member.first_join == datetime.datetime.fromtimestamp(
-            1589445775.678, tz=datetime.timezone.utc
-        )
+        assert member.inv_armor.data == "H4sIAAAAAAAAAONiYOBkYMzkYmBgYGEAAQCp5xppEQAAAA\u003d\u003d"
+        assert member.first_join == datetime.datetime.fromtimestamp(1589445775.678, tz=datetime.timezone.utc)
         assert member.first_join_hub == 277843
         assert member.stats == {
             "pet_milestone_ores_mined": 287.0,
@@ -822,14 +805,11 @@ async def test_profiles(
 
 
 @pytest.mark.asyncio
-async def test_profiles_none(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_profiles_none(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test to check the profiles method returns correct data when not found."""
     with aioresponses() as m:
         m.get(
-            "https://api.hypixel.net/skyblock/profiles?"
-            f"key={str(key)}&uuid=405dcf08-b80f-4e23-b97d-943ad93d14fd",
+            "https://api.hypixel.net/skyblock/profiles?" f"key={key!s}&uuid=405dcf08-b80f-4e23-b97d-943ad93d14fd",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -847,14 +827,11 @@ async def test_profiles_none(
 
 
 @pytest.mark.asyncio
-async def test_profile(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_profile(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test profile."""
     with aioresponses() as m:
         m.get(
-            "https://api.hypixel.net/skyblock/profile?"
-            + f"key={str(key)}&profile=405dcf08b80f4e23b97d943ad93d14fd",
+            "https://api.hypixel.net/skyblock/profile?" + f"key={key!s}&profile=405dcf08b80f4e23b97d943ad93d14fd",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -870,8 +847,7 @@ async def test_profile(
                             "last_save": 1599217969829,
                             "inv_armor": {
                                 "type": 0,
-                                "data": "H4sIAAAAAAAAAONiYOBkYMz"
-                                + "kYmBgYGEAAQCp5xppEQAAAA==",
+                                "data": "H4sIAAAAAAAAAONiYOBkYMz" + "kYmBgYGEAAQCp5xppEQAAAA==",
                             },
                             "first_join": 1589445775678,
                             "first_join_hub": 277843,
@@ -1257,18 +1233,11 @@ async def test_profile(
         assert "405dcf08b80f4e23b97d943ad93d14fd" in data.members
         member = data.members["405dcf08b80f4e23b97d943ad93d14fd"]
 
-        assert member.last_save == datetime.datetime.fromtimestamp(
-            1599217969.829, tz=datetime.timezone.utc
-        )
+        assert member.last_save == datetime.datetime.fromtimestamp(1599217969.829, tz=datetime.timezone.utc)
         assert member.inv_armor is not None
         assert member.inv_armor.type == 0
-        assert (
-            member.inv_armor.data
-            == "H4sIAAAAAAAAAONiYOBkYMzkYmBgYGEAAQCp5xppEQAAAA\u003d\u003d"
-        )
-        assert member.first_join == datetime.datetime.fromtimestamp(
-            1589445775.678, tz=datetime.timezone.utc
-        )
+        assert member.inv_armor.data == "H4sIAAAAAAAAAONiYOBkYMzkYmBgYGEAAQCp5xppEQAAAA\u003d\u003d"
+        assert member.first_join == datetime.datetime.fromtimestamp(1589445775.678, tz=datetime.timezone.utc)
         assert member.first_join_hub == 277843
         assert member.stats == {
             "pet_milestone_ores_mined": 287.0,
@@ -1337,14 +1306,11 @@ async def test_profile(
 
 
 @pytest.mark.asyncio
-async def test_no_profile(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID
-) -> None:
+async def test_no_profile(hypixel_client: AsyncGenerator[Hypixel, None], key: uuid.UUID) -> None:
     """Test no problem."""
     with aioresponses() as m:
         m.get(
-            "https://api.hypixel.net/skyblock/profile?"
-            f"key={str(key)}&profile=405dcf08-b80f-4e23-b97d-943ad93d14fd",
+            "https://api.hypixel.net/skyblock/profile?" f"key={key!s}&profile=405dcf08-b80f-4e23-b97d-943ad93d14fd",
             status=200,
             headers={
                 "RateLimit-Limit": "120",

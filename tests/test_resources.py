@@ -3,13 +3,12 @@ from typing import AsyncGenerator
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 
 
 @pytest.mark.asyncio
-async def test_resources_achievements(
-    hypixel_client: AsyncGenerator[Hypixel, None]
-) -> None:
+async def test_resources_achievements(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
     """Test to check the resources_achievements method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -33,9 +32,7 @@ async def test_resources_achievements(
 
 
 @pytest.mark.asyncio
-async def test_resources_challenges(
-    hypixel_client: AsyncGenerator[Hypixel, None]
-) -> None:
+async def test_resources_challenges(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
     """Test to check the resources_challenges method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -78,9 +75,7 @@ async def test_resources_quests(hypixel_client: AsyncGenerator[Hypixel, None]) -
 
 
 @pytest.mark.asyncio
-async def test_resources_guilds_achievements(
-    hypixel_client: AsyncGenerator[Hypixel, None]
-) -> None:
+async def test_resources_guilds_achievements(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
     """Test to check the resources_guilds_achievements method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -104,9 +99,7 @@ async def test_resources_guilds_achievements(
 
 
 @pytest.mark.asyncio
-async def test_resources_guilds_permissions(
-    hypixel_client: AsyncGenerator[Hypixel, None]
-) -> None:
+async def test_resources_guilds_permissions(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
     """Test to check the resources_guilds_permissions method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -130,9 +123,7 @@ async def test_resources_guilds_permissions(
 
 
 @pytest.mark.asyncio
-async def test_resources_skyblock_collections(
-    hypixel_client: AsyncGenerator[Hypixel, None]
-) -> None:
+async def test_resources_skyblock_collections(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
     """Test to check the resources_skyblock_collections method returns correct data."""
     with aioresponses() as m:
         m.get(
@@ -156,9 +147,7 @@ async def test_resources_skyblock_collections(
 
 
 @pytest.mark.asyncio
-async def test_resources_skyblock_skills(
-    hypixel_client: AsyncGenerator[Hypixel, None]
-) -> None:
+async def test_resources_skyblock_skills(hypixel_client: AsyncGenerator[Hypixel, None]) -> None:
     """Test to check the resources_skyblock_skills method returns correct data."""
     with aioresponses() as m:
         m.get(

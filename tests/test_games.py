@@ -5,6 +5,7 @@ from uuid import UUID
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 from asyncpixel.constants import GameType
 
@@ -14,8 +15,7 @@ async def test_games(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -
     """Test to check the games method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/recentGames?key={str(key)}"
-            + "&uuid=7486aa03aca5470e888dde8a43eb8c10",
+            f"https://api.hypixel.net/recentGames?key={key!s}" + "&uuid=7486aa03aca5470e888dde8a43eb8c10",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -70,9 +70,7 @@ async def test_games(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -
         assert data is not None
         assert len(data) == 5
 
-        assert data[0].date == datetime.datetime.fromtimestamp(
-            1590935247.444, tz=datetime.timezone.utc
-        )
+        assert data[0].date == datetime.datetime.fromtimestamp(1590935247.444, tz=datetime.timezone.utc)
         assert data[0].game_type == GameType(
             id=51,
             type_name="SKYWARS",
@@ -84,9 +82,7 @@ async def test_games(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -
         assert data[0].mode == "solo_normal"
         assert data[0].map == "Shire"
 
-        assert data[1].date == datetime.datetime.fromtimestamp(
-            1590850836.485, tz=datetime.timezone.utc
-        )
+        assert data[1].date == datetime.datetime.fromtimestamp(1590850836.485, tz=datetime.timezone.utc)
         # assert data[1].game_type == gametype("BEDWARS", "Bedwars", "Bed Wars", 58)
         GameType(
             id=51,
@@ -98,13 +94,9 @@ async def test_games(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -
         )
         assert data[1].mode == "FOUR_FOUR"
         assert data[1].map == "Dreamgrove"
-        assert data[1].ended == datetime.datetime.fromtimestamp(
-            1590850919.917, tz=datetime.timezone.utc
-        )
+        assert data[1].ended == datetime.datetime.fromtimestamp(1590850919.917, tz=datetime.timezone.utc)
 
-        assert data[2].date == datetime.datetime.fromtimestamp(
-            1590850404.473, tz=datetime.timezone.utc
-        )
+        assert data[2].date == datetime.datetime.fromtimestamp(1590850404.473, tz=datetime.timezone.utc)
         assert data[2].game_type == GameType(
             id=51,
             type_name="SKYWARS",
@@ -115,13 +107,9 @@ async def test_games(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -
         )
         assert data[2].mode == "ranked_normal"
         assert data[2].map == "Meteor"
-        assert data[2].ended == datetime.datetime.fromtimestamp(
-            1590850783.962, tz=datetime.timezone.utc
-        )
+        assert data[2].ended == datetime.datetime.fromtimestamp(1590850783.962, tz=datetime.timezone.utc)
 
-        assert data[3].date == datetime.datetime.fromtimestamp(
-            1590850359.562, tz=datetime.timezone.utc
-        )
+        assert data[3].date == datetime.datetime.fromtimestamp(1590850359.562, tz=datetime.timezone.utc)
         assert data[3].game_type == GameType(
             id=61,
             type_name="DUELS",
@@ -132,13 +120,9 @@ async def test_games(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -
         )
         assert data[3].mode == "SW_DUEL"
         assert data[3].map == "Agni Temple"
-        assert data[3].ended == datetime.datetime.fromtimestamp(
-            1590850500.815, tz=datetime.timezone.utc
-        )
+        assert data[3].ended == datetime.datetime.fromtimestamp(1590850500.815, tz=datetime.timezone.utc)
 
-        assert data[4].date == datetime.datetime.fromtimestamp(
-            1590850287.155, tz=datetime.timezone.utc
-        )
+        assert data[4].date == datetime.datetime.fromtimestamp(1590850287.155, tz=datetime.timezone.utc)
         assert data[4].game_type == GameType(
             id=51,
             type_name="SKYWARS",
@@ -149,20 +133,15 @@ async def test_games(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -
         )
         assert data[4].mode == "solo_insane"
         assert data[4].map == "Mythic"
-        assert data[4].ended == datetime.datetime.fromtimestamp(
-            1590850352.734, tz=datetime.timezone.utc
-        )
+        assert data[4].ended == datetime.datetime.fromtimestamp(1590850352.734, tz=datetime.timezone.utc)
 
 
 @pytest.mark.asyncio
-async def test_games_none(
-    hypixel_client: AsyncGenerator[Hypixel, None], key: UUID
-) -> None:
+async def test_games_none(hypixel_client: AsyncGenerator[Hypixel, None], key: UUID) -> None:
     """Test to check the games method returns correct data."""
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/recentGames?key={str(key)}"
-            + "&uuid=7486aa03aca5470e888dde8a43eb8c10",
+            f"https://api.hypixel.net/recentGames?key={key!s}" + "&uuid=7486aa03aca5470e888dde8a43eb8c10",
             status=200,
             headers={
                 "RateLimit-Limit": "120",

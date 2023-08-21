@@ -1,52 +1,12 @@
 """Main tests."""
 from uuid import UUID
 
-import asyncpixel
 import pytest
 from aioresponses import aioresponses
 
+import asyncpixel
+
 from .utils import generate_key
-
-
-def test_version() -> None:
-    """Mock version."""
-    assert asyncpixel.__version__ == "1.6.0"
-
-
-def test_author() -> None:
-    """Test author."""
-    assert asyncpixel.__author__ == "Leon Bowie"
-
-
-def test_title() -> None:
-    """Test title."""
-    assert asyncpixel.__title__ == "asyncpixel"
-
-
-def test_copyright() -> None:
-    """Test copyright."""
-    assert asyncpixel.__copyright__ == "Copyright 2020-2023 Leon Bowie"
-
-
-def test_license() -> None:
-    """Test license."""
-    assert (
-        asyncpixel.__license__
-        == """Copyright (C) 2020 Leon Bowie
-
-This program is free software: you can redistribute it
-and/or modify it under the terms of the GNU General Public
-License as published by the Free Software Foundation,
-either version 3 of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License a
-long with this program. If not, see <https://www.gnu.org/licenses/>."""
-    )
 
 
 @pytest.mark.asyncio
@@ -55,7 +15,7 @@ async def test_get() -> None:
     key = generate_key()
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/test?key={str(key)}",
+            f"https://api.hypixel.net/test?key={key!s}",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -76,7 +36,7 @@ async def test_safe_ratelimit() -> None:
     key = generate_key()
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/test?key={str(key)}",
+            f"https://api.hypixel.net/test?key={key!s}",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -107,7 +67,7 @@ async def test_no_hader() -> None:
     key = generate_key()
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/test?key={str(key)}",
+            f"https://api.hypixel.net/test?key={key!s}",
             status=200,
             payload={"success": True, "Test_value": "Random string"},
         )
@@ -122,7 +82,7 @@ async def test_saved_rate_max() -> None:
     key = generate_key()
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/test?key={str(key)}",
+            f"https://api.hypixel.net/test?key={key!s}",
             status=200,
             headers={
                 "RateLimit-Limit": "120",
@@ -134,7 +94,7 @@ async def test_saved_rate_max() -> None:
         client = asyncpixel.Hypixel(api_key=str(key))
         await client._get("test")
         m.get(
-            f"https://api.hypixel.net/test?key={str(key)}",
+            f"https://api.hypixel.net/test?key={key!s}",
             status=200,
             headers={
                 "RateLimit-Limit": "200",

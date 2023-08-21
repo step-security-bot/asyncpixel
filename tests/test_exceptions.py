@@ -3,10 +3,10 @@ import datetime
 
 import pytest
 from aioresponses import aioresponses
+
 from asyncpixel import Hypixel
 from asyncpixel.exceptions import RateLimitError
-from asyncpixel.exceptions.exceptions import ApiNoSuccessError
-from asyncpixel.exceptions.exceptions import InvalidApiKeyError
+from asyncpixel.exceptions.exceptions import ApiNoSuccessError, InvalidApiKeyError
 from tests.utils import generate_key
 
 
@@ -16,7 +16,7 @@ async def test_rate_limit() -> None:
     key = generate_key()
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/test?key={str(key)}",
+            f"https://api.hypixel.net/test?key={key!s}",
             status=429,
             headers={"Retry-After": "5"},
             payload={"success": False, "cause": "Key throttle!", "throttle": True},
@@ -24,9 +24,7 @@ async def test_rate_limit() -> None:
         client = Hypixel(api_key=str(key))
         with pytest.raises(RateLimitError) as e:
             await client._get("test")
-        assert str(e.value).startswith(
-            "The hypixel API ratelimit was reached, try again at "
-        )
+        assert str(e.value).startswith("The hypixel API ratelimit was reached, try again at ")
         await client.close()
 
 
@@ -36,7 +34,7 @@ async def test_invalid_key() -> None:
     key = generate_key()
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/test?key={str(key)}",
+            f"https://api.hypixel.net/test?key={key!s}",
             status=403,
             payload={"success": False, "cause": "Invalid API key"},
         )
@@ -53,16 +51,14 @@ async def test_api_error() -> None:
     key = generate_key()
     with aioresponses() as m:
         m.get(
-            f"https://api.hypixel.net/test?key={str(key)}",
+            f"https://api.hypixel.net/test?key={key!s}",
             status=502,
             payload={"success": False, "cause": "Error"},
         )
         client = Hypixel(api_key=str(key))
         with pytest.raises(ApiNoSuccessError) as e:
             await client._get("test")
-        assert (
-            str(e.value) == "The test endpoint encounted an error on the hypixel side."
-        )
+        assert str(e.value) == "The test endpoint encountered an error on the hypixel side."
         await client.close()
 
 
