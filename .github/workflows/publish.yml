@@ -14,8 +14,6 @@ jobs:
   build:
     name: "Build dists"
     runs-on: "ubuntu-latest"
-    environment:
-      name: "publish"
     outputs:
       hashes: ${{ steps.hash.outputs.hashes }}
 
@@ -36,7 +34,7 @@ jobs:
 
       - name: "Build dists"
         run: |
-          pdm publish --no-build
+          pdm build
 
       - name: "Generate hashes"
         id: hash
@@ -65,7 +63,11 @@ jobs:
   publish-pypi-test:
     name: "Publish test"
     needs: ["build", "provenance"]
+    permissions:
+      id-token: write # Needed for trusted publishing to PyPI.
     runs-on: "ubuntu-latest"
+    environment:
+      name: "publish-test"
     steps:
       - name: "Download dists"
         uses: "actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a"
@@ -83,9 +85,10 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     needs: ["build", "provenance", "publish-pypi-test"]
     permissions:
-      contents: write
       id-token: write # Needed for trusted publishing to PyPI.
     runs-on: "ubuntu-latest"
+    environment:
+      name: "publish"
 
     steps:
       - name: "Download dists"
