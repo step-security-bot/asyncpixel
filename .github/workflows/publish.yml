@@ -36,7 +36,7 @@ jobs:
 
       - name: "Build dists"
         run: |
-          pdm run publish --no-build
+          pdm publish --no-build
 
       - name: "Generate hashes"
         id: hash
